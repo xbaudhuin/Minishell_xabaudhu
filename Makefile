@@ -1,6 +1,26 @@
-NAME			=	pipex
+NAME			=	minishell
 
-BONUS			=	pipex_bonus
+BONUS			=	minishell_bonus
+
+CFLAGS			=	-Wall -Werror -Wextra
+
+DEBUG 			= 0
+
+ifeq ($(DEBUG), 1)
+	CFLAGS += -g
+endif
+
+ifeq ($(DEBUG), 2)
+	CFLAGS += -g2
+endif
+
+ifeq ($(DEBUG), 3)
+	CFLAGS += -g3
+endif
+
+ifeq ($(DEBUG), 4)
+	CFLAGS += -fsanitize=address
+endif
 
 LIBFT			=	libft.a
 
@@ -21,24 +41,13 @@ OBJ_PATH		=	obj/
 
 CC				=	cc
 
-CFLAGS			=	-Wall -Werror -Wextra
-
 RM				=	rm -rf
 
 AR				=	ar rcs
 
-SRCS			=	mandatory/pipex.c \
-					mandatory/ft_split_pipex.c \
-					mandatory/error.c \
-					mandatory/get_path.c \
-					mandatory/child.c
+SRCS			=	\
 
-SRCS_BONUS		=	bonus/error_bonus.c \
-					bonus/ft_split_pipex_bonus.c \
-					bonus/get_path_bonus.c \
-					bonus/child_bonus.c \
-					bonus/pipex_bonus.c \
-					bonus/here_doc.c
+SRCS_BONUS		=	\
 
 OBJS			=	$(addprefix ${OBJ_PATH}, ${SRCS:.c=.o})
 
@@ -50,20 +59,20 @@ all:			${NAME}
 
 bonus:			${BONUS}
 
-${NAME}:		${LIBFT} ${OBJS} ${TXT}
-		@${CC} ${CFLAGS} -g -o ${NAME} ${OBJS} ${HEADER} ${LIBFT}
+${NAME}:		${LIBFT} ${OBJS} ${TXT} include/minishell.h libft/include/ft_printf.h libft/include/get_next_line.h libft/include/libft.h
+		@${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${HEADER} ${LIBFT}
 		@echo "${COLOUR_GREEN}${NAME} Compiled${COLOUR_END}"
 
 ${BONUS}:	${LIBFT} ${OBJS_BONUS} ${TXT}
-		@${CC} ${CFLAGS} -g -o ${BONUS} ${OBJS_BONUS} ${HEADER} ${LIBFT}
+		@${CC} ${CFLAGS} -o ${BONUS} ${OBJS_BONUS} ${HEADER} ${LIBFT}
 		@echo "${COLOUR_GREEN}${BONUS} Compiled${COLOUR_END}"
 
 ${OBJ_PATH}%.o:	${SRC_PATH}%.c
 		@mkdir -p $(dir $@)
-		@${CC} -g ${CFLAGS} ${HEADER} -c $< -o $@
+		@${CC} ${CFLAGS} ${HEADER} -c $< -o $@
 
 ${LIBFT}:
-		@make -C ${LIBFT_PATH} --no-print-directory
+		@make -C ${LIBFT_PATH} DEBUG=$(DEBUG) --no-print-directory
 		@cp ${LIBFT_PATH}${LIBFT} .
 		@echo "$(COLOUR_GREEN)Libft Compiled${COLOUR_END}"
 
