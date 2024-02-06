@@ -45,7 +45,7 @@ RM				=	rm -rf
 
 AR				=	ar rcs
 
-SRCS			=	\
+SRCS			=	mandatory/minishell.c\
 
 SRCS_BONUS		=	\
 
@@ -78,8 +78,8 @@ ${LIBFT}:
 
 ${TXT}:
 		@echo "-Ilibft/include\n-Iinclude/" > compile_flags.txt
-		@echo "-I../../libft/include\n-Iinclude/" > src/bonus/compile_flags.txt
-		@echo "-I../../libft/include\n-Iinclude/" > src/mandatory/compile_flags.txt
+		@echo "-I../../libft/include\n-I../../include/" > src/bonus/compile_flags.txt
+		@echo "-I../../libft/include\n-I../../include/" > src/mandatory/compile_flags.txt
 
 clean:
 		make -C ${LIBFT_PATH} clean --no-print-directory
