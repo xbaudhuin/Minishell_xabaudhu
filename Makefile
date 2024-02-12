@@ -45,7 +45,7 @@ RM				=	rm -rf
 
 AR				=	ar rcs
 
-SRCS			=	mandatory/minishell.c\
+SRCS			=	mandatory/read_line.c\
 
 SRCS_BONUS		=	\
 
@@ -60,7 +60,7 @@ all:			${NAME}
 bonus:			${BONUS}
 
 ${NAME}:		${LIBFT} ${OBJS} ${TXT} include/minishell.h libft/include/ft_printf.h libft/include/get_next_line.h libft/include/libft.h
-		@${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${HEADER} ${LIBFT}
+		@${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${HEADER} ${LIBFT} -lreadline
 		@echo "${COLOUR_GREEN}${NAME} Compiled${COLOUR_END}"
 
 ${BONUS}:	${LIBFT} ${OBJS_BONUS} ${TXT}
