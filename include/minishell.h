@@ -14,5 +14,27 @@
 #define MINISHELL_H
 
 # include "libft.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/time.h>
+# include <sys/resource.h>
+# include <signal.h>
+# include <dirent.h>
+# include <string.h>
+//# include <stropts.h>
+//# include <termcap.h>
+
+# define SUCESS 0
+# define FAILURE 1
+
+# define FALSE 0
+# define TRUE 1
 
 #endif
