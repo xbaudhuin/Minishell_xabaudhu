@@ -64,8 +64,9 @@ int	pwd(const char **argv)
 	}
 }
 
-int	main(int ac, char **av)
-{
-	(void)ac;
-	return (pwd((const char **)av));
-}
+// int	main(int ac, char **av)
+// {
+	// (void)ac;
+	// return (pwd((const char **)av));
+// }
+// 
