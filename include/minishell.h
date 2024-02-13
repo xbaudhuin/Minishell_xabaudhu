@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
 # include "libft.h"
+# include "ft_printf.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -28,6 +29,7 @@
 # include <signal.h>
 # include <dirent.h>
 # include <string.h>
+# include <errno.h>
 //# include <stropts.h>
 //# include <termcap.h>
 
