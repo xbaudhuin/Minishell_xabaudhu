@@ -18,30 +18,53 @@ static void	print_working_dir(const char *pwd_str)
 	print_new_line();
 }
 
-static void	handle_error(void)
+static int	is_there_wrong_option(const char **args)
 {
-	perror("pwd");
+	int	arg_num;
+
+	arg_num = 0;
+	while (args[arg_num])
+	{
+		if (args[arg_num][0] == '-' && args[arg_num][1] != '\0')
+		{
+			return (args[arg_num][1]);
+		}		
+		++arg_num;
+	}
+	return (FALSE);
+}
+
+static void	print_option_error(int wrong_option)
+{
+	ft_fprintf(2, "minishell: pwd: -%c: invalid option\n", wrong_option);
 }
 
 int	pwd(const char **argv)
 {
 	const char	*pwd_str;
+	int			wrong_option;
 
-
+	wrong_option = is_there_wrong_option(argv);
+	if (wrong_option != FALSE)
+	{
+		print_option_error(wrong_option);
+		return (2);
+	}
 	pwd_str = getcwd(NULL, 0);
 	if (pwd_str == NULL)
 	{
-		handle_error();
-		return (FAILURE);
+		perror("getcwd");
+		return (errno);
 	}
 	else
 	{
 		print_working_dir(pwd_str);
-		return (SUCESS);
+		return (SUCCESS);
 	}
 }
 
-int	main(int ac, char **av)
-{
-	pwd((const char **)av);
-}
+// int	main(int ac, char **av)
+// {
+	// (void)ac;
+	// return (pwd((const char **)av));
+// }
