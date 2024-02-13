@@ -41,8 +41,8 @@ static void	print_option_error(int wrong_option)
 
 int	pwd(const char **argv)
 {
-	const char	*pwd_str;
-	int			wrong_option;
+	char	*pwd_str;
+	int		wrong_option;
 
 	wrong_option = is_there_wrong_option(argv);
 	if (wrong_option != FALSE)
@@ -58,13 +58,14 @@ int	pwd(const char **argv)
 	}
 	else
 	{
-		print_working_dir(pwd_str);
+		print_working_dir((const char *)pwd_str);
+		free(pwd_str);
 		return (SUCCESS);
 	}
 }
 
-// int	main(int ac, char **av)
-// {
-	// (void)ac;
-	// return (pwd((const char **)av));
-// }
+int	main(int ac, char **av)
+{
+	(void)ac;
+	return (pwd((const char **)av));
+}
