@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/06 16:11:27 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/13 18:22:42 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,26 @@
 //# include <stropts.h>
 //# include <termcap.h>
 
-# define SUCESS 0
+# define SUCCESS 0
 # define FAILURE 1
 
 # define FALSE 0
 # define TRUE 1
+
+typedef struct s_command
+{
+	char	**args;
+	int		fd[2];
+}			t_command;
+
+typedef struct s_command_node
+{
+	t_command				*command;
+	int						nb_command;
+	int						fork;
+	struct s_command_node	*left_node;
+	struct s_command_node	*right_node;
+	struct s_command_node	*parent_node;
+}			t_command_node;
 
 #endif
