@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:49:30 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/14 15:55:57 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:11:21 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static size_t	adjust_n(const char *str, size_t n)
 char	*ft_strndup(const char *str, size_t n)
 {
 	char	*dup;
-	size_t	len_str;
 
 	n = adjust_n(str, n);
 	dup = malloc(sizeof(*dup) * (n + 1));
