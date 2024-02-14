@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:34:58 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/14 16:13:05 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:03:58 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,29 +63,12 @@ int	fill_token(const char *buf, t_token **head, t_flag *flag)
 }
 */
 
-int	fill_token(const char *buf, t_token *token)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (buf[i])
-	{
-		if (get_type_token(buf[i] != token->type))
-			break ;
-		i++;
-	}
-	token->len_word = i;
-	token->word = ft_strndup(buf, i);
-	if (token->word == NULL)
-	
-}
-
 int	get_type_token(const char c)
 {
 	int	type;
 
 	type = FALSE;
-	type = is_parenthesis(c);//if in quote
+	type = is_parenthesis(c);
 	if (type != FALSE)
 		return (type);
 	type = is_redirection(c);
@@ -96,6 +79,28 @@ int	get_type_token(const char c)
 		return (type);
 	return (WORD);
 }
+
+int	fill_token(const char *buf, t_token *token)
+{
+	unsigned int	i;
+	t_flag			flag;
+
+	i = 0;
+	init_flag(&flag);
+	while (buf[i])
+	{
+		if (get_type_token(buf[i]) != token->type)
+			break ;
+		if (is_quotes(buf[i]))
+		i++;
+	}
+	token->len_word = i;
+	token->word = ft_strndup(buf, i);
+	if (token->word == NULL)
+		return (FAILURE);
+
+}
+
 
 t_token	*get_current_token(const char *buf, int *index_buf)
 {
@@ -122,7 +127,6 @@ char	*parse_to_token(const char *buf)
 
 	i = 0;
 	previous_type = EMPTY;
-	init_flag(&flag);
 	while (buf[i])
 	{
 		i += skip_space(buf);
