@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 15:35:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/01/18 13:20:31 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:08:21 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_atoi(const char *nptr);
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_strdup(const char *s);
+char	*ft_strndup(const char *str, size_t n);
 ssize_t	ft_putchar_fd(char c, int fd);
 ssize_t	ft_putstr_fd(char *s, int fd);
 ssize_t	ft_putendl_fd(char *s, int fd);
