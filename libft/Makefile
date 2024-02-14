@@ -46,6 +46,7 @@ SRCS			=	is_bool/ft_isalnum.c \
 					str/ft_split.c \
 					str/ft_strchr.c \
 					str/ft_strdup.c \
+					str/ft_strndup.c \
 					str/ft_striteri.c \
 					str/ft_strjoin.c \
 					str/ft_strlcat.c \
