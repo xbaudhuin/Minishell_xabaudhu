@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:25:12 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/13 19:18:12 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:13:43 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	ft_is_space(const char c)
 	if (c == ' ')
 		return (TRUE);
 	if (c == 9)
+		return (TRUE);
+	if (c == '\n')
 		return (TRUE);
 	return (FALSE);
 }

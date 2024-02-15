@@ -45,7 +45,10 @@ RM				=	rm -rf
 
 AR				=	ar rcs
 
-SRCS			=	mandatory/read_line.c\
+SRCS			=	mandatory/read_line.c \
+					mandatory/check_special_char2.c \
+					mandatory/check_special_char.c \
+					mandatory/token_add_back.c
 
 SRCS_BONUS		=	\
 

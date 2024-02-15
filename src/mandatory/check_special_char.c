@@ -6,10 +6,11 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:22:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/14 15:11:25 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/15 19:15:24 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 
 int	is_quotes(const char c)
@@ -41,9 +42,9 @@ int	is_parenthesis(const char c)
 int	is_redirection(const char c)
 {
 	if (c == '>')
-		return (OUT_REDIRECTION);
+		return (REDIRECT_OUT);
 	if (c == '<')
-		return (IN_REDIRECTION);
+		return (REDIRECT_IN);
 	return (FALSE);
 }
 
@@ -65,4 +66,13 @@ int	is_portable_char(const char c)
 	if (c >= 32 && c <= 126)
 		return (TRUE);
 	return (FALSE);
+}
+
+int	is_end_dollar_char(const char c)
+{
+	if (ft_isalnum(c) == 1)
+		return (FALSE);
+	if (c == '_')
+		return (FALSE);
+	return (TRUE);
 }

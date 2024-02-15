@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/14 15:37:26 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/15 18:04:00 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,21 @@
 # include "libft.h"
 # include <stdlib.h>
 
+#define RESET  "\x1B[0m"
+#define RED "\x1B[31m"
+#define GRN  "\x1B[32m"
+#define YEL  "\x1B[33m"
+#define BLU  "\x1B[34m"
+#define MAG  "\x1B[35m"
+#define CYN  "\x1B[36m"
+#define WHT  "\x1B[37m"
+
 # define SUCCESS 0
 # define FAILURE 1
 
 # define FALSE 0
 # define TRUE 1
 # define PARSE_ERROR 2
-# define IN_REDIRECTION -1
-# define OUT_REDIRECTION 1
 
 enum e_flag
 {
@@ -36,16 +43,17 @@ enum e_flag
 
 enum e_type_token
 {
+	ERROR = 0,
 	PARENTHESIS_OPEN = 1,
-	PARENTHESIS_CLOSE,
-	WORD,
-	PIPE,
-	AND,
-	OR,
-	REDIRECT_IN,
-	HERE_DOC,
-	REDIRECT_OUT,
-	APPEND_OUT,
+	PARENTHESIS_CLOSE = 2,
+	WORD = 3,
+	PIPE = 4,
+	AND = 5,
+	OR = 6,
+	REDIRECT_IN = 7,
+	HERE_DOC = 8,
+	REDIRECT_OUT = 9,
+	APPEND_OUT = 10,
 };
 
 typedef struct s_token
@@ -93,5 +101,9 @@ int				is_quotes(const char c);
 int				is_parenthesis(const char c);
 int 			is_operator(const char c);
 int				is_redirection(const char c);
+void			ft_token_add_back(t_token **head, t_token *new);
+t_token			*init_token(void);
+void			print_token(t_token **head);
+void			free_token(t_token **head);
 
 #endif
