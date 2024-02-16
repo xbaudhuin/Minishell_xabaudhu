@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:34:58 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/15 19:00:30 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:30:15 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*smart_tokenndup(const char *buf, const unsigned int len_buf, t_token *toke
 				i++;
 				j++;
 			}
-		}
+		}/*
 		else if (buf[i] == '$')
 		{
 			if (quotes == '\0' || quotes == '"')
@@ -128,7 +128,7 @@ char	*smart_tokenndup(const char *buf, const unsigned int len_buf, t_token *toke
 				j++;
 			}
 			else
-		}
+		}*/
 		else
 		{
 			word[j] = buf[i];
