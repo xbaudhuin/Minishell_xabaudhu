@@ -9,6 +9,7 @@ typedef struct s_env
 	size_t	allocated_size;
 }			t_env;
 
+t_env	create_env(const char **main_env);
 
 
 #endif
