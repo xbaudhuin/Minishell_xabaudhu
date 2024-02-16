@@ -6,7 +6,8 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/15 18:04:00 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:59:46 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/13 18:22:42 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +25,25 @@
 #define MAG  "\x1B[35m"
 #define CYN  "\x1B[36m"
 #define WHT  "\x1B[37m"
+
+# include "ft_printf.h"
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/stat.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <sys/types.h>
+# include <sys/time.h>
+# include <sys/resource.h>
+# include <signal.h>
+# include <dirent.h>
+# include <string.h>
+# include <errno.h>
+//# include <stropts.h>
+//# include <termcap.h>
 
 # define SUCCESS 0
 # define FAILURE 1
@@ -61,7 +81,6 @@ typedef struct s_token
 	int				type;
 	char			*word;
 	unsigned int	len_word;
-	//struct s_token	*inside_token;
 	struct s_token	*next;
 }			t_token;
 
@@ -70,18 +89,6 @@ typedef struct s_command
 	char	**args;
 	int		fd[2];
 }			t_command;
-
-typedef struct	s_flag
-{
-	int	simple_quotes;
-	int	main_quotes;
-	int	parenthesis_open;
-	int	parenthesis_close;
-	int	double_quotes;
-	int	redirection;
-	int	operator;
-	int	error;
-}				t_flag;
 
 typedef struct s_command_node
 {

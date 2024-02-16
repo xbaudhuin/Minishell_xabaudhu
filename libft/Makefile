@@ -52,6 +52,7 @@ SRCS			=	is_bool/ft_isalnum.c \
 					str/ft_strlcat.c \
 					str/ft_strlcpy.c \
 					str/ft_strlen.c \
+					str/ft_free_str_array.c \
 					str/ft_strmapi.c \
 					str/ft_strncmp.c \
 					str/ft_strnstr.c \
@@ -59,6 +60,7 @@ SRCS			=	is_bool/ft_isalnum.c \
 					str/ft_strtrim.c \
 					str/ft_substr.c \
 					str/ft_join_split.c \
+					str/ft_strarraylen.c \
 					put/ft_putchar_fd.c \
 					put/ft_putendl_fd.c \
 					put/ft_putnbr_fd.c \
