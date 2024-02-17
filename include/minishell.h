@@ -15,7 +15,8 @@
 # define MINISHELL_H
 
 # include "libft.h"
-# include <stdlib.h>
+# include "environment.h"
+# include "builtins.h"
 
 #define RESET  "\x1B[0m"
 #define RED "\x1B[31m"
