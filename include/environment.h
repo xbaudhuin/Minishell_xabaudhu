@@ -1,5 +1,5 @@
-#ifndef ENV_H
-# define ENV_H
+#ifndef ENVIRONMENT_H
+# define ENVIRONMENT_H
 
 # include "minishell.h"
 
