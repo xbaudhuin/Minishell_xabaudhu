@@ -19,4 +19,8 @@ void	print_space(void);
 void	print_new_line(void);
 int		count_args(const char **argv);
 
+int	echo(const char **argv);
+int	pwd(const char **argv);
+
+
 #endif
