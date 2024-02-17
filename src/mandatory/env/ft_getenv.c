@@ -14,9 +14,8 @@
 
 static int	is_match_line(const char *line, const char *to_find)
 {
-
-	if (line != NULL &&
-			(ft_strncmp(line, to_find, ft_strlen(to_find)) == SUCCESS))
+	if (line != NULL
+		&& (ft_strncmp(line, to_find, ft_strlen(to_find)) == SUCCESS))
 	{
 		return (TRUE);
 	}
@@ -41,7 +40,7 @@ static char	*get_variable_line(const char *name, const t_env env)
 	{
 		if (is_match_line(env.variables[var_num], to_find) == TRUE)
 		{
-			return(free(to_find), env.variables[var_num]);
+			return (free(to_find), env.variables[var_num]);
 		}
 		++var_num;
 	}

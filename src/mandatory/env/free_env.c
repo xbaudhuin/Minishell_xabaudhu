@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_empty_address.c                                :+:      :+:    :+:   */
+/*   free_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/16 20:08:34 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/16 20:08:36 by ldoyen--         ###   ########.fr       */
+/*   Created: 2024/02/17 13:26:14 by ldoyen--          #+#    #+#             */
+/*   Updated: 2024/02/17 13:26:14 by ldoyen--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 
-char	*get_empty_address(t_env *env)
+void	free_env(t_env env)
 {
+	size_t	var_num;
 
-}
-
-int main(int ac, char **av)
-{
-	
-	return (0);
+	var_num = 0;
+	while (var_num < env.allocated_size)
+	{
+		free(env.variables[var_num]);
+		++var_num;
+	}
+	free(env.variables);
 }
