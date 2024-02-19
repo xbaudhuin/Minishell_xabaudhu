@@ -12,7 +12,7 @@
 
 #include "builtins.h"
 
-int	is_name_valid(const char *arg)
+static int	is_name_valid(const char *arg)
 {
 	size_t	char_num;
 
@@ -33,9 +33,9 @@ int	is_name_valid(const char *arg)
 	return (TRUE);
 }
 
-int	check_option(const char **argv)
+static int	check_option(const char **argv)
 {
-	if (count_args(argv) > 1 && ft_strlen(argv[1] > 1) && argv[1][0] == '-')
+	if (count_args(argv) > 1 && ft_strlen(argv[1]) > 1 && argv[1][0] == '-')
 	{
 		ft_fprintf(STDERR_FILENO,
 			"minishell: export: -%c: invalid option", argv[1][1]);
@@ -47,23 +47,105 @@ int	check_option(const char **argv)
 	}
 }
 
-void	export_one_arg(const char *arg, int *exit_status)
+static char	*get_name(const char *arg)
 {
+	size_t	char_num;
+	char	*name;
+
+	char_num = 0;
+	while (arg[char_num] != '=' && arg[char_num] != '\0')
+	{
+		++char_num;
+	}
+	name = malloc(sizeof (*name) * (char_num + 1));
+	if (name == NULL)
+	{
+		return (NULL);
+	}
+	name[char_num] = '\0';
+	while (char_num > 0)
+	{
+		--char_num;
+		name[char_num] = arg[char_num];
+		
+	}
+	return (name);
+}
+
+static int	add_variable(const char *arg, char *name, t_env *env)
+{
+	int	exit_status;
+	int	var_num;
+
+	exit_status = SUCCESS;
+	*env = get_expended_env(*env, &exit_status);
+	if (exit_status != SUCCESS)
+	{
+		free(name);
+		return (exit_status);
+	}
+	var_num = 0;
+	while (env->variables[var_num] != NULL)
+	{
+		++var_num;
+	}
+	env->variables[var_num] = ft_strdup(arg);
+	if (env->variables[var_num] == NULL)
+	{
+		exit_status = MALLOC_FAIL;
+	}
+	free(name);
+	return (exit_status);
+}
+
+static int	replace_variable(const char *arg, char *name, t_env *env)
+{
+	char	*env_line;
+	char	*new_line;
+
+	new_line = ft_strdup(arg);
+	if (new_line == NULL)
+	{
+		return (MALLOC_FAIL);
+	}
+	env_line = ft_getenv2((const char *)name, (const t_env)*env);
+	free(env_line);
+	env_line = new_line;
+	free(name);
+	return (SUCCESS);
+}
+
+static int	export_one_arg(const char *arg, t_env *env)
+{
+	char	*name;
+
 	if (is_name_valid(arg) == FALSE)
 	{
-		*exit_status = FAILURE;
-		return ;
+		return (FAILURE);
 	}
-	if (is_equal_exist(arg) == FALSE)
+	if (is_equal_exists(arg) == FALSE)
 	{
-		return ;
+		return (SUCCESS);
 	}
-	if (ft_getenv())
+	name = get_name(arg);
+	if (name == NULL)
+	{
+		return (MALLOC_FAIL);
+	}
+	if (ft_getenv(name, *env) == NULL)
+	{
+		return (add_variable(arg, name, env));
+	}
+	else
+	{
+		return (replace_variable(arg, name, env));
+	}	
 }
 
 int	export(const char **argv, t_env *env)
 {
 	int	exit_status;
+	int	err_return;
 	int	arg_num;
 
 	exit_status = SUCCESS;
@@ -71,15 +153,38 @@ int	export(const char **argv, t_env *env)
 	{
 		return (WRG_OPT);
 	}
+	arg_num = 0;
 	while (argv[arg_num] != NULL)
 	{
-		export_one_arg(argv[arg_num], &exit_status);
+		err_return = export_one_arg(argv[arg_num], env);
+		if (err_return == MALLOC_FAIL)
+		{
+			ft_fprintf(STDERR_FILENO, "minishell: a call to malloc failed in export");
+			return (MALLOC_FAIL);
+		}
+		else if (err_return == FAILURE)
+		{
+			exit_status = FAILURE;
+		}
 		++arg_num;
 	}
 	return (exit_status);
 }
 
-int	main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **main_env)
 {
-	return (SUCCESS);
+	t_env 	my_env;
+	int		exit_status;
+	char 	*arg_env[] = {"env", (char *)NULL};
+
+	(void)av;
+	(void)ac;
+	my_env = create_env((const char **)main_env);
+	printf("\n\nFIRST ENV : \n\n");
+	env((const char **)arg_env, my_env);
+	exit_status = export((const char **)(av +1), &my_env);
+	printf("\n\nSECOND ENV : \n\n"); 
+	env((const char **)arg_env, my_env);
+	free_env(my_env);
+	return (exit_status);
 }

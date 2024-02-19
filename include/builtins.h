@@ -23,8 +23,10 @@ int		count_args(const char **argv);
 
 int	echo(const char **argv);
 int	pwd(const char **argv);
+int	env(const char **argv, const t_env env);
 
 # define WRG_OPT 2
+# define MALLOC_FAIL 3
 
 
 #endif

@@ -12,6 +12,7 @@
 
 #include "builtins.h"
 
+
 static int	is_there_n_option(int argc, const char **argv)
 {
 	char	*to_compare;
@@ -29,7 +30,7 @@ static int	is_there_n_option(int argc, const char **argv)
 	}
 }
 
-static void	print_args(int start, int nb_args, const char **av)
+static void	display_args(int start, int nb_args, const char **av)
 {
 	int	arg_num;
 
@@ -77,7 +78,7 @@ int	echo(const char **argv)
 	nb_args = count_args(argv);
 	nl_option = is_there_n_option(nb_args, argv);
 	start = set_start(nl_option);
-	print_args(start, nb_args, argv);
+	display_args(start, nb_args, argv);
 	handle_option(nl_option);
 	return (0);
 }
