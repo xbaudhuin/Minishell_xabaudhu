@@ -63,7 +63,7 @@ static char	**copy_old_env(t_env old_env,
 	return (new_table);
 }
 
-t_env	get_expended_env(t_env old_env)
+t_env	get_expended_env(const t_env old_env, int *ext_sts)
 {
 	t_env	new_env;
 	size_t	new_allocated_size;
@@ -76,6 +76,11 @@ t_env	get_expended_env(t_env old_env)
 	new_env.allocated_size = new_allocated_size;
 	new_env.variables = copy_old_env(old_env,
 			(const size_t) new_allocated_size);
+	if (new_env.variables == NULL)
+	{
+		*ext_sts = FAILURE;
+		return ((t_env)old_env);
+	}
 	return (new_env);
 }
 

@@ -33,7 +33,8 @@ int	env(const char **argv, const t_env env)
 {
 	if (count_args(argv) != 1)
 	{
-		ft_putstr_fd("env builtin take no arguments and no option\n", 2);
+		ft_putstr_fd("env builtin take no arguments and no option\n",
+			STDERR_FILENO);
 		return (FAILURE);
 	}
 	print_env(env);
