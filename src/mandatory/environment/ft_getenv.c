@@ -59,6 +59,18 @@ static char	*get_value(const char *line, const char *name)
 	}
 }
 
+char	*ft_getenv2(const char *name, const t_env env)
+{
+	char	*variable_line;
+
+	if (!name)
+	{
+		return (NULL);
+	}
+	variable_line = get_variable_line(name, env);
+	return (variable_line);	
+}
+
 char	*ft_getenv(const char *name, const t_env env)
 {
 	char	*variable_line;

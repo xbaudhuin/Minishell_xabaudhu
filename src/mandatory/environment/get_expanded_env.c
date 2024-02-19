@@ -78,7 +78,7 @@ t_env	get_expended_env(const t_env old_env, int *ext_sts)
 			(const size_t) new_allocated_size);
 	if (new_env.variables == NULL)
 	{
-		*ext_sts = FAILURE;
+		*ext_sts = MALLOC_FAIL;
 		return ((t_env)old_env);
 	}
 	return (new_env);
