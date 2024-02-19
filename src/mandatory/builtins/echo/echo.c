@@ -36,7 +36,7 @@ static void	print_args(int start, int nb_args, const char **av)
 	arg_num = start;
 	while (arg_num < nb_args)
 	{
-		ft_putstr_fd((char *)av[arg_num], 1);
+		ft_putstr_fd((char *)av[arg_num], STDOUT_FILENO);
 		++arg_num;
 		if (arg_num != nb_args)
 		{

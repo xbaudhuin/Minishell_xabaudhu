@@ -14,12 +14,40 @@
 
 void	print_space(void)
 {
-	ft_putchar_fd(' ', 1);
+	ft_putchar_fd(' ', STDOUT_FILENO);
 }
 
 void	print_new_line(void)
 {
-	ft_putchar_fd('\n', 1);
+	ft_putchar_fd('\n', STDOUT_FILENO);
+}
+
+int	is_underscore(const char c)
+{
+	if (c == '_')
+	{
+		return (TRUE);
+	}
+	else
+	{
+		return (FALSE);
+	}
+}
+
+int	is_equal_exists(const char *arg)
+{
+	size_t	char_num;
+
+	char_num = 0;
+	while (arg[char_num] != '\0')
+	{
+		if (arg[char_num] == '=')
+		{
+			return (TRUE);
+		}
+		++char_num;
+	}
+	return (FALSE);
 }
 
 int	count_args(const char **argv)
