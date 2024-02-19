@@ -48,7 +48,10 @@ AR				=	ar rcs
 SRCS			=	mandatory/read_line.c \
 					mandatory/check_special_char2.c \
 					mandatory/check_special_char.c \
-					mandatory/token_add_back.c
+					mandatory/token_add_back.c \
+					mandatory/is_token.c \
+					mandatory/previous_token.c \
+					mandatory/token_to_command.c
 
 SRCS_BONUS		=	\
 

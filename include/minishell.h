@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/16 12:59:46 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/19 19:50:29 by xabaudhu         ###   ########.fr       */
 /*   Updated: 2024/02/13 18:22:42 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -77,6 +77,8 @@ enum e_type_token
 	APPEND_OUT = 10,
 };
 
+typedef int (*t_is_valid_type)(int);
+
 typedef struct s_token
 {
 	int				type;
@@ -93,9 +95,8 @@ typedef struct s_command
 
 typedef struct s_command_node
 {
-	t_command				*command;
+	t_token					*token;
 	int						nb_command;
-	int						fork;
 	struct s_command_node	*left_node;
 	struct s_command_node	*right_node;
 	struct s_command_node	*parent_node;
@@ -114,4 +115,16 @@ t_token			*init_token(void);
 void			print_token(t_token **head);
 void			free_token(t_token **head);
 
+
+int				is_word_token(int type);
+int				is_operator_token(int type);
+int				is_parenthesis_token(const int type);
+int				is_redirect_token(int type);
+int				early_valid_type(int type);
+int				previous_word_token(const int type);
+int				previous_operator_token(const int type);
+int				previous_parenthesis_close_token(const int type);
+int				previous_type_error(const int type);
+
+int				check_token_list(const t_token **head);
 #endif
