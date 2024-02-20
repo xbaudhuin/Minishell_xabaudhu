@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_option.c                                     :+:      :+:    :+:   */
+/*   is_var_name_valid.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 17:06:02 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/20 17:06:03 by ldoyen--         ###   ########.fr       */
+/*   Created: 2024/02/20 17:03:21 by ldoyen--          #+#    #+#             */
+/*   Updated: 2024/02/20 17:03:25 by ldoyen--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_option(const char **argv, const char *builtin)
+int	is_var_name_valid(const char *arg)
 {
-	if (count_args(argv) > 1 && ft_strlen(argv[1]) > 1 && argv[1][0] == '-')
+	size_t	char_num;
+
+	if (is_underscore(arg[0]) == FALSE && ft_isalpha(arg[0]) == FALSE)
 	{
-		ft_fprintf(STDERR_FILENO,
-			"minishell: %s: -%c: invalid option\n", builtin, argv[1][1]);
-		return (FAILURE);
+		return (FALSE);
 	}
-	else
+	char_num = 1;
+	while (arg[char_num] != '\0' && arg[char_num] != '=')
 	{
-		return (SUCCESS);
+		if (is_underscore(arg[char_num]) == FALSE
+			&& ft_isalnum(arg[char_num]) == FALSE)
+		{
+			return (FALSE);
+		}
+		++char_num;
 	}
+	return (TRUE);
 }

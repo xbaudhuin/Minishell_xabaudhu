@@ -12,27 +12,6 @@
 
 #include "minishell.h"
 
-static int	is_name_valid(const char *arg)
-{
-	size_t	char_num;
-
-	if (is_underscore(arg[0]) == FALSE && ft_isalpha(arg[0]) == FALSE)
-	{
-		return (FALSE);
-	}
-	char_num = 1;
-	while (arg[char_num] != '\0' && arg[char_num] != '=')
-	{
-		if (is_underscore(arg[char_num]) == FALSE
-				&& ft_isalnum(arg[char_num]) == FALSE)
-		{
-			return (FALSE);
-		}
-		++char_num;
-	}
-	return (TRUE);
-}
-
 static char	*get_name(const char *arg)
 {
 	size_t	char_num;
@@ -53,7 +32,6 @@ static char	*get_name(const char *arg)
 	{
 		--char_num;
 		name[char_num] = arg[char_num];
-		
 	}
 	return (name);
 }
@@ -94,7 +72,7 @@ static int	replace_variable(const char *arg, char *name, t_env *env)
 	{
 		return (MALLOC_FAIL);
 	}
-	line_address = get_line_address((const char *)name, (const t_env)*env);
+	line_address = get_line_address((const char *)name, (const t_env) * env);
 	free(*line_address);
 	*line_address = new_line;
 	free(name);
@@ -105,8 +83,7 @@ static int	export_one_arg(const char *arg, t_env *env)
 {
 	char	*name;
 
-	
-	if (is_name_valid(arg) == FALSE)
+	if (is_var_name_valid(arg) == FALSE)
 	{
 		ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n", arg);
 		return (FAILURE);
@@ -147,7 +124,7 @@ int	export(const char **argv, t_env *env)
 		err_return = export_one_arg(argv[arg_num], env);
 		if (err_return == MALLOC_FAIL)
 		{
-			ft_fprintf(STDERR_FILENO, "minishell: a call to malloc failed in export");
+			ft_fprintf(2, "minishell: a call to malloc failed in export");
 			return (MALLOC_FAIL);
 		}
 		else if (err_return == FAILURE)

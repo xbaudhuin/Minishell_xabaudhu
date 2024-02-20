@@ -14,7 +14,7 @@
 
 static char	**get_last_address(const t_env env)
 {
-	size_t var_num;
+	size_t	var_num;
 
 	var_num = env.allocated_size - 1;
 	while (var_num >= 0)
@@ -28,7 +28,7 @@ static char	**get_last_address(const t_env env)
 	return (&env.variables[var_num]);
 }
 
-static void	swap_address(char  **first_add, char **second_add)
+static void	swap_address(char **first_add, char **second_add)
 {
 	char	*temp;
 
@@ -42,12 +42,12 @@ static int	unset_one_variable(const char *name, t_env *env)
 	char	**variable_address;
 	char	**last_var_address;
 
-	variable_address = get_line_address(name, (const t_env)*env);
+	variable_address = get_line_address(name, (const t_env) * env);
 	if (variable_address == NULL)
 	{
 		return (SUCCESS);
 	}
-	last_var_address = get_last_address((const t_env)*env);
+	last_var_address = get_last_address((const t_env) * env);
 	free(*variable_address);
 	*variable_address = NULL;
 	swap_address(variable_address, last_var_address);
