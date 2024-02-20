@@ -73,6 +73,8 @@ SRCS_EXEC		=	mandatory/environment/free_env.c \
 					mandatory/builtins/export/export.c \
 					mandatory/builtins/pwd/pwd.c \
 					mandatory/builtins/builtin_utils.c \
+					mandatory/builtins/unset/unset.c \
+					mandatory/builtins/check_option.c \
 					mandatory/test_builtins.c \
 
 OBJS_EXEC		=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o})
