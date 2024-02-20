@@ -100,17 +100,17 @@ static int	add_variable(const char *arg, char *name, t_env *env)
 
 static int	replace_variable(const char *arg, char *name, t_env *env)
 {
-	char	*env_line;
 	char	*new_line;
+	char	**line_address;
 
 	new_line = ft_strdup(arg);
 	if (new_line == NULL)
 	{
 		return (MALLOC_FAIL);
 	}
-	env_line = ft_getenv2((const char *)name, (const t_env)*env);
-	free(env_line);
-	env_line = new_line;
+	line_address = get_line_address((const char *)name, (const t_env)*env);
+	free(*line_address);
+	*line_address = new_line;
 	free(name);
 	return (SUCCESS);
 }
