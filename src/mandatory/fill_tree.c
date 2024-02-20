@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 20:22:27 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/19 21:23:05 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:52:52 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_command_node	*get_current_node(t_token **head)
 t_command_node	**token_to_tree(t_token **head, t_command_node **root)
 {
 	int	flag;
+	t_command_node *tmp_root;
 	t_token	*tmp;
 	t_command_node	*node;
 
@@ -66,7 +67,7 @@ t_command_node	**token_to_tree(t_token **head, t_command_node **root)
 			free_token(head);
 			return (NULL);
 		}
-		add_node(root, tmp, node);
+		tmp_root = add_node(tmp_root, tmp, node);
 	}
 	return (root);
 }

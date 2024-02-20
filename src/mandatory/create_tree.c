@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 19:45:34 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/19 20:20:31 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/20 12:58:58 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,38 @@ void	ft_del_node(t_command_node *node)
 	}
 }
 
-void	free_tree(t_command_node **head)
+void	free_tree(t_command_node **root)
 {
-	if (head == NULL || *head == NULL)
+	if (root == NULL || *root == NULL)
 		return ;
-	free_token(&(*head)->token);
-	if ((*head)->right_node != NULL)
-		free_tree(&(*head)->right_node);
-	if ((*head)->left_node != NULL)
-		free_tree(&(*head)->left_node);
-	free((*head));
+	free_token(&(*root)->token);
+	if ((*root)->right_node != NULL)
+		free_tree(&(*root)->right_node);
+	if ((*root)->left_node != NULL)
+		free_tree(&(*root)->left_node);
+	free((*root));
 }
 
-void	print_tree(t_command_node **head, int id)
+t_command_node *add_node(t_command_node **root, t_token *token, t_command_node *node)
+{
+	if (token->type == AND)
+	{
+		(*root)->left_node = node;
+	}
+	if (token->type == OR)
+	{
+		(*root)->right_node = node;
+	}
+	return (node);
+}
+
+void	print_tree(t_command_node **root, int id)
 {
 	t_command_node	*tmp;
 
-	if (head == NULL || *head == NULL)
+	if (root == NULL || *root == NULL)
 		return ;
-	tmp = *head;
+	tmp = *root;
 	ft_printf(GRN "node %d:\n" RESET, id);
 	print_token(&tmp->token);
 	if (tmp->left_node != NULL)
