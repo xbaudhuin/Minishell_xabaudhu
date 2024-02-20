@@ -110,7 +110,6 @@ ${LIBFT}:
 
 ${TXT}:
 		@echo "-Ilibft/include\n-Iinclude/" > compile_flags.txt
-		@echo "-I../../libft/include\n-I../../include/" > src/bonus/compile_flags.txt
 		@echo "-I../../libft/include\n-I../../include/" > src/mandatory/compile_flags.txt
 
 clean:

@@ -39,6 +39,10 @@ int	main(int ac, char **av, char **main_env)
 	(void)av;
 	last_exit = SUCCESS;
 	my_env = create_env((const char **)main_env);
+	if (my_env.variables == NULL)
+	{
+		return (FAILURE);
+	}
 	while (1)
 	{
 		ft_printf("minishell> ");
@@ -48,9 +52,14 @@ int	main(int ac, char **av, char **main_env)
 			break ;
 		}
 		argv_cmd = ft_split(line, ' ');
+		if (argv_cmd == NULL)
+		{
+			free(line);
+			break ;
+		}
 		free(line);
 		last_exit = launch_cmd((const char **)argv_cmd, &my_env, last_exit);
-		free(argv_cmd);
+		free_split(argv_cmd);
 	}
 	free_env(my_env);
 }

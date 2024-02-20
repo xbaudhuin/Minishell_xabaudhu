@@ -15,7 +15,8 @@
 static int	is_match_line(const char *line, const char *to_find)
 {
 	if (line != NULL
-		&& (ft_strncmp(line, to_find, ft_strlen(to_find)) == SUCCESS))
+		&& (ft_strncmp(line, to_find, ft_strlen(to_find)) == SUCCESS)
+			&& line[ft_strlen(to_find)] == '=')
 	{
 		return (TRUE);
 	}
@@ -28,23 +29,17 @@ static int	is_match_line(const char *line, const char *to_find)
 static char	*get_variable_line(const char *name, const t_env env)
 {
 	size_t	var_num;
-	char	*to_find;
 
 	var_num = 0;
-	to_find = ft_strjoin(name, "=");
-	if (to_find == NULL)
-	{
-		return (NULL);
-	}
 	while (var_num < env.allocated_size)
 	{
-		if (is_match_line(env.variables[var_num], to_find) == TRUE)
+		if (is_match_line(env.variables[var_num], name) == TRUE)
 		{
-			return (free(to_find), env.variables[var_num]);
+			return (env.variables[var_num]);
 		}
 		++var_num;
 	}
-	return (free(to_find), NULL);
+	return (NULL);
 }
 
 static char	*get_value(const char *line, const char *name)
@@ -59,16 +54,20 @@ static char	*get_value(const char *line, const char *name)
 	}
 }
 
-char	*ft_getenv2(const char *name, const t_env env)
+char	**get_line_address(const char *name, const t_env env)
 {
-	char	*variable_line;
+	size_t var_num;
 
-	if (!name)
+	var_num = 0;
+	while (env.variables[var_num] != NULL)
 	{
-		return (NULL);
+		if (is_match_line(env.variables[var_num], name) == TRUE)
+		{
+			return (&env.variables[var_num]);
+		}
+		++var_num;
 	}
-	variable_line = get_variable_line(name, env);
-	return (variable_line);	
+	return (NULL);
 }
 
 char	*ft_getenv(const char *name, const t_env env)
@@ -90,7 +89,7 @@ char	*ft_getenv(const char *name, const t_env env)
 // 	(void)av;
 
 // 	my_env = create_env((const char **)env);
-// 	printf("%s\n", ft_getenv("OHOH", (const t_env)my_env));
+// 	printf("%s\n", ft_getenv("PWD22", (const t_env)my_env));
 // 	ft_free_str_array(my_env.variables);
 // 	return (0);
 // }
