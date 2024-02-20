@@ -5,6 +5,8 @@ typedef struct s_env
 {
 	char	**variables;
 	size_t	allocated_size;
+	int		was_pwd_unset;
+	int		was_oldpwd_unset;
 }			t_env;
 
 t_env	create_env(const char **main_env);

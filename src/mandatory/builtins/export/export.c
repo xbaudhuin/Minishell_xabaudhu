@@ -118,7 +118,7 @@ int	export(const char **argv, t_env *env)
 	{
 		return (WRG_OPT);
 	}
-	arg_num = 0;
+	arg_num = 1;
 	while (argv[arg_num] != NULL)
 	{
 		err_return = export_one_arg(argv[arg_num], env);
