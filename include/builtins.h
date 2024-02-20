@@ -13,6 +13,18 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+enum	e_buildin_type
+{
+	ECHO = 0,
+	CD = 1,
+	PWD = 2,
+	EXPORT = 3,
+	UNSET = 4,
+	ENV = 5,
+	EXIT = 6,
+	NONE = 7,
+};
+
 void	print_space(void);
 void	print_new_line(void);
 int		is_underscore(const char c);
@@ -29,6 +41,8 @@ int		unset(const char **argv, t_env *env);
 
 # define WRG_OPT 2
 # define MALLOC_FAIL 3
+
+# define NB_BUILTIN 7
 
 
 #endif
