@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#include "minishell.h"
 
 static int	is_name_valid(const char *arg)
 {
@@ -119,8 +119,10 @@ static int	export_one_arg(const char *arg, t_env *env)
 {
 	char	*name;
 
+	
 	if (is_name_valid(arg) == FALSE)
 	{
+		ft_fprintf(2, "minishell: export: '%s': not a valid identifier\n", arg);
 		return (FAILURE);
 	}
 	if (is_equal_exists(arg) == FALSE)
@@ -171,20 +173,20 @@ int	export(const char **argv, t_env *env)
 	return (exit_status);
 }
 
-int	main(int ac, char **av, char **main_env)
-{
-	t_env 	my_env;
-	int		exit_status;
-	char 	*arg_env[] = {"env", (char *)NULL};
+// int	main(int ac, char **av, char **main_env)
+// {
+// 	t_env 	my_env;
+// 	int		exit_status;
+// 	char 	*arg_env[] = {"env", (char *)NULL};
 
-	(void)av;
-	(void)ac;
-	my_env = create_env((const char **)main_env);
-	printf("\n\nFIRST ENV : \n\n");
-	env((const char **)arg_env, my_env);
-	exit_status = export((const char **)(av +1), &my_env);
-	printf("\n\nSECOND ENV : \n\n"); 
-	env((const char **)arg_env, my_env);
-	free_env(my_env);
-	return (exit_status);
-}
+// 	(void)av;
+// 	(void)ac;
+// 	my_env = create_env((const char **)main_env);
+// 	printf("\n\nFIRST ENV : \n\n");
+// 	env((const char **)arg_env, my_env);
+// 	exit_status = export((const char **)(av +1), &my_env);
+// 	printf("\n\nSECOND ENV : \n\n"); 
+// 	env((const char **)arg_env, my_env);
+// 	free_env(my_env);
+// 	return (exit_status);
+// }

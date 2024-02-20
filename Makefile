@@ -58,12 +58,41 @@ OBJS_BONUS		=	$(addprefix ${OBJ_PATH}, ${SRCS_BONUS:.c=.o})
 
 LIBFT_D			=	$(addprefix ${LIBFT_PATH}, ${LIBFT})
 
+################################################################################
+#                                 TEST_LEO                                     #
+################################################################################
+
+NAME_TEST		=	test.exe
+
+SRCS_EXEC		=	mandatory/environment/free_env.c \
+					mandatory/environment/create_env.c \
+					mandatory/environment/ft_getenv.c \
+					mandatory/environment/get_expanded_env.c \
+					mandatory/builtins/echo/echo.c \
+					mandatory/builtins/env/env.c \
+					mandatory/builtins/export/export.c \
+					mandatory/builtins/pwd/pwd.c \
+					mandatory/builtins/builtin_utils.c \
+					mandatory/test_builtins.c \
+
+OBJS_EXEC		=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o})
+
+################################################################################
+#                                 RULES                                        #
+################################################################################
+					
 all:			${NAME}
 
 bonus:			${BONUS}
 
 ${NAME}:		${LIBFT} ${OBJS} ${TXT} include/minishell.h libft/include/ft_printf.h libft/include/get_next_line.h libft/include/libft.h
 		@${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${HEADER} ${LIBFT} -lreadline
+		@echo "${COLOUR_GREEN}${NAME} Compiled${COLOUR_END}"
+
+test : 			${NAME_TEST}
+
+${NAME_TEST}:	${LIBFT} ${OBJS_EXEC} ${TXT} include/minishell.h libft/include/ft_printf.h libft/include/get_next_line.h libft/include/libft.h
+		@${CC} ${CFLAGS} -o ${NAME_TEST} ${OBJS_EXEC} ${HEADER} ${LIBFT}
 		@echo "${COLOUR_GREEN}${NAME} Compiled${COLOUR_END}"
 
 ${BONUS}:	${LIBFT} ${OBJS_BONUS} ${TXT}
@@ -86,11 +115,11 @@ ${TXT}:
 
 clean:
 		make -C ${LIBFT_PATH} clean --no-print-directory
-		${RM}  ${OBJ_PATH}
+		${RM}  ${OBJ_PATH} 
 
 fclean:		clean
 		make -C ${LIBFT_PATH} fclean --no-print-directory
-		${RM} ${NAME} ${BONUS} ${LIBFT} ${SRC_PATH}mandatory/${TXT} ${SRC_PATH}bonus/${TXT} ${TXT}
+		${RM} ${NAME} ${NAME_TEST} ${BONUS} ${LIBFT} ${SRC_PATH}mandatory/${TXT} ${SRC_PATH}bonus/${TXT} ${TXT}
 
 re:			fclean all
 
