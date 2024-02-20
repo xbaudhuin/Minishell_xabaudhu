@@ -18,6 +18,8 @@ int	launch_cmd(const char **argv, t_env *my_env, int last_exit)
 		return (export(argv, my_env));
 	else if (strncmp(argv[0], "env", ft_strlen("env")) == SUCCESS)
 		return (env(argv, (const t_env)*my_env));
+	else if (strncmp(argv[0], "unset", ft_strlen("env")) == SUCCESS)
+		return (unset(argv, my_env));
 	else if (strncmp(argv[0], "pwd", ft_strlen("pwd")) == SUCCESS)
 		return (pwd(argv));
 	else if (strncmp(argv[0], "$?", ft_strlen("$?")) == SUCCESS)
@@ -37,6 +39,7 @@ int	main(int ac, char **av, char **main_env)
 
 	(void)ac;
 	(void)av;
+	chdir("..");
 	last_exit = SUCCESS;
 	my_env = create_env((const char **)main_env);
 	if (my_env.variables == NULL)

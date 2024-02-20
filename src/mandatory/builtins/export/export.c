@@ -33,20 +33,6 @@ static int	is_name_valid(const char *arg)
 	return (TRUE);
 }
 
-static int	check_option(const char **argv)
-{
-	if (count_args(argv) > 1 && ft_strlen(argv[1]) > 1 && argv[1][0] == '-')
-	{
-		ft_fprintf(STDERR_FILENO,
-			"minishell: export: -%c: invalid option", argv[1][1]);
-		return (FAILURE);
-	}
-	else
-	{
-		return (SUCCESS);
-	}
-}
-
 static char	*get_name(const char *arg)
 {
 	size_t	char_num;
@@ -151,7 +137,7 @@ int	export(const char **argv, t_env *env)
 	int	arg_num;
 
 	exit_status = SUCCESS;
-	if (check_option(argv) == FAILURE)
+	if (check_option(argv, "export") == FAILURE)
 	{
 		return (WRG_OPT);
 	}
