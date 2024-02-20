@@ -13,8 +13,6 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "minishell.h"
-
 void	print_space(void);
 void	print_new_line(void);
 int		is_underscore(const char c);
@@ -24,6 +22,7 @@ int		count_args(const char **argv);
 int	echo(const char **argv);
 int	pwd(const char **argv);
 int	env(const char **argv, const t_env env);
+int	export(const char **argv, t_env *env);
 
 # define WRG_OPT 2
 # define MALLOC_FAIL 3

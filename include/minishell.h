@@ -17,6 +17,8 @@
 # include "libft.h"
 # include "environment.h"
 # include "builtins.h"
+# include "get_next_line.h"
+# include "ft_printf.h"
 
 #define RESET  "\x1B[0m"
 #define RED "\x1B[31m"
@@ -27,7 +29,6 @@
 #define CYN  "\x1B[36m"
 #define WHT  "\x1B[37m"
 
-# include "ft_printf.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -58,8 +59,8 @@ enum e_flag
 	EMPTY = 0,
 	SIMPLE_QUOTES = 1,
 	DOUBLE_QUOTES = 2,
-	AND_OPERATOR,
-	PIPE_OPERATOR,
+	AND_OPERATOR = 3,
+	PIPE_OPERATOR = 4,
 };
 
 enum e_type_token
