@@ -37,11 +37,28 @@ static void	swap_address(char **first_add, char **second_add)
 	*second_add = temp;
 }
 
+static void	check_pwd_variable(const char *name, t_env *env)
+{
+	if (ft_strncmp(name, "PWD", ft_strlen("PWD") + 1) == SUCCESS)
+	{
+		env->was_pwd_unset = TRUE;
+	}
+	else if (ft_strncmp(name, "OLDPWD", ft_strlen("OLDPWD") + 1) == SUCCESS)
+	{
+		env->was_oldpwd_unset = TRUE;
+	}
+	else
+	{
+		return ;
+	}
+}
+
 static int	unset_one_variable(const char *name, t_env *env)
 {
 	char	**variable_address;
 	char	**last_var_address;
 
+	check_pwd_variable(name, env);
 	variable_address = get_line_address(name, (const t_env) * env);
 	if (variable_address == NULL)
 	{
