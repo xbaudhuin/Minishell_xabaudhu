@@ -19,6 +19,7 @@ int		is_underscore(const char c);
 int		is_equal_exists(const char *arg);
 int		count_args(const char **argv);
 int		check_option(const char **argv, const char *builtin);
+int		is_var_name_valid(const char *arg);
 
 int		echo(const char **argv);
 int		pwd(const char **argv);

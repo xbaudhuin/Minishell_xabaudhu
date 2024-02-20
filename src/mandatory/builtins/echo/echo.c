@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 static int	is_there_n_option(int argc, const char **argv)
 {
 	char	*to_compare;
