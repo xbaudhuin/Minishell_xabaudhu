@@ -68,6 +68,7 @@ t_env	get_expended_env(const t_env old_env, int *ext_sts)
 	t_env	new_env;
 	size_t	new_allocated_size;
 
+	*ext_sts = SUCCESS;
 	if (is_env_full(old_env) == FALSE)
 	{
 		return (old_env);
@@ -81,7 +82,6 @@ t_env	get_expended_env(const t_env old_env, int *ext_sts)
 		*ext_sts = MALLOC_FAIL;
 		return ((t_env)old_env);
 	}
-	*ext_sts = SUCCESS;
 	return (new_env);
 }
 
