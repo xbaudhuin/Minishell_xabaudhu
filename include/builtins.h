@@ -39,6 +39,7 @@ int		env(const char **argv, const t_env env);
 int		export(const char **argv, t_env *env);
 int		unset(const char **argv, t_env *env);
 int		cd(const char **argv, t_env *env);
+int		is_builtin(const char **argv);
 
 # define WRG_OPT 2
 # define MALLOC_FAIL 3

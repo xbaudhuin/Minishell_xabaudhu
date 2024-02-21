@@ -75,6 +75,7 @@ SRCS_EXEC		=	mandatory/environment/free_env.c \
 					mandatory/builtins/builtin_utils.c \
 					mandatory/builtins/unset/unset.c \
 					mandatory/builtins/cd/cd.c \
+					mandatory/builtins/is_builtin.c \
 					mandatory/builtins/check_option.c \
 					mandatory/builtins/is_var_name_valid.c \
 					mandatory/test_builtins.c \

@@ -12,24 +12,25 @@
 
 #include "minishell.h"
 
-int	launch_cmd(const char **argv, t_env *my_env, int last_exit)
+int	launch_cmd(const char **argv, t_env *my_env, int last_exit, int buildin_type)
 {
-	if (strncmp(argv[0], "export", ft_strlen("export")) == SUCCESS)
+	if (buildin_type == EXPORT)
 		return (export(argv, my_env));
-	else if (strncmp(argv[0], "env", ft_strlen("env")) == SUCCESS)
+	else if (buildin_type == ENV)
 		return (env(argv, (const t_env)*my_env));
-	else if (strncmp(argv[0], "unset", ft_strlen("env")) == SUCCESS)
+	else if (buildin_type == UNSET)
 		return (unset(argv, my_env));
-	else if (strncmp(argv[0], "cd", ft_strlen("cd")) == SUCCESS)
+	else if (buildin_type == CD)
 		return (cd(argv, my_env));
-	else if (strncmp(argv[0], "pwd", ft_strlen("pwd")) == SUCCESS)
+	else if (buildin_type == PWD)
 		return (pwd(argv));
 	else if (strncmp(argv[0], "$?", ft_strlen("$?")) == SUCCESS)
 		return (printf("Last exit = %d\n", last_exit), SUCCESS);
-	else if (strncmp(argv[0], "echo", ft_strlen("echo")) == SUCCESS)
+	else if (buildin_type == ECHO)
 		return (echo(argv));
 	else
 		return (SUCCESS);
+
 }
 
 int	main(int ac, char **av, char **main_env)
@@ -38,6 +39,7 @@ int	main(int ac, char **av, char **main_env)
 	char	*line;
 	t_env	my_env;
 	int		last_exit;
+	int		buildin_type;
 
 	(void)ac;
 	(void)av;
@@ -65,7 +67,9 @@ int	main(int ac, char **av, char **main_env)
 			break ;
 		}
 		free(line);
-		last_exit = launch_cmd((const char **)argv_cmd, &my_env, last_exit);
+		buildin_type = is_builtin((const char **)argv_cmd);
+		printf("buildin_type = %d\n", buildin_type);
+		last_exit = launch_cmd((const char **)argv_cmd, &my_env, last_exit, buildin_type);
 		free_split(argv_cmd);
 	}
 	free_env(my_env);
