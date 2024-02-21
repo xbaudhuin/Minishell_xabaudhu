@@ -78,6 +78,7 @@ t_env	create_env(const char **main_env)
 {
 	t_env	new_env;
 
+	ft_bzero(&new_env, sizeof (new_env));
 	new_env.allocated_size = get_malloc_size(main_env);
 	new_env.variables = create_env_var(main_env, new_env.allocated_size);
 	add_pwd(new_env);
