@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 19:45:34 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/20 12:58:58 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:36:40 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ t_command_node	*create_node(void)
 	node = malloc(sizeof(t_command_node));
 	if (node == NULL)
 		return (NULL);
+	node->exit_status = -1;
+	node->cmd = NULL;
 	node->left_node = NULL;
 	node->right_node = NULL;
 	node->parent_node = NULL;
-	node->nb_command = 0;
 	return (node);
 }
 

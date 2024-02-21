@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/19 19:50:29 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:06:30 by xabaudhu         ###   ########.fr       */
 /*   Updated: 2024/02/13 18:22:42 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -84,19 +84,22 @@ typedef struct s_token
 	int				type;
 	char			*word;
 	unsigned int	len_word;
+	unsigned int	depths;
+	struct s_token	*previous;
 	struct s_token	*next;
 }			t_token;
 
 typedef struct s_command
 {
-	char	**args;
-	int		fd[2];
+	t_token	*token;
+	t_token	*redirect_token;
+
 }			t_command;
 
 typedef struct s_command_node
 {
-	t_token					*token;
-	int						nb_command;
+	t_command				**cmd;
+	int						exit_status;
 	struct s_command_node	*left_node;
 	struct s_command_node	*right_node;
 	struct s_command_node	*parent_node;
@@ -127,4 +130,5 @@ int				previous_parenthesis_close_token(const int type);
 int				previous_type_error(const int type);
 
 int				check_token_list(const t_token **head);
+t_command	**create_command_array(t_token *token);
 #endif

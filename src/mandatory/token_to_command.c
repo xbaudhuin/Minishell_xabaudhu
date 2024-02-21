@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:15:17 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/19 18:49:47 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:16:25 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int	check_token_list(const t_token **head)
 			break ;
 		if (tmp_token->next == NULL)
 			break ;
+		tmp_token->depths = flag;
 		is_valid_type = get_new_valid_type(tmp_token->type);
 		tmp_token = tmp_token->next;
 	}
