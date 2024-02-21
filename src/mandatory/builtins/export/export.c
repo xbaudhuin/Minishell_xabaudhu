@@ -41,7 +41,6 @@ static int	add_variable(const char *arg, char *name, t_env *env)
 	int	exit_status;
 	int	var_num;
 
-	exit_status = SUCCESS;
 	*env = get_expended_env(*env, &exit_status);
 	if (exit_status != SUCCESS)
 	{

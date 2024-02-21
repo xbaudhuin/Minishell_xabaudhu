@@ -41,7 +41,7 @@ static void	check_pwd_variable(const char *name, t_env *env)
 {
 	if (ft_strncmp(name, "PWD", ft_strlen("PWD") + 1) == SUCCESS)
 	{
-		env->was_pwd_unset = TRUE;
+		env->pwd_unset_time = NEW;
 	}
 	else if (ft_strncmp(name, "OLDPWD", ft_strlen("OLDPWD") + 1) == SUCCESS)
 	{

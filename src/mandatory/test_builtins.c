@@ -20,6 +20,8 @@ int	launch_cmd(const char **argv, t_env *my_env, int last_exit)
 		return (env(argv, (const t_env)*my_env));
 	else if (strncmp(argv[0], "unset", ft_strlen("env")) == SUCCESS)
 		return (unset(argv, my_env));
+	else if (strncmp(argv[0], "cd", ft_strlen("cd")) == SUCCESS)
+		return (cd(argv, my_env));
 	else if (strncmp(argv[0], "pwd", ft_strlen("pwd")) == SUCCESS)
 		return (pwd(argv));
 	else if (strncmp(argv[0], "$?", ft_strlen("$?")) == SUCCESS)
@@ -42,9 +44,9 @@ int	main(int ac, char **av, char **main_env)
 	chdir("..");
 	last_exit = SUCCESS;
 	my_env = create_env((const char **)main_env);
-	if (my_env.variables == NULL)
+	if (my_env.variables == NULL || ft_getenv("PWD", (const t_env) my_env) == NULL)
 	{
-		return (FAILURE);
+		return (MALLOC_FAIL);
 	}
 	while (1)
 	{
@@ -54,6 +56,8 @@ int	main(int ac, char **av, char **main_env)
 		{
 			break ;
 		}
+		if (ft_strlen(line) > 1)
+			line[ft_strlen(line) - 1] = '\0';
 		argv_cmd = ft_split(line, ' ');
 		if (argv_cmd == NULL)
 		{
