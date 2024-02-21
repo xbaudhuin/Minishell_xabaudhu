@@ -12,10 +12,12 @@
 
 #include "minishell.h"
 
-char	**set(void)
+int	is_this_builtin(int index, char *cmd_name)
 {
 	char	*builtins[NB_BUILTIN];
 
+	if (index >= NB_BUILTIN)
+		return (FAILURE);
 	builtins[ECHO] = "echo";
 	builtins[CD] = "cd";
 	builtins[PWD] = "pwd";
@@ -23,21 +25,23 @@ char	**set(void)
 	builtins[UNSET] = "unset";
 	builtins[ENV] = "env";
 	builtins[EXIT] = "exit";
-	return (builtins);
+	if (ft_strncmp(cmd_name, builtins[index], ft_strlen(builtins[index]) + 1) == SUCCESS)
+	{
+		return (TRUE);
+	} 
+	return (FALSE);
 }
 
 int	is_builtin(const char **argv)
 {
-	char	**builtins;
 	char	*cmd_name;
 	int		builtin_num;
 
 	builtin_num = 0;
-	cmd_name = argv[0];
-	builtins = set();
+	cmd_name = (char *)argv[0];
 	while (builtin_num < NB_BUILTIN)
 	{
-		if (ft_strncmp(cmd_name, builtins[builtin_num], ft_strlen(builtins[builtin_num]) + 1) == SUCCESS)
+		if (is_this_builtin(builtin_num, cmd_name) == TRUE)
 		{
 			return (builtin_num);
 		}
