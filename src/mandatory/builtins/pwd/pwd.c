@@ -14,8 +14,7 @@
 
 static void	print_working_dir(const char *pwd_str)
 {
-	ft_putstr_fd((char *)pwd_str, 1);
-	print_new_line();
+	printf("%s\n", pwd_str);
 }
 
 static int	is_there_wrong_option(const char **args)

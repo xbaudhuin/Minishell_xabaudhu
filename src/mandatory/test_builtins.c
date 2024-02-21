@@ -43,7 +43,6 @@ int	main(int ac, char **av, char **main_env)
 
 	(void)ac;
 	(void)av;
-	chdir("..");
 	last_exit = SUCCESS;
 	my_env = create_env((const char **)main_env);
 	if (my_env.variables == NULL || ft_getenv("PWD", (const t_env) my_env) == NULL)
@@ -68,7 +67,6 @@ int	main(int ac, char **av, char **main_env)
 		}
 		free(line);
 		buildin_type = is_builtin((const char **)argv_cmd);
-		printf("buildin_type = %d\n", buildin_type);
 		last_exit = launch_cmd((const char **)argv_cmd, &my_env, last_exit, buildin_type);
 		free_split(argv_cmd);
 	}
