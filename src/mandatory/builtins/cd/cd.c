@@ -87,7 +87,7 @@ int	update_existing_oldpwd(const char *old_pwd, t_env *env)
 int	update_oldpwd(const char *old_pwd, t_env *env)
 {
 	char	**old_pwd_line_address;
-	
+
 	old_pwd_line_address = get_line_address("OLDPWD", (const t_env) * env);
 	if (old_pwd_line_address == NULL)
 	{
@@ -111,30 +111,17 @@ int	cd(const char **argv, t_env *env)
 		return (FAILURE);
 	}
 	old_pwd = getcwd(NULL, 0);
-	if (old_pwd == NULL)
-	{
-		perror("minishell: cd: ");
-		return (FAILURE);
-	}
 	if (chdir((const char *)argv[1]) != SUCCESS)
-	{
-		free(old_pwd);
-		perror("minishell: cd: ");
-		return (FAILURE);
-	}
+		return (perror("minishell: cd: "), free(old_pwd), FAILURE);
 	new_pwd = getcwd(NULL, 0);
-	if (new_pwd == NULL)
-	{
-		free(old_pwd);
-		perror("minishell: cd: ");
-		return (FAILURE);
-	}
+	if (old_pwd == NULL || new_pwd == NULL)
+		return (perror("minishell: cd: "), free(old_pwd),
+			free(new_pwd), FAILURE);
 	if (update_oldpwd(old_pwd, env) == MALLOC_FAIL)
 		return (free(old_pwd), free(new_pwd), MALLOC_FAIL);
 	if (update_pwd(new_pwd, env) == MALLOC_FAIL)
 		return (free(old_pwd), free(new_pwd), MALLOC_FAIL);
 	if (env->pwd_unset_time == NEW)
 		env->pwd_unset_time = OLD;
-	return (free(old_pwd),free(new_pwd) , SUCCESS);
+	return (free(old_pwd), free(new_pwd), SUCCESS);
 }
- 

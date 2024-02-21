@@ -25,10 +25,11 @@ int	is_this_builtin(int index, char *cmd_name)
 	builtins[UNSET] = "unset";
 	builtins[ENV] = "env";
 	builtins[EXIT] = "exit";
-	if (ft_strncmp(cmd_name, builtins[index], ft_strlen(builtins[index]) + 1) == SUCCESS)
+	if (ft_strncmp(cmd_name, builtins[index],
+			ft_strlen(builtins[index]) + 1) == SUCCESS)
 	{
 		return (TRUE);
-	} 
+	}
 	return (FALSE);
 }
 
