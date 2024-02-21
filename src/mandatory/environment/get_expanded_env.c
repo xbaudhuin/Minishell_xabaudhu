@@ -81,6 +81,7 @@ t_env	get_expended_env(const t_env old_env, int *ext_sts)
 		*ext_sts = MALLOC_FAIL;
 		return ((t_env)old_env);
 	}
+	*ext_sts = SUCCESS;
 	return (new_env);
 }
 
