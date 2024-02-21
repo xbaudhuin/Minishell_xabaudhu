@@ -32,6 +32,7 @@ int		is_equal_exists(const char *arg);
 int		count_args(const char **argv);
 int		check_option(const char **argv, const char *builtin);
 int		is_var_name_valid(const char *arg);
+int		is_builtin(const char **argv);
 
 int		echo(const char **argv);
 int		pwd(const char **argv);
@@ -39,7 +40,8 @@ int		env(const char **argv, const t_env env);
 int		export(const char **argv, t_env *env);
 int		unset(const char **argv, t_env *env);
 int		cd(const char **argv, t_env *env);
-int		is_builtin(const char **argv);
+void	builtin_exit(t_env *env);
+
 
 # define WRG_OPT 2
 # define MALLOC_FAIL 3
