@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_env.c                                         :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/17 13:26:14 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/17 13:26:14 by ldoyen--         ###   ########.fr       */
+/*   Created: 2024/02/21 18:01:15 by ldoyen--          #+#    #+#             */
+/*   Updated: 2024/02/21 18:01:16 by ldoyen--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_env(t_env *env)
+void	builtin_exit(t_env *env)
 {
-	free_split(env->variables);
+	free_env(env);
+	exit(env->exit_status);
 }
