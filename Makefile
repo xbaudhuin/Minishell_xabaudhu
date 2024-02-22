@@ -80,6 +80,9 @@ SRCS_EXEC		=	mandatory/environment/free_env.c \
 					mandatory/builtins/check_option.c \
 					mandatory/builtins/is_var_name_valid.c \
 					mandatory/test_builtins.c \
+					mandatory/signals/quit_signal.c \
+					mandatory/signals/int_signal.c \
+
 
 OBJS_EXEC		=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o})
 
@@ -98,7 +101,7 @@ ${NAME}:		${LIBFT} ${OBJS} ${TXT} include/minishell.h libft/include/ft_printf.h 
 test : 			${NAME_TEST}
 
 ${NAME_TEST}:	${LIBFT} ${OBJS_EXEC} ${TXT} include/minishell.h libft/include/ft_printf.h libft/include/get_next_line.h libft/include/libft.h
-		@${CC} ${CFLAGS} -o ${NAME_TEST} ${OBJS_EXEC} ${HEADER} ${LIBFT}
+		@${CC} ${CFLAGS} -o ${NAME_TEST} ${OBJS_EXEC} ${HEADER} ${LIBFT} -lreadline
 		@echo "${COLOUR_GREEN}${NAME} Compiled${COLOUR_END}"
 
 ${BONUS}:	${LIBFT} ${OBJS_BONUS} ${TXT}

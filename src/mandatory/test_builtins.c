@@ -41,17 +41,14 @@ void	read_cmd_line(t_env *my_env)
 	char	*line;
 	char	**argv_cmd;
 	int		buildin_type;
-
+	
 	while (1)
 	{
-		ft_printf("minishell> ");
-		line = get_next_line(STDIN_FILENO);
-		if (line == NULL)
-		{
+		line = readline("minishell> ");
+		if (!line)
 			break ;
-		}
-		if (ft_strlen(line) > 1)
-			line[ft_strlen(line) - 1] = '\0';
+		if (ft_strlen(line) > 0)
+			add_history((const char *)line);
 		argv_cmd = ft_split(line, ' ');
 		if (argv_cmd == NULL)
 		{
@@ -63,14 +60,27 @@ void	read_cmd_line(t_env *my_env)
 		my_env->exit_status = launch_cmd((const char **)argv_cmd, my_env, buildin_type);
 		free_split(argv_cmd);
 	}
+	rl_clear_history();
 }
 
 int	main(int ac, char **av, char **main_env)
 {
 	t_env	my_env;
-	
+	char	*test[] = {"/bin/sleep", "5" ,NULL};
+
 	(void)ac;
 	(void)av;
+	handle_sigquit(TRUE);
+	handle_sigint(TRUE);
+	printf("I m gonna sleep 5 seconds\n");
+	if (fork() == 0)
+	{
+		handle_sigint(FALSE);
+		handle_sigquit(FALSE);
+		execve("/bin/sleep", test, main_env);
+	}
+	wait(NULL);
+	printf("test wait\n");
 	my_env = create_env((const char **)main_env);
 	if (my_env.variables == NULL || ft_getenv("PWD", (const t_env) my_env) == NULL)
 	{

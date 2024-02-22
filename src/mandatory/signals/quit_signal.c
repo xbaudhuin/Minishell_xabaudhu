@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   quit_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/21 18:01:15 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/21 18:01:16 by ldoyen--         ###   ########.fr       */
+/*   Created: 2024/02/22 11:07:15 by ldoyen--          #+#    #+#             */
+/*   Updated: 2024/02/22 15:09:19 by ldoyen--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtin_exit(t_env *env)
+int	handle_sigquit(int ignore)
 {
-	free_env(env);
-	printf("exit\n");
-	exit(env->exit_status);
+	struct sigaction	action;
+
+	ft_bzero(&action, sizeof (action));
+	if (ignore == TRUE)
+	{
+		action.sa_handler = SIG_IGN;
+	}
+	else
+	{
+		action.sa_handler = SIG_DFL;
+	}
+	sigaction(SIGQUIT, &action, NULL);
+	return (SUCCESS);
 }
