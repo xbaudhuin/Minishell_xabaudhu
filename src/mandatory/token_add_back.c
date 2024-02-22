@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 15:18:01 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/21 15:27:13 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:22:36 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_type(const int type)
 	if (type == PARENTHESIS_CLOSE)
 		return ("PARENTHESIS_CLOSE");
 	if (type == WORD)
-		return ("WORD");
+		return (RED"WORD"RESET);
 	if (type == PIPE)
 		return ("PIPE");
 	if (type == AND)
@@ -118,9 +118,10 @@ static t_token	*ft_token_last(t_token *token)
 void	ft_token_add_back(t_token **head, t_token *new)
 {
 	t_token	*tmp;
-	if (head)
+
+	if (head != NULL)
 	{
-		if (*head)
+		if (*head != NULL)
 		{
 			tmp = ft_token_last(*head);
 			tmp->next = new;

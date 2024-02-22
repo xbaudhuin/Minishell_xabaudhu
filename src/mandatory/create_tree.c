@@ -5,80 +5,94 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 19:45:34 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/21 15:36:40 by xabaudhu         ###   ########.fr       */
+/*   Created: 2024/02/22 14:33:14 by xabaudhu          #+#    #+#             */
+/*   Updated: 2024/02/22 17:48:04 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_command_node	*create_node(void)
+static int	is_logical_operator(const int type)
 {
-	t_command_node	*node;
+	if (type == AND)
+		return (TRUE);
+	if (type == OR)
+		return (TRUE);
+	return (FALSE);
+}
 
-	node = malloc(sizeof(t_command_node));
-	if (node == NULL)
+static t_token	*get_next_prio_operator(t_token **head)
+{
+	t_token	*operator;
+	t_token	*tmp;
+
+	if (head == NULL)
 		return (NULL);
-	node->exit_status = -1;
-	node->cmd = NULL;
-	node->left_node = NULL;
-	node->right_node = NULL;
-	node->parent_node = NULL;
-	return (node);
+	tmp = (*head)->next;
+	operator = *head;
+	while (tmp)
+	{
+		if (is_logical_operator(tmp->type) && tmp->depths <= operator->depths)
+		{
+			operator = tmp;
+		}
+		tmp = tmp->next;
+	}
+	if (is_logical_operator(operator->type) == FALSE)
+		return (NULL);
+	return (operator);
 }
 
-void	ft_del_node(t_command_node *node)
+int	get_type_node(t_token *operator)
 {
-	if (node != NULL)
-	{
-		if (node->token != NULL)
-			free_token(&node->token);
-		free(node);
-	}
+	if (operator->type == AND)
+		return (NODE_AND);
+	if (operator->type == OR)
+		return (NODE_OR);
+	return (NODE_LEAF);
 }
 
-void	free_tree(t_command_node **root)
+int	create_tree(t_token **head, t_node **node, int *error)
 {
-	if (root == NULL || *root == NULL)
-		return ;
-	free_token(&(*root)->token);
-	if ((*root)->right_node != NULL)
-		free_tree(&(*root)->right_node);
-	if ((*root)->left_node != NULL)
-		free_tree(&(*root)->left_node);
-	free((*root));
-}
+	t_token	*left_node_token;
+	t_token	*right_node_token;
+	t_token	*operator;
 
-t_command_node *add_node(t_command_node **root, t_token *token, t_command_node *node)
-{
-	if (token->type == AND)
+	if (head == NULL || (*head) == NULL)
+		return (SUCCESS);
+	if (*error != 0)
+		return (FAILURE);
+	left_node_token = NULL;
+	right_node_token = NULL;
+	operator = get_next_prio_operator(head);
+	if (operator == NULL)
 	{
-		(*root)->left_node = node;
+		*node = create_node(head, NODE_LEAF, error);
+		if (error != 0)
+			return (FAILURE);
+		return (SUCCESS);
 	}
-	if (token->type == OR)
+	if (operator->previous != NULL)
 	{
-		(*root)->right_node = node;
+		left_node_token = operator->previous;
+		left_node_token->next = NULL;
+		operator->previous = NULL;
 	}
-	return (node);
-}
-
-void	print_tree(t_command_node **root, int id)
-{
-	t_command_node	*tmp;
-
-	if (root == NULL || *root == NULL)
-		return ;
-	tmp = *root;
-	ft_printf(GRN "node %d:\n" RESET, id);
-	print_token(&tmp->token);
-	if (tmp->left_node != NULL)
+	if (operator->next != NULL)
 	{
-		ft_printf(BLU "LEFT_NODE\n"RESET);
-		print_tree(&tmp->left_node, id + 1);
+		right_node_token = operator->next;
+		right_node_token->previous = NULL;
+		operator->next = NULL;
 	}
-	if (tmp->right_node != NULL)
+	*node = create_node(&operator, get_type_node(operator), error);
+	if (right_node_token != NULL)
 	{
-		ft_printf(BLU "RIGHT_NODE\n"RESET);
-		print_tree(&tmp->right_node, id +1);
+		create_tree(&left_node_token, &(*node)->left_node, error);
 	}
+	if (left_node_token != NULL)
+	{
+		create_tree(&right_node_token, &(*node)->right_node, error);
+	}
+	free_token(&operator);
+	return (SUCCESS);
 }

@@ -51,7 +51,10 @@ SRCS			=	mandatory/read_line.c \
 					mandatory/token_add_back.c \
 					mandatory/is_token.c \
 					mandatory/previous_token.c \
-					mandatory/token_to_command.c
+					mandatory/parse_token.c \
+					mandatory/t_command.c \
+					mandatory/create_node.c \
+					mandatory/create_tree.c
 
 SRCS_BONUS		=	\
 

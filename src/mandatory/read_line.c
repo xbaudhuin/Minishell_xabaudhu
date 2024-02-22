@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:34:58 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/19 18:46:08 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:28:48 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,10 @@ void	ft_readline(void)
 {
 	char	*buf;
 	t_token	*head;
+	t_node	*root;
+	int		error;
 
+	error = 0;
 	head = NULL;
 	while (1)
 	{
@@ -211,8 +214,12 @@ void	ft_readline(void)
 			break ;
 		}
 		parse_to_token(buf, &head);
-		if (head  !=  NULL && check_token_list((const t_token **)&head) == TRUE)
+		if (head != NULL && check_token_list((const t_token **)&head) == TRUE)
+		{
 			print_token(&head);
+			create_tree(&head, &root, &error);
+			print_tree(&root, 0);
+		}
 		free_token(&head);
 		free(buf);
 	}

@@ -1,0 +1,2 @@
+-I../../libft/include
+-I../../include/
