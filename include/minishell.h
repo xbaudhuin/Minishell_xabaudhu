@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/16 12:59:46 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:45:16 by xabaudhu         ###   ########.fr       */
 /*   Updated: 2024/02/13 18:22:42 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -55,13 +55,24 @@
 # define TRUE 1
 # define PARSE_ERROR 2
 
+# define NO_QUOTES 0
+
 enum e_flag
 {
 	EMPTY = 0,
 	SIMPLE_QUOTES = 1,
 	DOUBLE_QUOTES = 2,
-	AND_OPERATOR = 3,
-	PIPE_OPERATOR = 4,
+	AND_OPERATOR,
+	PIPE_OPERATOR,
+};
+
+enum e_node
+{
+	NODE_ERROR = 0,
+	NODE_ROOT = 1,
+	NODE_LEAF = 2,
+	NODE_AND = 3,
+	NODE_OR = 4,
 };
 
 enum e_type_token
@@ -79,30 +90,34 @@ enum e_type_token
 	APPEND_OUT = 10,
 };
 
+typedef int (*t_is_valid_type)(int);
+
 typedef struct s_token
 {
 	int				type;
 	char			*word;
 	unsigned int	len_word;
+	unsigned int	depths;
+	struct s_token	*previous;
 	struct s_token	*next;
 }			t_token;
 
 typedef struct s_command
 {
-	char	**args;
-	int		fd[2];
+	t_token	*token;
+	t_token	*redirect_token;
+
 }			t_command;
 
-typedef struct s_command_node
+typedef struct s_node
 {
-	t_command				*command;
-	int						nb_command;
-	int						fork;
-	struct s_command_node	*left_node;
-	struct s_command_node	*right_node;
-	struct s_command_node	*parent_node;
-}			t_command_node;
-
+	t_command		**cmd;
+	int				exit_status;
+	int				type;
+	struct s_node	*left_node;
+	struct s_node	*right_node;
+	struct s_node	*parent_node;
+}			t_node;
 //check if special char
 
 int				ft_is_space(const char c);
