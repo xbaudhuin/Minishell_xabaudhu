@@ -43,6 +43,7 @@
 # include <signal.h>
 # include <dirent.h>
 # include <string.h>
+# include <strings.h>
 # include <errno.h>
 //# include <stropts.h>
 //# include <termcap.h>
@@ -114,5 +115,11 @@ void			ft_token_add_back(t_token **head, t_token *new);
 t_token			*init_token(void);
 void			print_token(t_token **head);
 void			free_token(t_token **head);
+
+
+
+
+int				handle_sigquit(int ignore);
+int				handle_sigint(int new_prompt);
 
 #endif
