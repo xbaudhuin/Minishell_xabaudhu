@@ -72,15 +72,6 @@ int	main(int ac, char **av, char **main_env)
 	(void)av;
 	handle_sigquit(TRUE);
 	handle_sigint(TRUE);
-	printf("I m gonna sleep 5 seconds\n");
-	if (fork() == 0)
-	{
-		handle_sigint(FALSE);
-		handle_sigquit(FALSE);
-		execve("/bin/sleep", test, main_env);
-	}
-	wait(NULL);
-	printf("test wait\n");
 	my_env = create_env((const char **)main_env);
 	if (my_env.variables == NULL || ft_getenv("PWD", (const t_env) my_env) == NULL)
 	{
