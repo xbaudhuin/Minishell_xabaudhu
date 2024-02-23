@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_to_command.c                                 :+:      :+:    :+:   */
+/*   parse_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:15:17 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/21 15:16:25 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/23 12:47:35 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static t_is_valid_type	get_new_valid_type(const int type)
 	return (&previous_type_error);
 }
 
-int	check_token_list(const t_token **head)
+int	check_token_list(t_token **head)
 {
 	int				(*is_valid_type)(int);
 	t_token			*tmp_token;
@@ -88,5 +88,6 @@ int	check_token_list(const t_token **head)
 		ft_fprintf(2, RED "minishell: parse error near: '%s'\n" RESET, tmp_token->word);
 		return (FALSE);
 	}
+	simplify_token_list(head);
 	return (TRUE);
 }

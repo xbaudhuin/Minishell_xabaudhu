@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:36:50 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/22 20:26:32 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:17:23 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,86 +52,71 @@ static unsigned int	get_nb_pipe(const t_token *token)
 	return (nb_pipe);
 }
 
-/*static void	swap_word(t_token **redirect, t_token **word)
+static t_token	*add_back_redirect(t_command *cmd, t_token *token)
 {
-	free((*redirect)->word);
-	(*redirect)->word = (*word)->word;
-	(*word)->word = NULL;
-	(*redirect)->len_word = (*word)->len_word;
-	(*redirect)->next = (*word)->next;
-	(*word)->next->previous = (*redirect);
-	free(*word);
-}*//*
-static void	cat_redirect(t_token *redirect, t_token *word)
-{
-	free(redirect->word);
-	redirect->word = word->word;
-	word->word = NULL;
-	redirect->len_word = word->len_word;
-	redirect->next = word->next;
-	word->next->previous = redirect;
-	free(word);
+	t_token	*tmp_next;
+
+	tmp_next = token->next;
+	token->next = NULL;
+	token->previous = NULL;
+	if (tmp_next != NULL)
+		tmp_next->previous = NULL;
+	ft_token_add_back(&cmd->redirect_token, token);
+	return (tmp_next);
 }
 
-static void	add_back_redirect(t_command *cmd, t_token **token)
+static t_token	*add_back_word(t_command *cmd, t_token *token)
 {
-	t_token	*tmp;
+	t_token	*tmp_next;
 
-	tmp = *token;
-	if (tmp->type != HERE_DOC)
-		cat_redirect(tmp, tmp->next);
-	if (tmp->previous == NULL)
-	{
-		(*token) = tmp->next;
-		(*token)->previous = NULL;
-	}
-	else
-	{
-		tmp->previous->next = tmp->next;
-		tmp->next->previous = tmp->previous;
-	}
-	tmp->next = NULL;
-	tmp->previous = NULL;
-	ft_token_add_back(&cmd->redirect_token, tmp);
-}*/
-/*
-static void	add_back_word(t_command *cmd, t_token **token)
-{
-	t_token	*tmp;
-
-	tmp = *token;
-	if (tmp->previous == NULL)
-	{
-		(*token) = tmp->next;
-	}
-	else
-	{
-		tmp->previous->next = tmp->next;
-		tmp->next->previous = tmp->previous;
-	}
-	tmp->next = NULL;
-	tmp->previous = NULL;
-	ft_token_add_back(&cmd->token, tmp);
+	tmp_next = token->next;
+	token->next = NULL;
+	token->previous = NULL;
+	if (tmp_next != NULL)
+		tmp_next->previous = NULL;
+	ft_token_add_back(&cmd->token, token);
+	return (tmp_next);
 }
-*/
 
-t_command	*init_command_array(const int nb_cmd)
+static t_token	*remove_pipe(t_token *pipe)
 {
-	t_command	*cmd;
+	t_token	*next_token;
 
-	cmd = ft_calloc(sizeof(t_command), nb_cmd + 1);
+	next_token = pipe->next;
+	if (next_token != NULL)
+		next_token->previous = NULL;
+	ft_del_token(pipe);
+	return (next_token);
+}
+
+t_command	**init_command_array(const int nb_cmd)
+{
+	t_command		**cmd;
+	int	i;
+
+	i = 0;
+	cmd = ft_calloc(sizeof(t_command *), nb_cmd + 1);
 	if (cmd == NULL)
 		return (NULL);
+	while (i < nb_cmd)
+	{
+		cmd[i] = malloc(sizeof(t_command));
+		if (cmd[i] == NULL)
+			return (free_t_command(cmd), NULL);
+		cmd[i]->token = NULL;
+		cmd[i]->argv = NULL;
+		cmd[i]->redirect_token = NULL;
+		i++;
+	}
 	return (cmd);
 }
 
-t_command	*create_command_array(t_token *token, int *error)
+t_command	**create_command_array(t_token *token, int *error)
 {
-	t_command		*cmd;
+	t_command		**cmd;
 	unsigned int	nb_cmd;
 	unsigned int	i;
 	t_token			*tmp;
-	t_token			*next_tmp;
 
 	if (token == NULL)
 		return (NULL);
@@ -149,39 +134,16 @@ t_command	*create_command_array(t_token *token, int *error)
 	{
 		if (tmp->type == PIPE)
 		{
-			tmp = tmp->next;
+			tmp = remove_pipe(tmp);
 			i++;
 		}
 		else if (is_redirect_token(tmp->type) == TRUE)
 		{
-			next_tmp = tmp->next->next;
-			if (tmp->previous != NULL)
-				tmp->previous->next = next_tmp;
-			if (next_tmp != NULL)
-				next_tmp->previous = tmp->previous;
-			tmp->previous = NULL;
-			free(tmp->word);
-			tmp->word = tmp->next->word;
-			tmp->next->word = NULL;
-			ft_del_token(tmp->next);
-			if (cmd[i].redirect_token == NULL)
-				cmd[i].redirect_token = tmp;
-			else
-				ft_token_add_back(&cmd[i].redirect_token, tmp);
-			tmp = next_tmp;
+			tmp = add_back_redirect(cmd[i], tmp);
 		}
 		else if (tmp->type == WORD)
 		{
-			next_tmp = tmp;
-			while (next_tmp != NULL && is_word_token(next_tmp->type) == TRUE)
-				next_tmp = next_tmp->next;
-			if (next_tmp != NULL)
-				next_tmp->previous = NULL;
-			if (cmd[i].token == NULL)
-				cmd[i].token = tmp;
-			else
-				ft_token_add_back(&cmd[i].token, tmp);
-			tmp = next_tmp;
+			tmp = add_back_word(cmd[i], tmp);
 		}
 	}
 	cmd[nb_cmd] = NULL;

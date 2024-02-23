@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/22 20:24:51 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:37:28 by xabaudhu         ###   ########.fr       */
 /*   Updated: 2024/02/13 18:22:42 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -108,7 +108,7 @@ typedef struct s_command
 
 typedef struct s_node
 {
-	t_command		*cmd;
+	t_command		**cmd;
 	int				exit_status;
 	int				type;
 	struct s_node	*left_node;
@@ -141,8 +141,9 @@ int				previous_operator_token(const int type);
 int				previous_parenthesis_close_token(const int type);
 int				previous_type_error(const int type);
 
-int				check_token_list(const t_token **head);
-t_command		*create_command_array(t_token *token, int *error);
+int				check_token_list(t_token **head);
+void			simplify_token_list(t_token **head);
+t_command		**create_command_array(t_token *token, int *error);
 t_node			*create_node(t_token **head, int type, int *error);
 int				create_tree(t_token **head, t_node **node, int *error);
 void			free_tree(t_node **root);

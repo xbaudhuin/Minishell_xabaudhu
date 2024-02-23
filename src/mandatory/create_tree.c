@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:33:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/22 17:48:04 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:09:50 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,18 @@ int	get_type_node(t_token *operator)
 		return (NODE_OR);
 	return (NODE_LEAF);
 }
+/*
+static t_token	*get_fist_token(t_token *token)
+{
+	t_token *tmp;
+
+	tmp = token;
+	while (token->previous != NULL)
+	{
+		token = token->previous;
+	}
+	return (tmp);
+}*/
 
 int	create_tree(t_token **head, t_node **node, int *error)
 {
@@ -68,7 +80,7 @@ int	create_tree(t_token **head, t_node **node, int *error)
 	if (operator == NULL)
 	{
 		*node = create_node(head, NODE_LEAF, error);
-		if (error != 0)
+		if (*error != 0)
 			return (FAILURE);
 		return (SUCCESS);
 	}
@@ -85,11 +97,11 @@ int	create_tree(t_token **head, t_node **node, int *error)
 		operator->next = NULL;
 	}
 	*node = create_node(&operator, get_type_node(operator), error);
-	if (right_node_token != NULL)
-	{
-		create_tree(&left_node_token, &(*node)->left_node, error);
-	}
 	if (left_node_token != NULL)
+	{
+		create_tree(head, &(*node)->left_node, error);
+	}
+	if (right_node_token != NULL)
 	{
 		create_tree(&right_node_token, &(*node)->right_node, error);
 	}

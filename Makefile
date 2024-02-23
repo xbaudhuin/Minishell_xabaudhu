@@ -54,7 +54,8 @@ SRCS			=	mandatory/read_line.c \
 					mandatory/parse_token.c \
 					mandatory/t_command.c \
 					mandatory/create_node.c \
-					mandatory/create_tree.c
+					mandatory/create_tree.c \
+					mandatory/simplify_token_list.c
 
 SRCS_BONUS		=	\
 
@@ -87,7 +88,6 @@ ${LIBFT}:
 
 ${TXT}:
 		@echo "-Ilibft/include\n-Iinclude/" > compile_flags.txt
-		@echo "-I../../libft/include\n-I../../include/" > src/bonus/compile_flags.txt
 		@echo "-I../../libft/include\n-I../../include/" > src/mandatory/compile_flags.txt
 
 clean:
