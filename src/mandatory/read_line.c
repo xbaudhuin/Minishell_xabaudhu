@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:34:58 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/16 12:30:15 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:52:07 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,44 +24,6 @@
 
 //character special () && || | $ * "" '' $? >> > << < 'espace outside quotes'
 // dollar seul = '$'
-
-/*static void	init_flag(t_flag *flag)
-{
-	flag->double_quotes = FALSE;
-	flag->simple_quotes = FALSE;
-	flag->parenthesis_open = FALSE;
-	flag->parenthesis_close = FALSE;
-	flag->operator = TRUE;
-	flag->redirection = FALSE;
-}*/
-/*
-int	fill_token(const char *buf, t_token **head, t_flag *flag)
-{
-	t_token		*token;
-	unsigned int	i;
-
-	i = 0;
-	if (is_parenthesis(buf[i], flag) == TRUE)
-	{
-		token = token_parenthesis(buf[i], flag);
-	}
-	else if (is_quotes(buf[i], flag) == TRUE)
-	{
-		token = token_quotes(&buf[i], buf[i], flag);
-	}
-	else if (is_operator(buf[i], flag) == TRUE)
-	{
-		token = token_operator(&buf[i], buf[i], flag);
-	}
-	else if (is_redirection(buf[i]) == TRUE)
-	{
-		token = token_redirection(&buf[i], buf[i], flag);
-	}
-	else if (is_)
-
-
-}
-*/
 
 int	get_type_token(const char c)
 {
@@ -90,51 +52,14 @@ char	*smart_tokenndup(const char *buf, const unsigned int len_buf, t_token *toke
 	i = 0;
 	j = 0;
 	quotes = '\0';
-	word = malloc(sizeof(*word) * (token->len_word + 1));
+	word = malloc(sizeof(*word) * (len_buf + 1));
 	if (!word)
 		return (NULL);
 	while (i < len_buf)
 	{
-		if (is_quotes(buf[i]))
-		{
-			if (quotes == '\0')
-			{
-				quotes = buf[i];
-				i++;
-			}
-			else if (quotes == buf[i])
-			{
-				quotes = '\0';
-				i++;
-			}
-			else
-			{
-				word[j] = buf[i];
-				i++;
-				j++;
-			}
-		}/*
-		else if (buf[i] == '$')
-		{
-			if (quotes == '\0' || quotes == '"')
-			{
-				while (buf[i] && buf[i] != ' ')
-				{
-					word[j] = buf[i];
-					j++;
-					i++;
-				}
-				word[j] = '\\';
-				j++;
-			}
-			else
-		}*/
-		else
-		{
-			word[j] = buf[i];
-			i++;
-			j++;
-		}
+		word[j] = buf[i];
+		i++;
+		j++;
 	}
 	word[j] = '\0';
 	token->len_word = j;
@@ -143,19 +68,21 @@ char	*smart_tokenndup(const char *buf, const unsigned int len_buf, t_token *toke
 	return (word);
 }
 
-int	go_to_next_quotes(const char *buf, unsigned int *add_special)
+int	go_to_next_quotes(const char *buf, int *flag_quotes)
 {
 	unsigned int	i;
 	char			quotes;
 
 	i = 0;
 	quotes = buf[i];
-	i++;
-	while (buf[i] && buf[i] != quotes)
+	while (buf[i])
 	{
-		if (buf[i] == '$' || buf[i] == '\\')
-			*add_special += 1;
 		i++;
+		if (buf[i] == quotes)
+		{
+			*flag_quotes -= 1;
+			break ;
+		}
 	}
 	return (i);
 }
@@ -163,24 +90,26 @@ int	go_to_next_quotes(const char *buf, unsigned int *add_special)
 int	fill_token(const char *buf, t_token *token, unsigned int *index_buf)
 {
 	unsigned int	i;
-	unsigned int	add_special;
+	int				flag_quotes;
 
 	i = 0;
-	add_special = 0;
+	flag_quotes = 0;
 	while (buf[i])
 	{
 		if (i >= 1 && (token->type == PARENTHESIS_CLOSE || token->type == PARENTHESIS_OPEN))
 			break ;
-		if (get_type_token(buf[i]) != token->type || buf[i] == ' ')
+		if (get_type_token(buf[i]) != token->type || ft_is_space(buf[i]) == TRUE)
 			break ;
 		if (is_quotes(buf[i]))
-			i += go_to_next_quotes(&buf[i], &add_special);
-		if (buf[i] == '$' || buf[i] == '\\')
-			add_special++;
+		{
+			flag_quotes++;
+			i += go_to_next_quotes(&buf[i], &flag_quotes);
+		}
 		i++;
 	}
+	if (flag_quotes >= 1)
+		token->type = ERROR;
 	*index_buf += i;
-	token->len_word = i + add_special;
 	token->word = smart_tokenndup(buf, i, token);
 	if (token->word == NULL)
 		return (FAILURE);
@@ -267,7 +196,11 @@ void	ft_readline(void)
 {
 	char	*buf;
 	t_token	*head;
+	t_node	*root;
+	int		error;
 
+	error = 0;
+	head = NULL;
 	while (1)
 	{
 		buf =  readline("minishell> ");
@@ -275,14 +208,57 @@ void	ft_readline(void)
 			return ;
 		if (ft_strlen(buf) > 0)
 			add_history(buf);
+		if (ft_strncmp(buf, "exit", 5) == 0)
+		{
+			free(buf);
+			break ;
+		}
 		parse_to_token(buf, &head);
-		print_token(&head);
-		free_token(&head);
+		if (head != NULL && check_token_list(&head) == TRUE)
+		{
+			print_token(&head);
+			create_tree(&head, &root, &error);
+			print_tree(&root, 0);
+		}
+		free_tree(&root);
+		head = NULL;
+		root = NULL;
 		free(buf);
 	}
 	rl_clear_history();
 }
+/*
+void	ft_readline2(int ac, char **av)
+{
+	t_token	*head;
+	t_node	*root;
+	int		error;
+	int i = 1;
 
+	error = 0;
+	head = NULL;
+	while (i < ac)
+	{
+		if (ft_strncmp(av[i], "exit", 5) == 0)
+		{
+			break ;
+		}
+		parse_to_token(av[i], &head);
+		if (head != NULL && check_token_list(&head) == TRUE)
+		{
+			print_token(&head);
+			create_tree(&head, &root, &error);
+			print_tree(&root, 0);
+		}
+		free_tree(&root);
+		if (head != NULL)
+		ft_del_
+		head = NULL;
+		root = NULL;
+		i++;
+	}
+}
+*/
 int main(int ac, char **av)
 {
 	(void)ac;

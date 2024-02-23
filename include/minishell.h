@@ -6,8 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/22 18:45:16 by xabaudhu         ###   ########.fr       */
-/*   Updated: 2024/02/13 18:22:42 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/23 17:51:10 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +107,6 @@ typedef struct s_command
 	t_token	*token;
 	char	**argv;
 	t_token	*redirect_token;
-	int		infile;
-	int		outfile;
 }			t_command;
 
 typedef struct s_node
@@ -121,8 +118,8 @@ typedef struct s_node
 	struct s_node	*right_node;
 	struct s_node	*parent_node;
 }			t_node;
-//check if special char
 
+//check if special char
 int				ft_is_space(const char c);
 unsigned int	skip_spaces(const char *buf);
 int				is_quotes(const char c);
@@ -133,11 +130,31 @@ void			ft_token_add_back(t_token **head, t_token *new);
 t_token			*init_token(void);
 void			print_token(t_token **head);
 void			free_token(t_token **head);
+void			ft_del_token(t_token *token);
 
 
-
+//Handle signal
 
 int				handle_sigquit(int ignore);
 int				handle_sigint(int new_prompt);
+
+int				is_word_token(int type);
+int				is_operator_token(int type);
+int				is_parenthesis_token(const int type);
+int				is_redirect_token(int type);
+int				early_valid_type(int type);
+int				previous_word_token(const int type);
+int				previous_operator_token(const int type);
+int				previous_parenthesis_close_token(const int type);
+int				previous_type_error(const int type);
+
+int				check_token_list(t_token **head);
+void			simplify_token_list(t_token **head);
+t_command		**create_command_array(t_token *token, int *error);
+t_node			*create_node(t_token **head, int type, int *error);
+int				create_tree(t_token **head, t_node **node, int *error);
+void			free_tree(t_node **root);
+void			free_t_command(t_command **cmd);
+void			print_tree(t_node **root, int id);
 
 #endif
