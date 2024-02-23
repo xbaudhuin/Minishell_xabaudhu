@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:33:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 15:09:50 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/23 19:30:24 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static t_token	*get_next_prio_operator(t_token **head)
 	return (operator);
 }
 
-int	get_type_node(t_token *operator)
+static int	get_type_node(t_token *operator)
 {
 	if (operator->type == AND)
 		return (NODE_AND);
@@ -51,18 +51,24 @@ int	get_type_node(t_token *operator)
 		return (NODE_OR);
 	return (NODE_LEAF);
 }
-/*
-static t_token	*get_fist_token(t_token *token)
-{
-	t_token *tmp;
 
-	tmp = token;
-	while (token->previous != NULL)
+void	break_list(t_token *operator, t_token **left_t, t_token **right_t)
+{
+	*left_t = NULL;
+	*right_t = NULL;
+	if (operator->previous != NULL)
 	{
-		token = token->previous;
+		*left_t = operator->previous;
+		(*left_t)->next = NULL;
+		operator->previous = NULL;
 	}
-	return (tmp);
-}*/
+	if (operator->next != NULL)
+	{
+		*right_t = operator->next;
+		(*right_t)->previous = NULL;
+		operator->next = NULL;
+	}
+}
 
 int	create_tree(t_token **head, t_node **node, int *error)
 {
@@ -74,8 +80,6 @@ int	create_tree(t_token **head, t_node **node, int *error)
 		return (SUCCESS);
 	if (*error != 0)
 		return (FAILURE);
-	left_node_token = NULL;
-	right_node_token = NULL;
 	operator = get_next_prio_operator(head);
 	if (operator == NULL)
 	{
@@ -84,27 +88,10 @@ int	create_tree(t_token **head, t_node **node, int *error)
 			return (FAILURE);
 		return (SUCCESS);
 	}
-	if (operator->previous != NULL)
-	{
-		left_node_token = operator->previous;
-		left_node_token->next = NULL;
-		operator->previous = NULL;
-	}
-	if (operator->next != NULL)
-	{
-		right_node_token = operator->next;
-		right_node_token->previous = NULL;
-		operator->next = NULL;
-	}
+	break_list(operator, &left_node_token, &right_node_token);
 	*node = create_node(&operator, get_type_node(operator), error);
-	if (left_node_token != NULL)
-	{
-		create_tree(head, &(*node)->left_node, error);
-	}
-	if (right_node_token != NULL)
-	{
-		create_tree(&right_node_token, &(*node)->right_node, error);
-	}
+	create_tree(head, &(*node)->left_node, error);
+	create_tree(&right_node_token, &(*node)->right_node, error);
 	free_token(&operator);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 17:51:10 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/23 19:14:08 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,8 @@ void			print_token(t_token **head);
 void			free_token(t_token **head);
 void			ft_del_token(t_token *token);
 
-
+//error_handling
+void			ft_parse_error(const char *message);
 //Handle signal
 
 int				handle_sigquit(int ignore);

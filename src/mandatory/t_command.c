@@ -6,35 +6,12 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:36:50 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 14:17:23 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/23 18:54:34 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include <stdio.h>
-
-void	free_t_command(t_command **cmd)
-{
-	unsigned int	i;
-
-	i = 0;
-	if (cmd == NULL)
-		return ;
-	if (*cmd == NULL)
-	{
-		free(cmd);
-		return ;
-	}
-	while (cmd[i])
-	{
-		free_token(&cmd[i]->redirect_token);
-		free_token(&cmd[i]->token);
-		free(cmd[i]);
-		i++;
-	}
-	free(cmd);
-}
 
 static unsigned int	get_nb_pipe(const t_token *token)
 {

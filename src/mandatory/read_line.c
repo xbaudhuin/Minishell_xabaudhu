@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:34:58 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 14:52:07 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/23 19:39:49 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@
 #include <readline/history.h>
 #include "ft_printf.h"
 #include "string.h"
-//read_line rl_clear_history rl_on_new_line
-//rl_replace_line rl_redisplay, add_history
-
-
-//character special () && || | $ * "" '' $? >> > << < 'espace outside quotes'
-// dollar seul = '$'
 
 int	get_type_token(const char c)
 {
