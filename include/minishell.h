@@ -105,8 +105,10 @@ typedef struct s_token
 typedef struct s_command
 {
 	t_token	*token;
+	char	**argv;
 	t_token	*redirect_token;
-
+	int		infile;
+	int		outfile;
 }			t_command;
 
 typedef struct s_node
