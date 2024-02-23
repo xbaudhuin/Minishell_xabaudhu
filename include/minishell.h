@@ -17,6 +17,7 @@
 # include "libft.h"
 # include "environment.h"
 # include "builtins.h"
+# include "exec.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
 
