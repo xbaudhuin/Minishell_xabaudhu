@@ -13,6 +13,7 @@
 #ifndef EXEC_H
 # define EXEC_H
 
+# define INVALID_FD -1
 # define TTY -2
 
 

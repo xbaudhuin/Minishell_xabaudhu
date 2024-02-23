@@ -22,16 +22,10 @@ int	main(int ac, char **av, char **env)
 	(void)env;
 	(void)av;
 	pipe(pipe_fd);
-	int make_fd = open("Makefile", O_RDONLY);
-	fstat(make_fd, &buf_stat);
-	printf("st_size du Makefile en octets = %ld\n", buf_stat.st_size);
-	fstat(pipe_fd[0], &buf_stat);
-	printf("st_size du pipe_fd en octets = %ld\n", buf_stat.st_size);
 	write(pipe_fd[1], buf, strlen(buf));
 	close (pipe_fd[1]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
-	close (make_fd);
-	//execve(av[1], av + 1, env);
+	execve(av[1], av + 1, env);
 	return (strlen(buf));
 }

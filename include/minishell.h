@@ -106,6 +106,8 @@ typedef struct s_command
 {
 	t_token	*token;
 	char	**argv;
+	int		infile;
+	int		outfile;
 	t_token	*redirect_token;
 }			t_command;
 

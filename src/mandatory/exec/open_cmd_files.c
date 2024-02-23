@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "exec.h"
 
 int	open_cmd_infile(t_token *redir_token)
 {
@@ -19,7 +18,8 @@ int	open_cmd_infile(t_token *redir_token)
 	char	*path;
 
 	path = redir_token->word;
-	if (infile_fd == - 1)
+	infile_fd = open(path, O_RDONLY);
+	if (infile_fd == INVALID_FD)
 	{
 		ft_fprintf(2, "minishel: %s :%s\n", path, strerror(errno));
 	}
@@ -31,6 +31,35 @@ int	open_cmd_infile(t_token *redir_token)
 	else
 	{
 		return (infile_fd);
+	}
+}
+
+int	open_cmd_infile(t_token *redir_token)
+{
+	int		outfile_fd;
+	char	*path;
+
+	path = redir_token->word;
+	if (redir_token->type == REDIRECT_OUT)
+	{
+		outfile_fd = open(path, O_CREAT | O_TRUNC, 0644);
+	}
+	else
+	{
+		outfile_fd = open(path, O_CREAT | O_APPEND, 0644);
+	}
+	if (outfile_fd == INVALID_FD)
+	{
+		ft_fprintf(2, "minishel: %s :%s\n", path, strerror(errno));
+	}
+	if (isatty(outfile_fd) == SUCCESS)
+	{
+		close(outfile_fd);
+		return (TTY);
+	}
+	else
+	{
+		return (outfile_fd);
 	}
 }
 
@@ -46,7 +75,14 @@ int	open_cmd_files(t_command *cmd)
 	{
 		if (tmp_redir_token->type = REDIRECT_IN)
 		{
-			tmp_fd = open_cmd_infile(tmp_redir_token)
+			tmp_fd = open_cmd_infile(tmp_redir_token);
+			if (tmp_fd != TTY)
+			{
+				if (cmd->infile != INVALID_FD)
+					close(cmd->infile);
+				cmd->infile = tmp_fd;
+			}
 		}
+		tmp_redir_token = tmp_redir_token->next;
 	}
 }
