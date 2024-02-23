@@ -13,6 +13,7 @@
 #ifndef EXEC_H
 # define EXEC_H
 
+# define TTY -2
 
 
 #endif
