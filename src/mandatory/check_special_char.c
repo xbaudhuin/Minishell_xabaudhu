@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:22:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/15 19:15:24 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/24 18:16:50 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ int	is_portable_char(const char c)
 int	is_end_dollar_char(const char c)
 {
 	if (ft_isalnum(c) == 1)
-		return (FALSE);
+		return (TRUE);
 	if (c == '_')
-		return (FALSE);
-	return (TRUE);
+		return (TRUE);
+	return (FALSE);
 }

@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 19:14:08 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/25 12:06:31 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,9 @@ enum e_type_token
 	OR = 6,
 	REDIRECT_IN = 7,
 	HERE_DOC = 8,
-	REDIRECT_OUT = 9,
-	APPEND_OUT = 10,
+	HERE_DOC_NO_EXPAND = 9,
+	REDIRECT_OUT = 10,
+	APPEND_OUT = 11,
 };
 
 typedef int (*t_is_valid_type)(int);
@@ -130,7 +131,11 @@ t_token			*init_token(void);
 void			print_token(t_token **head);
 void			free_token(t_token **head);
 void			ft_del_token(t_token *token);
+//Here_doc
 
+int	is_here_doc(const int previous_type, const int current_type);
+void	do_here_doc(t_token *here_doc, t_token **head);
+unsigned int	go_to_next_quotes(const char *str, char quotes);
 //error_handling
 void			ft_parse_error(const char *message);
 //Handle signal

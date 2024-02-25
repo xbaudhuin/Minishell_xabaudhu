@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:34:58 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 19:39:49 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/24 16:03:00 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,8 +164,10 @@ t_token	**parse_to_token(const char *buf, t_token **head)
 {
 	unsigned int	i;
 	t_token			*token;
+	int				previous_type;
 
 	i = 0;
+	previous_type = ERROR;
 	while (buf[i])
 	{
 		i += skip_spaces(&buf[i]);
@@ -182,6 +184,13 @@ t_token	**parse_to_token(const char *buf, t_token **head)
 			return (NULL);
 		}
 		ft_token_add_back(head, token);
+		if (is_here_doc(previous_type, token->type) == TRUE)
+		{
+			previous_type = ERROR;
+			do_here_doc(token, head);
+		}
+		else
+			previous_type = token->type;
 	}
 	return (head);
 }
