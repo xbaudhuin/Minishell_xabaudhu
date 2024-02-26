@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:48:00 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 15:19:08 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:28:10 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token	*concatenate_redirect_token(t_token **head, t_token *token_redirect)
 {
 	t_token	*next;
 
-	if (token_redirect->type == HERE_DOC)
+	if (token_redirect->type == HERE_DOC || token_redirect->type == HERE_DOC_NO_EXPAND)
 		return (token_redirect->next);
 	next = token_redirect->next->next;
 	if (token_redirect->previous == NULL)

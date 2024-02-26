@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:34:58 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/24 16:03:00 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:48:47 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*smart_tokenndup(const char *buf, const unsigned int len_buf, t_token *toke
 	return (word);
 }
 
-int	go_to_next_quotes(const char *buf, int *flag_quotes)
+unsigned int	go_to_next_quotes_index(const char *buf, int *flag_quotes)
 {
 	unsigned int	i;
 	char			quotes;
@@ -97,7 +97,7 @@ int	fill_token(const char *buf, t_token *token, unsigned int *index_buf)
 		if (is_quotes(buf[i]))
 		{
 			flag_quotes++;
-			i += go_to_next_quotes(&buf[i], &flag_quotes);
+			i += go_to_next_quotes_index(&buf[i], &flag_quotes);
 		}
 		i++;
 	}
@@ -147,7 +147,7 @@ t_token	*get_current_token(const char *buf, unsigned int *index_buf)
 
 	i = 0;
 	token = init_token();
-	if (!token)
+	if (token == NULL)
 		return (NULL);
 	token->type = get_type_token(buf[i]);
 	if (fill_token(buf, token, index_buf) == FAILURE)
@@ -172,7 +172,7 @@ t_token	**parse_to_token(const char *buf, t_token **head)
 	{
 		i += skip_spaces(&buf[i]);
 		token = get_current_token(&buf[i], &i);
-		if (!token)
+		if (token == NULL)
 		{
 			free_token(head);
 			return (NULL);
@@ -180,6 +180,7 @@ t_token	**parse_to_token(const char *buf, t_token **head)
 		if (token->type == ERROR)
 		{
 			ft_fprintf(2, RED "minishell: syntax error near unexpected token %s\n" RESET, token->word);
+			ft_del_token(token);
 			free_token(head);
 			return (NULL);
 		}
@@ -204,6 +205,7 @@ void	ft_readline(void)
 
 	error = 0;
 	head = NULL;
+	root = NULL;
 	while (1)
 	{
 		buf =  readline("minishell> ");

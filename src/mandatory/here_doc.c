@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 12:30:55 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/25 12:32:58 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:15:08 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,10 @@ void	do_here_doc(t_token *here_doc, t_token **head)
 	if (head == NULL || *head == NULL || here_doc->word == NULL)
 		return ;
 	here_doc_handle_list(here_doc, head);
+	if (ft_strchr(here_doc->word, '\'') == NULL && ft_strchr(here_doc->word, '"') == NULL)
+		here_doc->type = HERE_DOC;
+	else
+		here_doc->type = HERE_DOC_NO_EXPAND;
 	limiter = get_limiter(here_doc);
 	if (limiter == NULL)
 		return ;

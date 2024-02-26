@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:15:17 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 19:16:28 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:10:47 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ static int	check_lasttoken(const int type, int flag, int (*is_valid_type)(int))
 	if (type == PARENTHESIS_CLOSE)
 		return (TRUE);
 	if (is_word_token(type) == TRUE)
+		return (TRUE);
+	if (type == HERE_DOC)
+		return (TRUE);
+	if (type == HERE_DOC_NO_EXPAND)
 		return (TRUE);
 	return (FALSE);
 }

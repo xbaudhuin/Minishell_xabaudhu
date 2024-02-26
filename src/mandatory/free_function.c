@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:54:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 18:55:54 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/26 19:47:46 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	free_t_command(t_command **cmd)
 		free_token(&cmd[i]->redirect_token);
 		free_token(&cmd[i]->token);
 		free(cmd[i]);
+		cmd[i] = NULL;
 		i++;
 	}
 	free(cmd);
@@ -41,6 +42,7 @@ void	ft_del_token(t_token *token)
 		if (token->word != NULL)
 			free(token->word);
 		free(token);
+		token = NULL;
 	}
 }
 
@@ -74,8 +76,13 @@ void	free_tree(t_node **root)
 {
 	if (root == NULL || *root == NULL)
 		return ;
-	free_t_command((*root)->cmd);
+	if ((*root)->cmd != NULL)
+		free_t_command((*root)->cmd);
+	(*root)->cmd = NULL;
 	free_tree(&(*root)->right_node);
+	(*root)->right_node = NULL;
 	free_tree(&(*root)->left_node);
+	(*root)->left_node = NULL;
 	free((*root));
+	*root = NULL;
 }

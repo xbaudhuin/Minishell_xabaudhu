@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:51:02 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/19 15:52:22 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:26:05 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	is_redirect_token(const int type)
 	if (type == REDIRECT_IN)
 		return (TRUE);
 	if (type == HERE_DOC)
+		return (TRUE);
+	if (type == HERE_DOC_NO_EXPAND)
 		return (TRUE);
 	if (type == REDIRECT_OUT)
 		return (TRUE);

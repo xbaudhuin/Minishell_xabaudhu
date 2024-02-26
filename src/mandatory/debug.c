@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:42:19 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 18:50:29 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/26 12:44:47 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static char	*get_type(const int type)
 		return ("REDIRECT_IN");
 	if (type == HERE_DOC)
 		return ("HERE_DOC");
+	if (type == HERE_DOC_NO_EXPAND)
+		return ("HERE_DOC_NO_EXPAND");
 	if (type == REDIRECT_OUT)
 		return ("REDIRECT_OUT");
 	if (type == APPEND_OUT)
