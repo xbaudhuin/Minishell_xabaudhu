@@ -11,3 +11,13 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	launch_cmd(t_command *cmd, t_env *env)
+{
+	if (open_cmd_files == FAILURE)
+	{
+		env->exit_status = FAILURE;
+		end_process
+	}
+
+}

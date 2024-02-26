@@ -109,7 +109,7 @@ static int	get_fd(t_token *redir_token, int old_fd, int redir_type)
 	}
 }
 
-void	open_cmd_files(t_command *cmd)
+int	open_cmd_files(t_command *cmd)
 {
 	t_token	*tmp_redir_token;
 	int		redir_type;
@@ -132,6 +132,9 @@ void	open_cmd_files(t_command *cmd)
 		{
 			cmd->infile = get_fd(tmp_redir_token, cmd->infile, redir_type);
 		}
+		if (cmd->infile == INVALID_FD || cmd->outfile == INVALID_FD)
+			return (FAILURE);
 		tmp_redir_token = tmp_redir_token->next;
 	}
+	return (SUCCESS);
 }
