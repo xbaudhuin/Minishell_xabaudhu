@@ -45,6 +45,7 @@ static int	add_variable(const char *arg, char *name, t_env *env)
 	if (exit_status != SUCCESS)
 	{
 		free(name);
+		ft_fprintf(2, RED"Fail malloc in export builtin\n"RESET);
 		return (exit_status);
 	}
 	var_num = 0;

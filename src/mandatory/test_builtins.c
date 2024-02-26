@@ -38,27 +38,61 @@ int	launch_cmd(const char **argv, t_env *my_env, int buildin_type)
 
 void	read_cmd_line(t_env *my_env)
 {
-	char	*line;
-	char	**argv_cmd;
-	int		buildin_type;
+	// char	*line;
+	// char	**argv_cmd;
+	// int		buildin_type;
 	
+	// while (1)
+	// {
+	// 	line = readline("minishell> ");
+	// 	if (!line)
+	// 		break ;
+	// 	if (ft_strlen(line) > 0)
+	// 		add_history((const char *)line);
+	// 	argv_cmd = ft_split(line, ' ');
+	// 	if (argv_cmd == NULL)
+	// 	{
+	// 		free(line);
+	// 		break ;
+	// 	}
+	// 	free(line);
+	// 	buildin_type = is_builtin((const char **)argv_cmd);
+	// 	my_env->exit_status = launch_cmd((const char **)argv_cmd, my_env, buildin_type);
+	// 	free_split(argv_cmd);
+	// }
+	// rl_clear_history();
+	char	*buf;
+	t_token	*head;
+	t_node	*root;
+	int		error;
+
+	error = 0;
+	head = NULL;
+	(void)my_env;
 	while (1)
 	{
-		line = readline("minishell> ");
-		if (!line)
-			break ;
-		if (ft_strlen(line) > 0)
-			add_history((const char *)line);
-		argv_cmd = ft_split(line, ' ');
-		if (argv_cmd == NULL)
+		buf =  readline("minishell> ");
+		if (!buf)
+			return ;
+		if (ft_strlen(buf) > 0)
+			add_history(buf);
+		if (ft_strncmp(buf, "exit", 5) == 0)
 		{
-			free(line);
+			free(buf);
 			break ;
 		}
-		free(line);
-		buildin_type = is_builtin((const char **)argv_cmd);
-		my_env->exit_status = launch_cmd((const char **)argv_cmd, my_env, buildin_type);
-		free_split(argv_cmd);
+		parse_to_token(buf, &head);
+		if (head != NULL && check_token_list(&head) == TRUE)
+		{
+			//print_token(&head);
+			create_tree(&head, &root, &error);
+			//print_tree(&root, 0);
+		}
+		open_cmd_files(root->cmd[0]);
+		free_tree(&root);
+		head = NULL;
+		root = NULL;
+		free(buf);
 	}
 	rl_clear_history();
 }
@@ -66,12 +100,13 @@ void	read_cmd_line(t_env *my_env)
 int	main(int ac, char **av, char **main_env)
 {
 	t_env	my_env;
-	char	*test[] = {"/bin/sleep", "5" ,NULL};
+	//char	*test[] = {"/bin/sleep", "5" ,NULL};
 
 	(void)ac;
 	(void)av;
 	handle_sigquit(TRUE);
 	handle_sigint(TRUE);
+	printf("tty result : %d\n", isatty(-1));
 	my_env = create_env((const char **)main_env);
 	if (my_env.variables == NULL || ft_getenv("PWD", (const t_env) my_env) == NULL)
 	{

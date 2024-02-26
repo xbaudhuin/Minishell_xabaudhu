@@ -16,7 +16,6 @@
 # include "libft.h"
 # include "environment.h"
 # include "builtins.h"
-# include "exec.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
 
@@ -24,7 +23,7 @@
 #define RED "\x1B[31m"
 #define GRN  "\x1B[32m"
 #define YEL  "\x1B[33m"
-#define BLU  "\x1B[34m"
+#define BLU  "\x1B[37m"
 #define MAG  "\x1B[35m"
 #define CYN  "\x1B[36m"
 #define WHT  "\x1B[37m"
@@ -121,6 +120,8 @@ typedef struct s_node
 	struct s_node	*parent_node;
 }			t_node;
 
+# include "exec.h"
+
 //check if special char
 int				ft_is_space(const char c);
 unsigned int	skip_spaces(const char *buf);
@@ -158,5 +159,6 @@ int				create_tree(t_token **head, t_node **node, int *error);
 void			free_tree(t_node **root);
 void			free_t_command(t_command **cmd);
 void			print_tree(t_node **root, int id);
+t_token			**parse_to_token(const char *buf, t_token **head);
 
 #endif

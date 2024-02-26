@@ -41,7 +41,7 @@ static void	add_pwd(t_env new_env)
 	char	*pwd_str;
 	char	*env_result;
 
-	if (is_pwd_exist() == FALSE)
+	if (is_pwd_exist() == FALSE && new_env.variables != NULL)
 	{
 		env_result = getcwd(NULL, 0);
 		pwd_str = ft_strjoin("PWD=", env_result);
@@ -74,6 +74,7 @@ static char	**create_env_var(const char **main_env, size_t malloc_size)
 	return (env_variables);
 }
 
+//ajouter protection sur add pwd en cas de fail MALLOC
 t_env	create_env(const char **main_env)
 {
 	t_env	new_env;
