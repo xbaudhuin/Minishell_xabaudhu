@@ -16,5 +16,6 @@
 # define INVALID_FD -1
 # define TTY -2
 
+void	open_cmd_files(t_command *cmd);
 
 #endif

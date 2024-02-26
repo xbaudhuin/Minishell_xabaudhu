@@ -28,6 +28,10 @@ void	free_t_command(t_command **cmd)
 	}
 	while (cmd[i])
 	{
+		if (cmd[i]->infile != -1 && cmd[i]->infile != STDIN_FILENO)
+			close(cmd[i]->infile);
+		if (cmd[i]->outfile != -1 && cmd[i]->outfile != STDOUT_FILENO)
+			close(cmd[i]->outfile);
 		free_token(&cmd[i]->redirect_token);
 		free_token(&cmd[i]->token);
 		free(cmd[i]);

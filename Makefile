@@ -89,6 +89,19 @@ SRCS_EXEC		=	mandatory/environment/free_env.c \
 					mandatory/test_builtins.c \
 					mandatory/signals/quit_signal.c \
 					mandatory/signals/int_signal.c \
+					mandatory/exec/open_cmd_files.c \
+					mandatory/read_line.c \
+					mandatory/check_special_char2.c \
+					mandatory/check_special_char.c \
+					mandatory/token_add_back.c \
+					mandatory/is_token.c \
+					mandatory/previous_token.c \
+					mandatory/parse_token.c \
+					mandatory/t_command.c \
+					mandatory/create_node.c \
+					mandatory/create_tree.c \
+					mandatory/simplify_token_list.c
+
 
 
 OBJS_EXEC		=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o})
