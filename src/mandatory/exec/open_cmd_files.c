@@ -40,7 +40,7 @@ static int	open_cmd_here_doc(t_token *redir_toen)
 	int		pipe_fd[2];
 	char	*here_doc_content;
 
-	here_doc_content = redir_toen->word; 
+	here_doc_content = redir_toen->word;
 	if (pipe(pipe_fd) == -1)
 	{
 		ft_fprintf(2, "minishell: here doc :%s\n", strerror(errno));
@@ -72,8 +72,7 @@ static int	open_cmd_outfile(t_token *redir_token, int redir_type)
 	}
 	if (isatty(outfile_fd) == TRUE)
 	{
-		close(outfile_fd);
-		return (TTY);
+		return (close(outfile_fd), TTY);
 	}
 	else
 	{
@@ -99,7 +98,8 @@ static int	get_fd(t_token *redir_token, int old_fd, int redir_type)
 	}
 	if (new_fd != TTY)
 	{
-		if (old_fd != INVALID_FD && old_fd != STDIN_FILENO && old_fd != STDOUT_FILENO)
+		if (old_fd != INVALID_FD && old_fd != STDIN_FILENO
+			&& old_fd != STDOUT_FILENO)
 			close(old_fd);
 		return (new_fd);
 	}

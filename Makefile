@@ -90,6 +90,7 @@ SRCS_EXEC		=	mandatory/environment/free_env.c \
 					mandatory/signals/quit_signal.c \
 					mandatory/signals/int_signal.c \
 					mandatory/exec/open_cmd_files.c \
+					mandatory/exec/get_cmd_path.c \
 					mandatory/read_line.c \
 					mandatory/check_special_char2.c \
 					mandatory/check_special_char.c \
