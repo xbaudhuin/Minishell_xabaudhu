@@ -6,12 +6,13 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/12 17:34:58 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/26 19:48:47 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/26 20:25:47 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -69,7 +70,7 @@ unsigned int	go_to_next_quotes_index(const char *buf, int *flag_quotes)
 
 	i = 0;
 	quotes = buf[i];
-	while (buf[i])
+	while (buf[i] != '\0')
 	{
 		i++;
 		if (buf[i] == quotes)
@@ -88,7 +89,7 @@ int	fill_token(const char *buf, t_token *token, unsigned int *index_buf)
 
 	i = 0;
 	flag_quotes = 0;
-	while (buf[i])
+	while (buf[i] != '\0')
 	{
 		if (i >= 1 && (token->type == PARENTHESIS_CLOSE || token->type == PARENTHESIS_OPEN))
 			break ;
@@ -99,7 +100,8 @@ int	fill_token(const char *buf, t_token *token, unsigned int *index_buf)
 			flag_quotes++;
 			i += go_to_next_quotes_index(&buf[i], &flag_quotes);
 		}
-		i++;
+		else
+			i++;
 	}
 	if (flag_quotes >= 1)
 		token->type = ERROR;
@@ -212,7 +214,12 @@ void	ft_readline(void)
 		if (!buf)
 			return ;
 		if (ft_strlen(buf) > 0)
+		{
+			int fd = open("std_error", O_CREAT | O_RDWR, 0777);
+			ft_fprintf(fd ,"%s", buf);
+			close (fd);
 			add_history(buf);
+		}
 		if (ft_strncmp(buf, "exit", 5) == 0)
 		{
 			free(buf);

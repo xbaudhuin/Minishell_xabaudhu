@@ -19,7 +19,7 @@ ifeq ($(DEBUG), 3)
 endif
 
 ifeq ($(DEBUG), 4)
-	CFLAGS += -g -fsanitize=address
+	CFLAGS += -g3 -fsanitize=address
 endif
 
 LIBFT			=	libft.a
