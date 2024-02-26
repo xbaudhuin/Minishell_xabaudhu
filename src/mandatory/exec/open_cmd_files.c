@@ -109,6 +109,8 @@ static int	get_fd(t_token *redir_token, int old_fd, int redir_type)
 	}
 }
 
+i
+
 int	open_cmd_files(t_command *cmd)
 {
 	t_token	*tmp_redir_token;

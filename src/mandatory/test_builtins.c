@@ -106,16 +106,17 @@ int	main(int ac, char **av, char **main_env)
 	(void)av;
 	handle_sigquit(TRUE);
 	handle_sigint(TRUE);
+	printf("is my stdin a tty ? %d\n", isatty(STDIN_FILENO));
 	my_env = create_env((const char **)main_env);
 	if (my_env.variables == NULL || ft_getenv("PWD", (const t_env) my_env) == NULL)
 	{
 		return (MALLOC_FAIL);
 	}
-	char *path = get_cmd_path(av[1], my_env);
-	printf("path = %s\n", path);
-	if (access(path, X_OK) == -1)
-		ft_fprintf(2, "bash: %s: %s\n", path, strerror(errno));
-	free(path);
+	// char *path = get_cmd_path(av[1], my_env);
+	// printf("path = %s\n", path);
+	// if (access(path, X_OK) == -1)
+	// 	ft_fprintf(2, "bash: %s: %s\n", path, strerror(errno));
+	// free(path);
 	builtin_exit(&my_env);
 
 
