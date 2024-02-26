@@ -100,18 +100,26 @@ void	read_cmd_line(t_env *my_env)
 int	main(int ac, char **av, char **main_env)
 {
 	t_env	my_env;
-	//char	*test[] = {"/bin/sleep", "5" ,NULL};
+	//char	*test[] = {"src/cat", "Makefile" ,NULL};
 
 	(void)ac;
 	(void)av;
 	handle_sigquit(TRUE);
 	handle_sigint(TRUE);
-	printf("tty result : %d\n", isatty(-1));
 	my_env = create_env((const char **)main_env);
 	if (my_env.variables == NULL || ft_getenv("PWD", (const t_env) my_env) == NULL)
 	{
 		return (MALLOC_FAIL);
 	}
+	char *path = get_cmd_path(av[1], my_env);
+	printf("path = %s\n", path);
+	if (access(path, X_OK) == -1)
+		ft_fprintf(2, "bash: %s: %s\n", path, strerror(errno));
+	free(path);
+	builtin_exit(&my_env);
+
+
+
 	read_cmd_line(&my_env);
 	builtin_exit(&my_env);
 }

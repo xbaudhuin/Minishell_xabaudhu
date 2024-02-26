@@ -17,5 +17,6 @@
 # define TTY -2
 
 void	open_cmd_files(t_command *cmd);
+char	*get_cmd_path(const char *cmd_first_arg, const t_env env);
 
 #endif
