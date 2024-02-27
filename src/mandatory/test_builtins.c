@@ -12,7 +12,21 @@
 
 #include "minishell.h"
 
-int	launch_cmd(const char **argv, t_env *my_env, int buildin_type)
+void	print_split(char **av)
+{
+	int	i = 0;
+
+	if (av)
+	{
+		while (av[i])
+		{
+			printf("%s\n", av[i]);
+			i++;
+		}
+	}
+}
+
+int	launch_builtin(const char **argv, t_env *my_env, int buildin_type)
 {
 	if (buildin_type == EXPORT)
 		return (export(argv, my_env));
@@ -76,19 +90,14 @@ void	read_cmd_line(t_env *my_env)
 			return ;
 		if (ft_strlen(buf) > 0)
 			add_history(buf);
-		if (ft_strncmp(buf, "exit", 5) == 0)
-		{
-			free(buf);
-			break ;
-		}
 		parse_to_token(buf, &head);
 		if (head != NULL && check_token_list(&head) == TRUE)
 		{
 			//print_token(&head);
 			create_tree(&head, &root, &error);
+			test_fork(root->cmd[0], my_env, &root);
 			//print_tree(&root, 0);
 		}
-		open_cmd_files(root->cmd[0]);
 		free_tree(&root);
 		head = NULL;
 		root = NULL;
@@ -104,9 +113,8 @@ int	main(int ac, char **av, char **main_env)
 
 	(void)ac;
 	(void)av;
-	handle_sigquit(TRUE);
-	handle_sigint(TRUE);
-	printf("is my stdin a tty ? %d\n", isatty(STDIN_FILENO));
+	//handle_sigquit(TRUE);
+	//handle_sigint(TRUE);
 	my_env = create_env((const char **)main_env);
 	if (my_env.variables == NULL || ft_getenv("PWD", (const t_env) my_env) == NULL)
 	{
@@ -117,10 +125,6 @@ int	main(int ac, char **av, char **main_env)
 	// if (access(path, X_OK) == -1)
 	// 	ft_fprintf(2, "bash: %s: %s\n", path, strerror(errno));
 	// free(path);
-	builtin_exit(&my_env);
-
-
-
 	read_cmd_line(&my_env);
 	builtin_exit(&my_env);
 }

@@ -59,11 +59,11 @@ static int	open_cmd_outfile(t_token *redir_token, int redir_type)
 	path = redir_token->word;
 	if (redir_type == REDIRECT_OUT)
 	{
-		outfile_fd = open(path, O_CREAT | O_TRUNC, 0644);
+		outfile_fd = open(path, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	}
 	else
 	{
-		outfile_fd = open(path, O_CREAT | O_APPEND, 0644);
+		outfile_fd = open(path, O_CREAT | O_APPEND | O_WRONLY, 0644);
 	}
 	if (outfile_fd == INVALID_FD)
 	{
@@ -109,16 +109,12 @@ static int	get_fd(t_token *redir_token, int old_fd, int redir_type)
 	}
 }
 
-i
-
-int	open_cmd_files(t_command *cmd)
+int	open_cmd_files(t_token *redirect_token, t_exec_cmd *cmd)
 {
 	t_token	*tmp_redir_token;
 	int		redir_type;
 
-	cmd->infile = STDIN_FILENO;
-	cmd->outfile = STDOUT_FILENO;
-	tmp_redir_token = cmd->redirect_token;
+	tmp_redir_token = redirect_token;
 	while (tmp_redir_token != NULL)
 	{
 		redir_type = tmp_redir_token->type;
