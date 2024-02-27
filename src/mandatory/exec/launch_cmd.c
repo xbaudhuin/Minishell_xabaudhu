@@ -43,7 +43,6 @@ void	launch_cmd(t_command *cmd, t_env *env, t_node **root)
 		env->exit_status = FAILURE;
 		end_process(root, env);
 	}
-	printf("outfile fd = %d\n", exec_cmd.outfile);
 	if (cmd->token->word == NULL)
 	{
 		env->exit_status = SUCCESS;
@@ -80,7 +79,7 @@ void	launch_cmd(t_command *cmd, t_env *env, t_node **root)
 	execve(exec_cmd.path, exec_cmd.argv, env->variables);
 }
 
-void	test_fork(t_command *cmd, t_env *env, t_node **root)
+int	test_fork(t_command *cmd, t_env *env, t_node **root)
 {
 	int	pid;
 
@@ -95,4 +94,5 @@ void	test_fork(t_command *cmd, t_env *env, t_node **root)
 		if (WIFEXITED(env->exit_status))
 				env->exit_status = WEXITSTATUS(env->exit_status);
 	}
+	return (env->exit_status);
 }

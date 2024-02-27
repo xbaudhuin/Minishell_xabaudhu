@@ -95,8 +95,11 @@ void	read_cmd_line(t_env *my_env)
 		{
 			//print_token(&head);
 			create_tree(&head, &root, &error);
-			test_fork(root->cmd[0], my_env, &root);
 			//print_tree(&root, 0);
+			printf("%s\n", root->cmd[0]->token->word);
+			exit(0);
+			my_env->exit_status = launch_tree(root, my_env);
+			printf("exit status global : %d\n", my_env->exit_status);		
 		}
 		free_tree(&root);
 		head = NULL;
