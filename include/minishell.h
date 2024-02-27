@@ -13,9 +13,11 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "structures.h"
 # include "libft.h"
 # include "environment.h"
 # include "builtins.h"
+# include "exec.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
 
@@ -90,37 +92,6 @@ enum e_type_token
 };
 
 typedef int (*t_is_valid_type)(int);
-
-typedef struct s_token
-{
-	int				type;
-	char			*word;
-	unsigned int	len_word;
-	unsigned int	depths;
-	struct s_token	*previous;
-	struct s_token	*next;
-}			t_token;
-
-typedef struct s_command
-{
-	t_token	*token;
-	char	**argv;
-	int		infile;
-	int		outfile;
-	t_token	*redirect_token;
-}			t_command;
-
-typedef struct s_node
-{
-	t_command		**cmd;
-	int				exit_status;
-	int				type;
-	struct s_node	*left_node;
-	struct s_node	*right_node;
-	struct s_node	*parent_node;
-}			t_node;
-
-# include "exec.h"
 
 //check if special char
 int				ft_is_space(const char c);

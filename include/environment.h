@@ -1,15 +1,6 @@
 #ifndef ENVIRONMENT_H
 # define ENVIRONMENT_H
 
-typedef struct s_env
-{
-	char	**variables;
-	size_t	allocated_size;
-	int		pwd_unset_time;
-	int		was_oldpwd_unset;
-	int		exit_status;
-}			t_env;
-
 # define OLD 1
 # define NEW 2
 
