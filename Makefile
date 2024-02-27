@@ -59,7 +59,8 @@ SRCS			=	mandatory/read_line.c \
 					mandatory/debug.c \
 					mandatory/error_message.c \
 					mandatory/free_function.c \
-					mandatory/here_doc.c
+					mandatory/here_doc.c \
+					mandatory/wildcard.c
 
 SRCS_BONUS		=	\
 

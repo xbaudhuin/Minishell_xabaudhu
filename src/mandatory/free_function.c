@@ -6,11 +6,12 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:54:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/26 19:47:46 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/27 11:42:10 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdlib.h>
 
 void	free_t_command(t_command **cmd)
 {
@@ -79,6 +80,8 @@ void	free_tree(t_node **root)
 	if ((*root)->cmd != NULL)
 		free_t_command((*root)->cmd);
 	(*root)->cmd = NULL;
+	free_tree(&(*root)->parent_node);
+	(*root)->parent_node = NULL;
 	free_tree(&(*root)->right_node);
 	(*root)->right_node = NULL;
 	free_tree(&(*root)->left_node);
