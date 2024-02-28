@@ -33,7 +33,7 @@ void	free_exe_cmd(t_exec_cmd *exec_cmd)
 	}	
 }
 
-void	launch_cmd(t_command *cmd, t_env *env, t_node **root)
+void	launch_cmd2(t_command *cmd, t_env *env, t_node **root)
 {
 	t_exec_cmd	exec_cmd;
 
@@ -86,7 +86,7 @@ int	test_fork(t_command *cmd, t_env *env, t_node **root)
 	pid = fork();
 	if (pid == 0)
 	{
-		launch_cmd(cmd, env, root);
+		launch_cmd2(cmd, env, root);
 	}
 	else
 	{
@@ -95,4 +95,13 @@ int	test_fork(t_command *cmd, t_env *env, t_node **root)
 				env->exit_status = WEXITSTATUS(env->exit_status);
 	}
 	return (env->exit_status);
+}
+
+int	launch_cmd(t_exec_cmd **exec_cmd, t_command **cmd, t_env *env, t_node *root)
+{
+	(void)exec_cmd;
+	(void)cmd;
+	(void)env;
+	(void)root;
+	return (SUCCESS);
 }

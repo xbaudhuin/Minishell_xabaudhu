@@ -40,6 +40,10 @@ int	is_builtin(const char **argv)
 
 	builtin_num = 0;
 	cmd_name = (char *)argv[0];
+	if (cmd_name == NULL)
+	{
+		return (NONE);
+	}
 	while (builtin_num < NB_BUILTIN)
 	{
 		if (is_this_builtin(builtin_num, cmd_name) == TRUE)
