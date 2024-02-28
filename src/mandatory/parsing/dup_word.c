@@ -1,43 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_special_char2.c                              :+:      :+:    :+:   */
+/*   dup_word.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 14:25:12 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/15 19:13:43 by xabaudhu         ###   ########.fr       */
+/*   Created: 2024/02/28 19:42:47 by xabaudhu          #+#    #+#             */
+/*   Updated: 2024/02/28 19:43:51 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_opening_flag(const char c)
-{
-	if (c == '(' || c == '"' || c == '\'')
-		return (TRUE);
-	return (FALSE);
-}
-
-int	ft_is_space(const char c)
-{
-	if (c == ' ')
-		return (TRUE);
-	if (c == 9)
-		return (TRUE);
-	if (c == '\n')
-		return (TRUE);
-	return (FALSE);
-}
-
-unsigned int	skip_spaces(const char *buf)
+char	*token_dup_word(
+		const char *buf, const unsigned int len_buf, t_token *token)
 {
 	unsigned int	i;
+	unsigned int	j;
+	char			*word;
+	char			quotes;
 
 	i = 0;
-	while (ft_is_space(buf[i]) == TRUE)
+	j = 0;
+	quotes = '\0';
+	word = malloc(sizeof(*word) * (len_buf + 1));
+	if (!word)
+		return (NULL);
+	while (i < len_buf)
+	{
+		word[j] = buf[i];
 		i++;
-	return (i);
+		j++;
+	}
+	word[j] = '\0';
+	token->len_word = j;
+	if (quotes != '\0')
+		token->type = ERROR;
+	return (word);
 }
-
-

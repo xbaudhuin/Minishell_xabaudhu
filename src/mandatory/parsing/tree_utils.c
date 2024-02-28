@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   tree_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 17:00:09 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/25 16:58:26 by xabaudhu         ###   ########.fr       */
+/*   Created: 2024/02/28 18:35:31 by xabaudhu          #+#    #+#             */
+/*   Updated: 2024/02/28 18:40:57 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+int	get_type_node(t_token *operator)
 {
-	size_t	i;
-	size_t	j;
+	if (operator->type == AND)
+		return (NODE_AND);
+	if (operator->type == OR)
+		return (NODE_OR);
+	return (NODE_LEAF);
+}
 
-	i = 0;
-	if (little[0] == '\0')
-		return ((char *)big);
-	if (ft_strlen(little) > len)
-		return (NULL);
-	while (big[i] && i < len)
-	{
-		j = 0;
-		while (little[j] == big[i + j] && (i + j) < len)
-		{
-			j++;
-			if (little[j] == '\0')
-				return ((char *)&big[i]);
-		}
-		i++;
-	}
-	return (NULL);
+int	is_logical_operator(const int type)
+{
+	if (type == AND)
+		return (TRUE);
+	if (type == OR)
+		return (TRUE);
+	return (FALSE);
 }

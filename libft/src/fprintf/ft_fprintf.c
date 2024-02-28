@@ -6,11 +6,12 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 14:31:20 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/01/17 22:06:29 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/26 20:12:07 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <stdio.h>
 
 int	fprint_format(int fd, const char *format, long int *to_print)
 {

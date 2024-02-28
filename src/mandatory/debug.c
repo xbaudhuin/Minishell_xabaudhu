@@ -1,63 +1,69 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_node.c                                      :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 19:45:34 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 14:57:35 by xabaudhu         ###   ########.fr       */
+/*   Created: 2024/02/23 18:42:19 by xabaudhu          #+#    #+#             */
+/*   Updated: 2024/02/26 12:44:47 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_node	*create_node(t_token **head, int type_node, int *error)
+static char	*get_type(const int type)
 {
-	t_node	*node;
-
-	node = malloc(sizeof(t_node));
-	if (node == NULL)
-	{
-		*error = 1;
-		return (NULL);
-	}
-	node->exit_status = -1;
-	node->type = type_node;
-	if (type_node == NODE_LEAF)
-		node->cmd = create_command_array(*head, error);
-	else
-	{
-		node->cmd = NULL;
-		free_token(head);
-	}
-	node->left_node = NULL;
-	node->right_node = NULL;
-	node->parent_node = NULL;
-	return (node);
+	if (type == ERROR)
+		return ("ERROR");
+	if (type == PARENTHESIS_OPEN)
+		return ("PARENTHESIS_OPEN");
+	if (type == PARENTHESIS_CLOSE)
+		return ("PARENTHESIS_CLOSE");
+	if (type == WORD)
+		return (RED"WORD"RESET);
+	if (type == PIPE)
+		return ("PIPE");
+	if (type == AND)
+		return ("AND");
+	if (type == OR)
+		return ("OR");
+	if (type == REDIRECT_IN)
+		return ("REDIRECT_IN");
+	if (type == HERE_DOC)
+		return ("HERE_DOC");
+	if (type == HERE_DOC_NO_EXPAND)
+		return ("HERE_DOC_NO_EXPAND");
+	if (type == REDIRECT_OUT)
+		return ("REDIRECT_OUT");
+	if (type == APPEND_OUT)
+		return ("APPEND_OUT");
+	return (NULL);
 }
 
-void	ft_del_node(t_node *node)
+void	print_token(t_token **head)
 {
-	if (node != NULL)
-	{
-		if (node->cmd != NULL)
-			free_t_command(node->cmd);
-		free(node);
-	}
-}
+	t_token			*tmp;
+	unsigned int	i;
 
-void	free_tree(t_node **root)
-{
-	if (root == NULL || *root == NULL)
+	i = 0;
+	if (head == NULL || *head == NULL)
 		return ;
-	free_t_command((*root)->cmd);
-	free_tree(&(*root)->right_node);
-	free_tree(&(*root)->left_node);
-	free((*root));
+	tmp = *head;
+	i++;
+	while (tmp)
+	{
+		ft_printf(GRN"token_%d:\n"RESET, i);
+		ft_printf(BLU"token->len =%u\n", tmp->len_word);
+		ft_printf("token->type=%s\n"RESET, get_type(tmp->type));
+		ft_printf(BLU"token->depths=%d\n"RESET, tmp->depths);
+		ft_printf("%s"RED"END""\n\n" RESET, tmp->word);
+		tmp = tmp->next;
+		i++;
+	}
 }
 
-char	*get_node_type(int type)
+static char	*get_node_type(int type)
 {
 	if (type == NODE_ERROR)
 		return ("ERROR");
@@ -74,7 +80,7 @@ char	*get_node_type(int type)
 
 void	print_tree(t_node **root, int id)
 {
-	t_node	*tmp;
+	t_node			*tmp;
 	unsigned int	i;
 
 	i = 0;

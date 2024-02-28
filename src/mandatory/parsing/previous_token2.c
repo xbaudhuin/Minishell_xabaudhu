@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   previous_token2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 17:00:09 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/25 16:58:26 by xabaudhu         ###   ########.fr       */
+/*   Created: 2024/02/28 18:12:35 by xabaudhu          #+#    #+#             */
+/*   Updated: 2024/02/28 19:29:05 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+int	previous_pipe_token(const int type)
 {
-	size_t	i;
-	size_t	j;
+	if (is_word_token(type) == TRUE)
+		return (TRUE);
+	if (is_redirect_token(type) == TRUE)
+		return (TRUE);
+	return (FALSE);
+}
 
-	i = 0;
-	if (little[0] == '\0')
-		return ((char *)big);
-	if (ft_strlen(little) > len)
-		return (NULL);
-	while (big[i] && i < len)
-	{
-		j = 0;
-		while (little[j] == big[i + j] && (i + j) < len)
-		{
-			j++;
-			if (little[j] == '\0')
-				return ((char *)&big[i]);
-		}
-		i++;
-	}
-	return (NULL);
+int	is_here_doc(const int previous_type, const int current_type)
+{
+	if (previous_type == HERE_DOC && current_type == WORD)
+		return (TRUE);
+	return (FALSE);
 }

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_end_strnstr.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/17 17:00:09 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/25 16:58:26 by xabaudhu         ###   ########.fr       */
+/*   Created: 2024/02/28 15:55:16 by xabaudhu          #+#    #+#             */
+/*   Updated: 2024/02/28 15:55:57 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
+char	*ft_end_strnstr(const char *big, const char *little, size_t len)
 {
 	size_t	i;
 	size_t	j;
@@ -29,7 +29,11 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 		{
 			j++;
 			if (little[j] == '\0')
+			{
+				if (big[i + j] == '\0')
+					return (NULL);
 				return ((char *)&big[i]);
+			}
 		}
 		i++;
 	}

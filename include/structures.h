@@ -6,11 +6,14 @@
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:26:14 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/27 16:26:15 by ldoyen--         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:07:40 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#ifndef STRUCTURES_H
+# define STRUCTURES_H
+
+#include <stdio.h>
 
 typedef struct s_env
 {
@@ -54,3 +57,7 @@ typedef struct s_node
 	struct s_node	*right_node;
 	struct s_node	*parent_node;
 }			t_node;
+
+typedef int (*t_is_valid_type)(int);
+
+#endif

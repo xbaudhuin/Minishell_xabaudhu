@@ -6,13 +6,13 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 12:48:00 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 15:19:08 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:19:34 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*remove_parenthesis(t_token **head, t_token *token_parenthesis)
+static t_token	*remove_parenthesis(t_token **head, t_token *token_parenthesis)
 {
 	t_token	*next;
 
@@ -32,23 +32,23 @@ t_token	*remove_parenthesis(t_token **head, t_token *token_parenthesis)
 	return (next);
 }
 
-t_token	*concatenate_redirect_token(t_token **head, t_token *token_redirect)
+static t_token	*concatenate_redirect_token(t_token **head, t_token *redirect)
 {
 	t_token	*next;
 
-	if (token_redirect->type == HERE_DOC)
-		return (token_redirect->next);
-	next = token_redirect->next->next;
-	if (token_redirect->previous == NULL)
+	if (is_here_doc_token(redirect->type) == TRUE)
+		return (redirect->next);
+	next = redirect->next->next;
+	if (redirect->previous == NULL)
 	{
-		token_redirect->next->type = token_redirect->type;
-		(*head) = token_redirect->next;
-		ft_del_token(token_redirect);
+		redirect->next->type = redirect->type;
+		(*head) = redirect->next;
+		ft_del_token(redirect);
 		return (next);
 	}
-	token_redirect->previous->next = token_redirect->next;
-	token_redirect->next->type = token_redirect->type;
-	ft_del_token(token_redirect);
+	redirect->previous->next = redirect->next;
+	redirect->next->type = redirect->type;
+	ft_del_token(redirect);
 	return (next);
 }
 
@@ -72,4 +72,15 @@ void	simplify_token_list(t_token **head)
 			tmp = tmp->next;
 		}
 	}
+}
+
+t_token	*remove_pipe(t_token *pipe)
+{
+	t_token	*next_token;
+
+	next_token = pipe->next;
+	if (next_token != NULL)
+		next_token->previous = NULL;
+	ft_del_token(pipe);
+	return (next_token);
 }

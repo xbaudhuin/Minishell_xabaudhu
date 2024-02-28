@@ -1,53 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_token.c                                         :+:      :+:    :+:   */
+/*   check_special_char2.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/16 14:51:02 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/19 15:52:22 by xabaudhu         ###   ########.fr       */
+/*   Created: 2024/02/13 14:25:12 by xabaudhu          #+#    #+#             */
+/*   Updated: 2024/02/23 18:34:57 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_operator_token(const int type)
+int	is_opening_flag(const char c)
 {
-	if (type == PIPE)
-		return (TRUE);
-	if (type == AND)
-		return (TRUE);
-	if (type == OR)
+	if (c == '(' || c == '"' || c == '\'')
 		return (TRUE);
 	return (FALSE);
 }
 
-int	is_redirect_token(const int type)
+int	ft_is_space(const char c)
 {
-	if (type == REDIRECT_IN)
+	if (c == ' ')
 		return (TRUE);
-	if (type == HERE_DOC)
+	if (c == 9)
 		return (TRUE);
-	if (type == REDIRECT_OUT)
-		return (TRUE);
-	if (type == APPEND_OUT)
+	if (c == '\n')
 		return (TRUE);
 	return (FALSE);
 }
 
-int	is_word_token(const int type)
+unsigned int	skip_spaces(const char *buf)
 {
-	if (type == WORD)
-		return (TRUE);
-	return (FALSE);
-}
+	unsigned int	i;
 
-int	is_parenthesis_token(const int type)
-{
-	if (type == PARENTHESIS_CLOSE)
-		return (TRUE);
-	if (type == PARENTHESIS_OPEN)
-		return (TRUE);
-	return (FALSE);
+	i = 0;
+	while (ft_is_space(buf[i]) == TRUE)
+		i++;
+	return (i);
 }
