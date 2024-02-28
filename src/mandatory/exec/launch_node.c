@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	get_nb_cmd(t_exec_cmd **exec_cmd)
+static int	get_nb_cmd(const t_exec_cmd **exec_cmd)
 {
 	int	nb_cmd;
 
@@ -24,7 +24,7 @@ static int	get_nb_cmd(t_exec_cmd **exec_cmd)
 	return (nb_cmd);
 }
 
-static int	get_launch_type(t_exec_cmd **exec_cmd)
+static int	get_launch_type(const t_exec_cmd **exec_cmd)
 {
 	int	nb_cmd;
 
@@ -43,14 +43,40 @@ static int	get_launch_type(t_exec_cmd **exec_cmd)
 	}
 }
 
-int	launch_node(t_command **cmd, t_env *env)
+static t_data	set_data(t_env *env, t_node *root, t_exec_cmd **exec_cmd)
+{
+	t_data	data;
+
+	data.env = env;
+	data.exec_cmd = exec_cmd;
+	data.root = root;
+	return (data);
+}
+
+int	launch_node(t_command **cmd, t_env *env, t_node *root)
 {
 	t_exec_cmd	**exec_cmd;
+	t_data		data;
+	int			launch_type;
+	int			exit_status;
 
-	(void)env;
-	exec_cmd = initialize_exec_cmd(cmd);
+	
+	exec_cmd = initialize_exec_cmd((const t_command **)cmd);
 	if (exec_cmd == NULL)
 		return (FAILURE);
-	exit(get_launch_type(exec_cmd));
-	return (1);
+	data = set_data(env, root, exec_cmd);
+	launch_type = get_launch_type((const t_exec_cmd **)exec_cmd);
+	if (launch_type == LAUNCH_BUILTIN)
+	{
+		exit_status = launch_builtin(exec_cmd[0], cmd[0]->redirect_token, env);
+		free_exec_cmd(exec_cmd);
+		return (exit_status);
+	}
+	else if (launch_type == LAUNCH_CMD)
+	{
+		exit_status = launch_cmd(exec_cmd[0], cmd[0]->redirect_token, data);
+		free_exec_cmd(exec_cmd);
+		return (exit_status);
+	}
+	return (SUCCESS);
 }
