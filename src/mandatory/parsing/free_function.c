@@ -6,12 +6,11 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:54:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/27 11:42:10 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:41:34 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdlib.h>
 
 void	free_t_command(t_command **cmd)
 {
@@ -61,8 +60,8 @@ void	free_token(t_token **head)
 		*head = tmp;
 	}
 	head = NULL;
-
 }
+
 void	ft_del_node(t_node *node)
 {
 	if (node != NULL)

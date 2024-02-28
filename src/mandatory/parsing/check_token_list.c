@@ -6,20 +6,11 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:15:17 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/26 12:10:47 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:21:55 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	previous_pipe_token(const int type)
-{
-	if (is_word_token(type) == TRUE)
-		return (TRUE);
-	if (is_redirect_token(type) == TRUE)
-		return (TRUE);
-	return (FALSE);
-}
 
 static int	check_parenthesis_flag(const int type, int *flag)
 {
@@ -66,6 +57,13 @@ static t_is_valid_type	get_new_valid_type(const int type)
 	return (&previous_type_error);
 }
 
+static int	error_parsing_token(t_token **head, const char *word)
+{
+	ft_fprintf(2, RED "minishell: parse error near: "RESET"'%s'\n", word);
+	free_token(head);
+	return (FALSE);
+}
+
 int	check_token_list(t_token **head)
 {
 	int				(*is_valid_type)(int);
@@ -87,11 +85,7 @@ int	check_token_list(t_token **head)
 	}
 	if (tmp_token->next != NULL
 		|| check_lasttoken(tmp_token->type, flag, is_valid_type) == FALSE)
-	{
-		ft_parse_error(tmp_token->word);
-		free_token(head);
-		return (FALSE);
-	}
+		return (error_parsing_token(head, tmp_token->word));
 	simplify_token_list(head);
 	return (TRUE);
 }

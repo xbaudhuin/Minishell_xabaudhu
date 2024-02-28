@@ -45,28 +45,39 @@ RM				=	rm -rf
 
 AR				=	ar rcs
 
-SRCS			=	mandatory/read_line.c \
-					mandatory/check_special_char2.c \
-					mandatory/check_special_char.c \
-					mandatory/token_add_back.c \
-					mandatory/is_token.c \
-					mandatory/previous_token.c \
-					mandatory/parse_token.c \
-					mandatory/t_command.c \
-					mandatory/create_node.c \
-					mandatory/create_tree.c \
-					mandatory/simplify_token_list.c \
+SRCS_PARSING	=	mandatory/parsing/check_special_char2.c \
+					mandatory/parsing/check_special_char.c \
+					mandatory/parsing/token_add_back.c \
+					mandatory/parsing/is_token.c \
+					mandatory/parsing/previous_token.c \
+					mandatory/parsing/previous_token2.c \
+					mandatory/parsing/parse_to_token.c \
+					mandatory/parsing/parse_to_token_utils.c \
+					mandatory/parsing/check_token_list.c \
+					mandatory/parsing/simplify_token_list.c \
+					mandatory/parsing/dup_word.c \
+					mandatory/parsing/t_command.c \
+					mandatory/parsing/create_node.c \
+					mandatory/parsing/create_tree.c \
+					mandatory/parsing/tree_utils.c \
+					mandatory/parsing/free_function.c \
 					mandatory/debug.c \
-					mandatory/error_message.c \
-					mandatory/free_function.c \
-					mandatory/here_doc.c \
-					mandatory/wildcard.c
+					mandatory/parsing/read_line.c \
 
-SRCS_BONUS		=	\
+SRCS_WILDCARD	=	mandatory/wildcard/opendir.c \
+					mandatory/wildcard/wildcard.c \
+					mandatory/wildcard/wildcard_split.c \
+					mandatory/wildcard/wildcard_utils.c \
+					mandatory/wildcard/trim_quotes_wildcard.c \
 
-OBJS			=	$(addprefix ${OBJ_PATH}, ${SRCS:.c=.o})
+SRCS_HERE_DOC	=	mandatory/here_doc/here_doc.c \
+					mandatory/here_doc/here_doc_dup.c \
+					mandatory/here_doc/here_doc_stdin.c \
 
-OBJS_BONUS		=	$(addprefix ${OBJ_PATH}, ${SRCS_BONUS:.c=.o})
+OBJS			=	$(addprefix ${OBJ_PATH}, ${SRCS_PARSING:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_WILDCARD:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_HERE_DOC:.c=.o}) \
+
 
 LIBFT_D			=	$(addprefix ${LIBFT_PATH}, ${LIBFT})
 

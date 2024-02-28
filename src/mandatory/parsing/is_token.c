@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:51:02 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/26 12:26:05 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:25:54 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,15 @@ int	is_parenthesis_token(const int type)
 	if (type == PARENTHESIS_CLOSE)
 		return (TRUE);
 	if (type == PARENTHESIS_OPEN)
+		return (TRUE);
+	return (FALSE);
+}
+
+int	is_here_doc_token(const int type)
+{
+	if (type == HERE_DOC)
+		return (TRUE);
+	if (type == HERE_DOC_NO_EXPAND)
 		return (TRUE);
 	return (FALSE);
 }

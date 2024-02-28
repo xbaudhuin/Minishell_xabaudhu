@@ -6,20 +6,11 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:33:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 19:30:24 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:36:19 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	is_logical_operator(const int type)
-{
-	if (type == AND)
-		return (TRUE);
-	if (type == OR)
-		return (TRUE);
-	return (FALSE);
-}
 
 static t_token	*get_next_prio_operator(t_token **head)
 {
@@ -43,16 +34,7 @@ static t_token	*get_next_prio_operator(t_token **head)
 	return (operator);
 }
 
-static int	get_type_node(t_token *operator)
-{
-	if (operator->type == AND)
-		return (NODE_AND);
-	if (operator->type == OR)
-		return (NODE_OR);
-	return (NODE_LEAF);
-}
-
-void	break_list(t_token *operator, t_token **left_t, t_token **right_t)
+static void	break_list(t_token *operator, t_token **left_t, t_token **right_t)
 {
 	*left_t = NULL;
 	*right_t = NULL;
