@@ -95,6 +95,8 @@ SRCS_EXEC		=	mandatory/environment/free_env.c \
 					mandatory/exec/launch_cmd.c \
 					mandatory/exec/end_process.c \
 					mandatory/exec/launch_tree.c \
+					mandatory/exec/launch_node.c \
+					mandatory/exec/initialize_exec_cmd.c \
 					mandatory/read_line.c \
 					mandatory/check_special_char2.c \
 					mandatory/check_special_char.c \

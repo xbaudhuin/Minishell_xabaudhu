@@ -34,10 +34,7 @@ char	**get_cmd_argv(t_command *cmd)
 	{
 		argv[nb_word] = ft_strdup(tmp_token->word);
 		if (argv[nb_word] == NULL)
-		{
-			free_split(argv);
-			return (NULL);
-		}
+			return (free_split(argv), NULL);
 		++nb_word;
 		tmp_token = tmp_token->next;
 	}
