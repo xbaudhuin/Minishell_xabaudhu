@@ -26,30 +26,6 @@ void	print_split(char **av)
 	}
 }
 
-int	launch_builtin(const char **argv, t_env *my_env, int buildin_type)
-{
-	if (buildin_type == EXPORT)
-		return (export(argv, my_env));
-	else if (buildin_type == ENV)
-		return (env(argv, (const t_env)*my_env));
-	else if (buildin_type == UNSET)
-		return (unset(argv, my_env));
-	else if (buildin_type == CD)
-		return (cd(argv, my_env));
-	else if (buildin_type == PWD)
-		return (pwd(argv));
-	else if (buildin_type == EXIT)
-	{
-		free_split((char **)argv);
-		builtin_exit(my_env);
-	}
-	else if (strncmp(argv[0], "$?", ft_strlen("$?")) == SUCCESS)
-		return (printf("Last exit = %d\n", my_env->exit_status), SUCCESS);
-	else if (buildin_type == ECHO)
-		return (echo(argv));
-	return (SUCCESS);
-}
-
 void	read_cmd_line(t_env *my_env)
 {
 	// char	*line;
@@ -91,17 +67,19 @@ void	read_cmd_line(t_env *my_env)
 		if (ft_strlen(buf) > 0)
 			add_history(buf);
 		parse_to_token(buf, &head);
+		free(buf);
 		if (head != NULL && check_token_list(&head) == TRUE)
 		{
 			//print_token(&head);
 			create_tree(&head, &root, &error);
 			//print_tree(&root, 0);
-			my_env->exit_status = launch_tree(root, my_env);	
+			my_env->exit_status = launch_tree(root, my_env);
+			printf("exit status = %d\n", my_env->exit_status);
 		}
 		free_tree(&root);
 		head = NULL;
 		root = NULL;
-		free(buf);
+		
 	}
 	rl_clear_history();
 }

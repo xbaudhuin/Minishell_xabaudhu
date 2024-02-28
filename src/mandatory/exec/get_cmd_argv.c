@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	**get_cmd_argv(t_command *cmd)
+char	**get_cmd_argv(const t_command *cmd)
 {
 	t_token	*tmp_token;
 	char	**argv;

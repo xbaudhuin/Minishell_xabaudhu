@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int	get_nb_cmd(t_command **cmd)
+static int	get_nb_cmd(const t_command **cmd)
 {
 	int	nb_cmd;
 
@@ -63,7 +63,7 @@ static t_exec_cmd	**alloc_exec_cmd(int nb_cmd)
 	return (exec_cmd);
 }
 
-t_exec_cmd	**initialize_exec_cmd(t_command **cmd)
+t_exec_cmd	**initialize_exec_cmd(const t_command **cmd)
 {
 	t_exec_cmd	**exec_cmd;
 	int			nb_cmd;
