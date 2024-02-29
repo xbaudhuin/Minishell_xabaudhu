@@ -54,6 +54,7 @@ SRCS_PARSING	=	mandatory/parsing/check_special_char2.c \
 					mandatory/parsing/parse_to_token.c \
 					mandatory/parsing/parse_to_token_utils.c \
 					mandatory/parsing/check_token_list.c \
+					mandatory/parsing/transform_token.c \
 					mandatory/parsing/simplify_token_list.c \
 					mandatory/parsing/dup_word.c \
 					mandatory/parsing/t_command.c \
