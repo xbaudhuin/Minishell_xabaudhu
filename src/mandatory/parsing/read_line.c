@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 11:55:54 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/29 11:55:56 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:07:18 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void	ft_readline(void)
 		if (head != NULL && check_token_list(&head) == TRUE)
 		{
 			print_token(&head);
-			create_tree(&head, &root, &error);
+			create_tree(&head, &root, &error, NULL);
 			print_tree(&root, 0);
 		}
-		free_tree(&root);
+		free_tree(go_to_root(root));
 		head = NULL;
 		root = NULL;
 		free(buf);
@@ -87,8 +87,8 @@ void	ft_readline2(int ac, char **av)
 		i++;
 	}
 }
-*//*
-
+*/
+/*
 int main(int ac, char **av)
 {
 	(void)ac;

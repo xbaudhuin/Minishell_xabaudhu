@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:51:16 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 20:42:45 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:58:33 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ t_token	**parse_to_token(const char *buf, t_token **head);
 
 //tree function
 
-t_node		*create_node(t_token **head, int type_node, int *error);
+t_node		*create_node(t_token **head, int type_node, int *error, t_node *parent);
 t_command	**create_command_array(t_token *token, int *error);
-int			create_tree(t_token **head, t_node **node, int *error);
+int			create_tree(t_token **head, t_node **node, int *error, t_node *parent);
 int			is_logical_operator(const int type);
 int			get_type_node(t_token *operator);
 
@@ -71,7 +71,8 @@ void	free_t_command(t_command **cmd);
 void	ft_del_token(t_token *token);
 void	free_token(t_token **head);
 void	ft_del_node(t_node *node);
-void	free_tree(t_node **root);
+t_node	*go_to_root(t_node *node);
+void	free_tree(t_node *root);
 
 //here_doc function
 

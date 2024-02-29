@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:54:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 18:41:34 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/29 13:57:42 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,19 +72,17 @@ void	ft_del_node(t_node *node)
 	}
 }
 
-void	free_tree(t_node **root)
+void	free_tree(t_node *root)
 {
-	if (root == NULL || *root == NULL)
+	if (root == NULL || root == NULL)
 		return ;
-	if ((*root)->cmd != NULL)
-		free_t_command((*root)->cmd);
-	(*root)->cmd = NULL;
-	free_tree(&(*root)->parent_node);
-	(*root)->parent_node = NULL;
-	free_tree(&(*root)->right_node);
-	(*root)->right_node = NULL;
-	free_tree(&(*root)->left_node);
-	(*root)->left_node = NULL;
-	free((*root));
-	*root = NULL;
+	if (root->cmd != NULL)
+		free_t_command(root->cmd);
+	root->cmd = NULL;
+	free_tree(root->right_node);
+	root->right_node = NULL;
+	free_tree(root->left_node);
+	root->left_node = NULL;
+	free(root);
+	root = NULL;
 }

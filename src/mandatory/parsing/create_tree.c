@@ -6,11 +6,12 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:33:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 18:36:19 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:02:32 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
 static t_token	*get_next_prio_operator(t_token **head)
 {
@@ -52,7 +53,7 @@ static void	break_list(t_token *operator, t_token **left_t, t_token **right_t)
 	}
 }
 
-int	create_tree(t_token **head, t_node **node, int *error)
+int	create_tree(t_token **head, t_node **node, int *error, t_node *parent)
 {
 	t_token	*left_node_token;
 	t_token	*right_node_token;
@@ -61,19 +62,19 @@ int	create_tree(t_token **head, t_node **node, int *error)
 	if (head == NULL || (*head) == NULL)
 		return (SUCCESS);
 	if (*error != 0)
-		return (FAILURE);
+		return (free_token(&operator), FAILURE);
 	operator = get_next_prio_operator(head);
 	if (operator == NULL)
 	{
-		*node = create_node(head, NODE_LEAF, error);
+		*node = create_node(head, NODE_LEAF, error, parent);
 		if (*error != 0)
 			return (FAILURE);
 		return (SUCCESS);
 	}
 	break_list(operator, &left_node_token, &right_node_token);
-	*node = create_node(&operator, get_type_node(operator), error);
-	create_tree(head, &(*node)->left_node, error);
-	create_tree(&right_node_token, &(*node)->right_node, error);
+	*node = create_node(&operator, get_type_node(operator), error, parent);
+	create_tree(head, &(*node)->left_node, error, *node);
+	create_tree(&right_node_token, &(*node)->right_node, error, *node);
 	free_token(&operator);
 	return (SUCCESS);
 }
