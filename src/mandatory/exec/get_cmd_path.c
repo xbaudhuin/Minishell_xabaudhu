@@ -66,7 +66,8 @@ char	**get_env_paths(const t_env env)
 	return (env_paths);
 }
 
-char	*construct_path(const char *cmd_first_arg, const t_env env, int *exit_status)
+char	*construct_path(const char *cmd_first_arg,
+			const t_env env, int *exit_status)
 {
 	char	**env_paths;
 	char	*cmd_path;
@@ -85,9 +86,7 @@ char	*construct_path(const char *cmd_first_arg, const t_env env, int *exit_statu
 			return (free_split(env_paths), NULL);
 		}
 		if (access(cmd_path, F_OK) == SUCCESS)
-		{
 			return (free_split(env_paths), cmd_path);
-		}
 		free(cmd_path);
 		++path_num;
 	}
@@ -96,7 +95,8 @@ char	*construct_path(const char *cmd_first_arg, const t_env env, int *exit_statu
 	return (free_split(env_paths), NULL);
 }
 
-char	*get_cmd_path(const char *cmd_first_arg, const t_env env, int *exit_status)
+char	*get_cmd_path(const char *cmd_first_arg,
+			const t_env env, int *exit_status)
 {
 	char	*cmd_path;
 

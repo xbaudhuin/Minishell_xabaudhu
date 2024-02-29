@@ -12,7 +12,8 @@
 
 #include "minishell.h"
 
-int	launch_pipeline(t_exec_cmd **exec_cmd, t_command **cmd, t_env *env, t_node *root)
+int	launch_pipeline(t_exec_cmd **exec_cmd, t_command **cmd,
+		t_env *env, t_node *root)
 {
 	(void)exec_cmd;
 	(void)cmd;

@@ -59,7 +59,6 @@ int	launch_node(t_command **cmd, t_env *env, t_node *root)
 	t_data		data;
 	int			launch_type;
 
-	
 	exec_cmd = initialize_exec_cmd((const t_command **)cmd);
 	if (exec_cmd == NULL)
 		return (FAILURE);
@@ -67,15 +66,14 @@ int	launch_node(t_command **cmd, t_env *env, t_node *root)
 	launch_type = get_launch_type((const t_exec_cmd **)exec_cmd);
 	if (launch_type == LAUNCH_BUILTIN)
 	{
-		env->exit_status = launch_builtin(exec_cmd[0], cmd[0]->redirect_token, env);
-		free_exec_cmd(exec_cmd);
-		return (env->exit_status);
+		env->exit_status = launch_builtin(exec_cmd[0],
+				cmd[0]->redirect_token, env);
 	}
 	else if (launch_type == LAUNCH_CMD)
 	{
-		env->exit_status = launch_cmd(exec_cmd[0], cmd[0]->redirect_token, data);
-		free_exec_cmd(exec_cmd);
-		return (env->exit_status);
+		env->exit_status = launch_cmd(exec_cmd[0],
+				cmd[0]->redirect_token, data);
 	}
-	return (SUCCESS);
+	free_exec_cmd(exec_cmd);
+	return (env->exit_status);
 }

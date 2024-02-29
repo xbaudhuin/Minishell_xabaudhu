@@ -25,6 +25,10 @@ enum	e_buildin_type
 	NONE = 7,
 };
 
+# define WRG_OPT 2
+# define MALLOC_FAIL 3
+# define NB_BUILTIN 7
+
 void	print_space(void);
 void	print_new_line(void);
 int		is_underscore(const char c);
@@ -41,12 +45,5 @@ int		export(const char **argv, t_env *env);
 int		unset(const char **argv, t_env *env);
 int		cd(const char **argv, t_env *env);
 void	builtin_exit(t_env *env);
-
-
-# define WRG_OPT 2
-# define MALLOC_FAIL 3
-
-# define NB_BUILTIN 7
-
 
 #endif
