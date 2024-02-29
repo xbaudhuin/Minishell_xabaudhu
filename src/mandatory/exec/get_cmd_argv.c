@@ -26,7 +26,7 @@ char	**get_cmd_argv(const t_command *cmd)
 		tmp_token = tmp_token->next;
 	}
 	argv = ft_calloc(sizeof (*argv), nb_word + 1);
-	if (argv ==  NULL)
+	if (argv == NULL)
 		return (NULL);
 	tmp_token = cmd->token;
 	nb_word = 0;

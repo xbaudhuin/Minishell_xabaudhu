@@ -13,7 +13,7 @@
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
-#include <stdio.h>
+# include <stdio.h>
 
 typedef struct s_env
 {
@@ -58,6 +58,6 @@ typedef struct s_node
 	struct s_node	*parent_node;
 }			t_node;
 
-typedef int (*t_is_valid_type)(int);
+typedef int(*t_is_valid_type)(int);
 
 #endif

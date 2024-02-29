@@ -46,7 +46,8 @@ static int	close_on_dup2_fail(int save_std[2], int infile, int outfile)
 	return (FAILURE);
 }
 
-int	set_builtin_redirection(t_exec_cmd *cmd, t_token *redirect_token, int save_std[2])
+int	set_builtin_redirection(t_exec_cmd *cmd,
+		t_token *redirect_token, int save_std[2])
 {
 	if (dup_std(save_std) == FAILURE)
 		return (FAILURE);
@@ -65,7 +66,7 @@ int	set_builtin_redirection(t_exec_cmd *cmd, t_token *redirect_token, int save_s
 	if (cmd->outfile != STDOUT_FILENO)
 	{
 		if (dup2(cmd->outfile, STDOUT_FILENO) == INVALID_FD)
-			return (close_on_dup2_fail(save_std, cmd->infile, cmd->outfile));		
+			return (close_on_dup2_fail(save_std, cmd->infile, cmd->outfile));
 		close(cmd->outfile);
 	}
 	return (SUCCESS);

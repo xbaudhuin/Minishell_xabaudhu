@@ -33,12 +33,13 @@ static int	restore_std(int save_std[2])
 	return (SUCCESS);
 }
 
-static int	launch_rigth_builtin(const char **argv, t_env *my_env, int buildin_type)
+static int	launch_rigth_builtin(const char **argv,
+				t_env *my_env, int buildin_type)
 {
 	if (buildin_type == EXPORT)
 		return (export(argv, my_env));
 	else if (buildin_type == ENV)
-		return (env(argv, (const t_env)*my_env));
+		return (env(argv, (const t_env) * my_env));
 	else if (buildin_type == UNSET)
 		return (unset(argv, my_env));
 	else if (buildin_type == CD)
@@ -63,7 +64,8 @@ int	launch_builtin(t_exec_cmd *exec_cmd, t_token *redirect_token, t_env *env)
 		return (FAILURE);
 	}
 	arg_builtin = (const char **)exec_cmd->argv;
-	exit_status = launch_rigth_builtin(arg_builtin, env, is_builtin(arg_builtin));
+	exit_status = launch_rigth_builtin(arg_builtin,
+			env, is_builtin(arg_builtin));
 	if (restore_std(save_std) == FAILURE)
 	{
 		return (FAILURE);
