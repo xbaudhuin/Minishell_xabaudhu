@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 20:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 20:55:25 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/29 11:42:25 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static unsigned int	go_to_next_quotes_index(const char *buf, int *flag_quotes)
 	{
 		if (buf[i] == quotes)
 		{
+			i++;
 			*flag_quotes -= 1;
 			break ;
 		}
@@ -66,7 +67,7 @@ int	fill_token(const char *buf, t_token *token, unsigned int *index_buf)
 			|| ft_is_space(buf[i]) == TRUE)
 			break ;
 		if (is_quotes(buf[i]))
-			i += go_to_next_quotes_index(&buf[i], &flag_quotes) + 1;
+			i += go_to_next_quotes_index(&buf[i], &flag_quotes);
 		else
 			i++;
 	}
