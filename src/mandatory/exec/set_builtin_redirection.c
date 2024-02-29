@@ -17,14 +17,14 @@ static int	dup_std(int save_std[2])
 	save_std[0] = dup(STDIN_FILENO);
 	if (save_std[0] == INVALID_FD)
 	{
-		printf("minishell: launch_builtin: %s\n", strerror(errno));
+		ft_fprintf(2, "minishell: launch_builtin: %s\n", strerror(errno));
 		return (FAILURE);
 	}
 	save_std[1] = dup(STDOUT_FILENO);
 	if (save_std[1] == INVALID_FD)
 	{
 		close(save_std[0]);
-		printf("minishell: launch_builtin: %s\n", strerror(errno));
+		ft_fprintf(2, "minishell: launch_builtin: %s\n", strerror(errno));
 		return (FAILURE);
 	}
 	return (SUCCESS);
@@ -32,14 +32,14 @@ static int	dup_std(int save_std[2])
 
 static int	close_on_dup2_fail(int save_std[2], int infile, int outfile)
 {
-	printf("minishell: launch_builtin: %s\n", strerror(errno));
+	ft_fprintf(2, "minishell: launch_builtin: %s\n", strerror(errno));
 	close(save_std[0]);
 	close(save_std[1]);
-	if (infile != STDIN_FILENO)
+	if (infile != STDIN_FILENO || isatty(infile) == FALSE)
 	{
 		close(infile);
 	}
-	if (outfile != STDOUT_FILENO)
+	if (outfile != STDOUT_FILENO || isatty(outfile) == FALSE)
 	{
 		close(outfile);
 	}
