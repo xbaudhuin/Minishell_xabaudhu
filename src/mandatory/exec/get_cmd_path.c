@@ -100,11 +100,8 @@ char	*get_cmd_path(const char *cmd_first_arg, const t_env env, int *exit_status)
 {
 	char	*cmd_path;
 
-	if (cmd_first_arg == NULL)
-	{
-		return (NULL);
-	}
-	else if (ft_strchr(cmd_first_arg, '/') != NULL)
+	*exit_status = SUCCESS;
+	if (ft_strchr(cmd_first_arg, '/') != NULL)
 	{
 		cmd_path = ft_strdup(cmd_first_arg);
 		if (cmd_path == NULL)
