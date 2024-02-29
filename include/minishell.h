@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 20:41:58 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:06:26 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "libft.h"
 # include "environment.h"
 # include "builtins.h"
+# include "exec.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
 # include "parsing.h"
@@ -26,7 +27,7 @@
 #define RED "\x1B[31m"
 #define GRN  "\x1B[32m"
 #define YEL  "\x1B[33m"
-#define BLU  "\x1B[34m"
+#define BLU  "\x1B[37m"
 #define MAG  "\x1B[35m"
 #define CYN  "\x1B[36m"
 #define WHT  "\x1B[37m"
@@ -93,6 +94,7 @@ enum e_type_token
 	APPEND_OUT = 11,
 };
 
+//Handle signal
 
 int				handle_sigquit(int ignore);
 int				handle_sigint(int new_prompt);

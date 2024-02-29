@@ -6,14 +6,14 @@
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 16:26:14 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/28 17:55:03 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:07:40 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
-#include <stdlib.h>
+#include <stdio.h>
 
 typedef struct s_env
 {
