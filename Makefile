@@ -112,11 +112,13 @@ SRCS_EXEC		=	mandatory/environment/free_env.c \
 					mandatory/exec/end_process.c \
 					mandatory/exec/launch_tree.c \
 					mandatory/exec/launch_node.c \
+					mandatory/exec/launch_pipeline.c \
 					mandatory/exec/launch_builtin.c \
 					mandatory/exec/initialize_exec_cmd.c \
 					mandatory/exec/free_exec_cmd.c \
 					mandatory/exec/free_data.c \
 					mandatory/exec/set_builtin_redirection.c \
+					mandatory/exec/get_last_child_status.c \
 
 OBJS_EXEC		=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_PARSING:.c=.o}) \

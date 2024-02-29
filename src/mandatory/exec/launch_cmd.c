@@ -29,7 +29,7 @@ static int	close_files(t_exec_cmd *cmd)
 	return (SUCCESS);
 }
 
-static int	set_cmd_redirection(t_exec_cmd *cmd)
+int	set_cmd_redirection(t_exec_cmd *cmd)
 {
 	if (cmd->infile != STDIN_FILENO)
 	{
@@ -87,9 +87,7 @@ static void	launch_child(t_exec_cmd *exec_cmd,
 int	launch_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data data)
 {
 	int	pid;
-	int	exit_status;
 
-	exit_status = SUCCESS;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -99,11 +97,5 @@ int	launch_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data data)
 	{
 		launch_child(exec_cmd, redirect_token, data);
 	}
-	else
-	{
-		waitpid(pid, &exit_status, 0);
-		if (WIFEXITED(exit_status))
-				exit_status = WEXITSTATUS(exit_status);
-	}
-	return (exit_status);
+	return(get_last_child_status(pid));
 }

@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_data.c                                        :+:      :+:    :+:   */
+/*   get_last_child_status.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/28 19:44:15 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/28 19:44:17 by ldoyen--         ###   ########.fr       */
+/*   Created: 2024/02/29 17:46:02 by ldoyen--          #+#    #+#             */
+/*   Updated: 2024/02/29 17:46:03 by ldoyen--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_data(t_data data)
+int	get_last_child_status(pid_t last_pid)
 {
-	free_exec_cmd(data.exec_cmd);
-	free_env(data.env);
-	free_tree(go_to_root(data.root));
-	rl_clear_history();
+	int status;
+	int	pid;
+
+	while (1)
+	{
+		pid = wait(&status);
+		if (pid == last_pid)
+		{
+			if (WIFEXITED(status))
+				status = WEXITSTATUS(status);			
+		}
+		else if (pid < 0)
+		{
+			break ;
+		}
+	}
+	return (status);
 }

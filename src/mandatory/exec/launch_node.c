@@ -24,16 +24,13 @@ static int	get_nb_cmd(const t_exec_cmd **exec_cmd)
 	return (nb_cmd);
 }
 
-static int	get_launch_type(const t_exec_cmd **exec_cmd)
+static int	get_launch_type(const t_data data)
 {
-	int	nb_cmd;
-
-	nb_cmd = get_nb_cmd(exec_cmd);
-	if (nb_cmd > 1)
+	if (data.nb_cmd > 1)
 	{
 		return (LAUNCH_PIPELINE);
 	}
-	else if (is_builtin((const char **)exec_cmd[0]->argv) != NONE)
+	else if (is_builtin((const char **)data.exec_cmd[0]->argv) != NONE)
 	{
 		return (LAUNCH_BUILTIN);
 	}
@@ -50,6 +47,7 @@ static t_data	set_data(t_env *env, t_node *root, t_exec_cmd **exec_cmd)
 	data.env = env;
 	data.exec_cmd = exec_cmd;
 	data.root = root;
+	data.nb_cmd = get_nb_cmd((const t_exec_cmd **)exec_cmd);
 	return (data);
 }
 
@@ -63,7 +61,7 @@ int	launch_node(t_command **cmd, t_env *env, t_node *root)
 	if (exec_cmd == NULL)
 		return (FAILURE);
 	data = set_data(env, root, exec_cmd);
-	launch_type = get_launch_type((const t_exec_cmd **)exec_cmd);
+	launch_type = get_launch_type(data);
 	if (launch_type == LAUNCH_BUILTIN)
 	{
 		env->exit_status = launch_builtin(exec_cmd[0],
@@ -73,6 +71,10 @@ int	launch_node(t_command **cmd, t_env *env, t_node *root)
 	{
 		env->exit_status = launch_cmd(exec_cmd[0],
 				cmd[0]->redirect_token, data);
+	}
+	else
+	{
+		env->exit_status = launch_pipeline(cmd, exec_cmd, data);
 	}
 	free_exec_cmd(exec_cmd);
 	return (env->exit_status);
