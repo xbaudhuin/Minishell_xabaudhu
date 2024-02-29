@@ -60,7 +60,6 @@
 
 static int	close_files(t_exec_cmd *cmd)
 {
-	ft_fprintf(2, "minishell: launch_builtin: %s\n", strerror(errno));
 	if (cmd->infile != STDIN_FILENO || isatty(cmd->infile) == FALSE)
 	{
 		close(cmd->infile);
@@ -69,8 +68,10 @@ static int	close_files(t_exec_cmd *cmd)
 	{
 		close(cmd->outfile);
 	}
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
+	if (isatty(STDIN_FILENO) == FALSE)
+		close(STDIN_FILENO);
+	if (isatty(STDOUT_FILENO) == FALSE)
+		close(STDOUT_FILENO);
 	return (SUCCESS);
 }
 
@@ -80,6 +81,7 @@ static int	set_cmd_redirection(t_exec_cmd *cmd)
 	{
 		if (dup2(cmd->infile, STDIN_FILENO) == INVALID_FD)
 		{
+			ft_fprintf(2, "minishell: launch_cmd: %s\n", strerror(errno));
 			close_files(cmd);
 			return (FAILURE);
 		}
@@ -88,6 +90,7 @@ static int	set_cmd_redirection(t_exec_cmd *cmd)
 	{
 		if (dup2(cmd->outfile, STDOUT_FILENO) == INVALID_FD)
 		{
+			ft_fprintf(2, "minishell: launch_cmd: %s\n", strerror(errno));
 			close_files(cmd);
 			return (FAILURE);
 		}		
@@ -105,16 +108,25 @@ static void	launch_child(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data d
 	if (set_cmd_redirection(exec_cmd) == FAILURE)
 		end_process(data, FAILURE);
 	if (exec_cmd->argv[0] == NULL)
+	{
+		close_files(exec_cmd);
 		end_process(data, SUCCESS);
+	}
 	exec_cmd->path = get_cmd_path((const char *)exec_cmd->argv[0], (const t_env) * data.env, &exit_status);
 	if (exec_cmd->path == NULL)
+	{
+	{
+		close_files(exec_cmd);
 		end_process(data, exit_status);
+	}
+	}
 	if (access(exec_cmd->path, X_OK) == -1)
 	{
 		ft_fprintf(2, "minishell: %s :%s\n", exec_cmd->path, strerror(errno));
 		end_process(data, 126);
 	}
 	execve(exec_cmd->path, exec_cmd->argv, data.env->variables);
+	close_files(exec_cmd);
 	end_process(data, FAILURE);
 }
 

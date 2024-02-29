@@ -71,7 +71,8 @@ void	read_cmd_line(t_env *my_env)
 		if (head != NULL && check_token_list(&head) == TRUE)
 		{
 			//print_token(&head);
-			create_tree(&head, &root, &error);
+			if (create_tree(&head, &root, &error) == FAILURE)
+				free_tree(&root);
 			//print_tree(&root, 0);
 			my_env->exit_status = launch_tree(root, my_env);
 			printf("exit status = %d\n", my_env->exit_status);
