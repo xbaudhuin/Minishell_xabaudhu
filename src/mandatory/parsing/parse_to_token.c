@@ -6,41 +6,11 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:47:25 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 20:10:08 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:54:01 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	transform_token(t_token *token)
-{
-	if (token->type == PIPE)
-	{
-		if (token->len_word >= 3)
-			token->type = ERROR;
-		if (token->len_word == 2)
-			token->type = OR;
-	}
-	if (token->type == AND)
-	{
-		if (token->len_word != 2)
-			token->type = ERROR;
-	}
-	if (token->type == REDIRECT_IN)
-	{
-		if (token->len_word >= 3)
-			token->type = ERROR;
-		if (token->len_word == 2)
-			token->type = HERE_DOC;
-	}
-	if (token->type == REDIRECT_OUT)
-	{
-		if (token->len_word >= 3)
-			token->type = ERROR;
-		if (token->len_word == 2)
-			token->type = APPEND_OUT;
-	}
-}
 
 static t_token	*get_current_token(const char *buf, unsigned int *index_buf)
 {
@@ -92,10 +62,7 @@ t_token	**parse_to_token(const char *buf, t_token **head)
 			return (parse_token_error(head, token));
 		ft_token_add_back(head, token);
 		if (is_here_doc(previous_type, token->type) == TRUE)
-		{
-			previous_type = ERROR;
-			do_here_doc(token, head);
-		}
+			do_here_doc(token, head, &previous_type);
 		else
 			previous_type = token->type;
 	}

@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 11:55:54 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/29 14:07:18 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:37:07 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,11 @@ void	ft_readline2(int ac, char **av)
 	}
 }
 */
-/*
+
 int main(int ac, char **av)
 {
 	(void)ac;
 	(void)av;
 	ft_readline();
 	return (0);
-}*/
+}

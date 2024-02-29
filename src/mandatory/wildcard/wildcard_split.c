@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:22 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 20:34:33 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/29 14:43:34 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,16 @@ static unsigned int	len_till_next_wildcard(const char *word)
 	return (i);
 }
 
+static unsigned int	skip_char(const char *word, char c)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (word[i] == c)
+		i++;
+	return (i);
+}
+
 static int	fill_split_wildcard(char **split, const char *word)
 {
 	unsigned int	i;
@@ -70,8 +80,7 @@ static int	fill_split_wildcard(char **split, const char *word)
 		{
 			split[k] = NULL;
 			k++;
-			while (word[i] == '*')
-				i++;
+			i += skip_char(&word[i], '*');
 		}
 		else
 		{
