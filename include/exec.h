@@ -28,6 +28,9 @@ typedef struct s_data
 	t_exec_cmd	**exec_cmd;
 	t_env		*env;
 	t_node		*root;
+	int			pipe_fd[2];
+	int			tmp_fd;
+	int			nb_cmd;
 }			t_data;
 
 int			open_cmd_files(t_token *redirect_token, t_exec_cmd *cmd);
@@ -42,11 +45,12 @@ int			launch_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token,
 				t_data data);
 int			launch_builtin(t_exec_cmd *exec_cmd, t_token *redirect_token,
 				t_env *env);
-int			launch_pipeline(t_exec_cmd **exec_cmd, t_command **cmd,
-				t_env *emv, t_node *root);
+int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd , t_data data);
 int			set_builtin_redirection(t_exec_cmd *exec_cmd,
 				t_token *redirect_token, int save_std[2]);
 void		free_exec_cmd(t_exec_cmd **exe_cmd);
 void		free_data(t_data data);
+int			get_last_child_status(pid_t last_pid);
+int			set_cmd_redirection(t_exec_cmd *cmd);
 
 #endif
