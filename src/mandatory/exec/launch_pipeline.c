@@ -34,26 +34,32 @@ static int	open_pipe(t_data *data, int cmd_num)
 
 static int	set_pipe_redirection(t_data *data, int cmd_num)
 {
+	int	error;
+
+	error = SUCCESS;
 	if (cmd_num == 0)
 	{
 		close(data->pipe_fd[0]);
-		dup2(data->pipe_fd[1], STDOUT_FILENO);
+		if (dup2(data->pipe_fd[1], STDOUT_FILENO) == FAILURE);
+			error = FAILURE;
 		close(data->pipe_fd[1]);
 	}
 	else if (cmd_num == data->nb_cmd - 1)
 	{
-		dup2(data->tmp_fd, STDIN_FILENO);
+		if (dup2(data->tmp_fd, STDIN_FILENO) == FAILURE)
+			error = FAILURE;
 		close(data->tmp_fd);
 	}
 	else
 	{
 		close(data->pipe_fd[0]);
-		dup2(data->pipe_fd[1], STDOUT_FILENO);
+		if (dup2(data->pipe_fd[1], STDOUT_FILENO) == FAILURE
+			|| dup2(data->tmp_fd, STDIN_FILENO) == FAILURE)
+			error = FAILURE;
 		close(data->pipe_fd[1]);
-		dup2(data->tmp_fd, STDIN_FILENO);
 		close(data->tmp_fd);
 	}
-	return (SUCCESS);
+	return (error);
 }
 
 static void	launch_child(t_exec_cmd *exec_cmd, t_token *redirection, t_data data, int cmd_num)
@@ -61,7 +67,6 @@ static void	launch_child(t_exec_cmd *exec_cmd, t_token *redirection, t_data data
 	int	exit_status;
 
 	exit_status = SUCCESS;
-	set_pipe_redirection(&data, cmd_num);
 	if (open_cmd_files(redirection, exec_cmd) == FAILURE)
 		end_process(data, FAILURE);
 	if (set_cmd_redirection(exec_cmd) == FAILURE)
@@ -97,9 +102,14 @@ int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd , t_data data)
 			return (FAILURE);
 		else if (pid == 0)
 		{
+			if (set_pipe_redirection(&data, cmd_num) == FAILURE)
+			{
+				end_process(data, FAILURE);
+			}
 			launch_child(exec_cmd[cmd_num], cmd[cmd_num]->redirect_token, data, cmd_num);
 		}
 		++cmd_num;
 	}
+	//close(data.pipe_fd[0]);
 	return (get_last_child_status(pid));
 }

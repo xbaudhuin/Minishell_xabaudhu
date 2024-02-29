@@ -17,6 +17,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int	main(int ac, char **av, char **env)
-{
-}
+// int	main(int ac, char **av, char **env)
+// {
+// }

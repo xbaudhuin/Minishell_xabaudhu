@@ -89,10 +89,10 @@ void	ft_readline2(int ac, char **av)
 }
 */
 
-int main(int ac, char **av)
-{
-	(void)ac;
-	(void)av;
-	ft_readline();
-	return (0);
-}
+// int main(int ac, char **av)
+// {
+// 	(void)ac;
+// 	(void)av;
+// 	ft_readline();
+// 	return (0);
+// }
