@@ -24,7 +24,7 @@ static int	get_nb_cmd(const t_command **cmd)
 	return (nb_cmd);
 }
 
-static void	free_exec_cmd(t_exec_cmd **exec_cmd)
+static void	free_empty_exec_cmd(t_exec_cmd **exec_cmd)
 {
 	int	cmd_num;
 
@@ -55,7 +55,7 @@ static t_exec_cmd	**alloc_exec_cmd(int nb_cmd)
 		if (exec_cmd == NULL)
 		{
 			ft_fprintf(2, "minishell: malloc error in launch_node\n");
-			free_exec_cmd(exec_cmd);
+			free_empty_exec_cmd(exec_cmd);
 			return (NULL);
 		}
 		++cmd_num;

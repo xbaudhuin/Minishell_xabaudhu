@@ -39,12 +39,12 @@
 // 	{
 // 		end_process(root, env);
 // 	}
-// 	if (access(exec_cmd.path, X_OK) == -1)
-// 	{
-// 		ft_fprintf(2, "minishel: %s :%s\n", exec_cmd.path, strerror(errno));
-// 		env->exit_status = FAILURE;
-// 		end_process(root, env);
-// 	}
+	// if (access(exec_cmd.path, X_OK) == -1)
+	// {
+	// 	ft_fprintf(2, "minishel: %s :%s\n", exec_cmd.path, strerror(errno));
+	// 	env->exit_status = FAILURE;
+	// 	end_process(root, env);
+	// }
 // 	if (exec_cmd.infile != STDIN_FILENO)
 // 	{
 // 		dup2(exec_cmd.infile, STDIN_FILENO);
@@ -58,14 +58,64 @@
 // 	execve(exec_cmd.path, exec_cmd.argv, env->variables);
 // }
 
+static int	close_files(t_exec_cmd *cmd)
+{
+	ft_fprintf(2, "minishell: launch_builtin: %s\n", strerror(errno));
+	if (cmd->infile != STDIN_FILENO || isatty(cmd->infile) == FALSE)
+	{
+		close(cmd->infile);
+	}
+	if (cmd->outfile != STDOUT_FILENO || isatty(cmd->outfile) == FALSE)
+	{
+		close(cmd->outfile);
+	}
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	return (SUCCESS);
+}
+
+static int	set_cmd_redirection(t_exec_cmd *cmd)
+{
+	if (cmd->infile != STDIN_FILENO)
+	{
+		if (dup2(cmd->infile, STDIN_FILENO) == INVALID_FD)
+		{
+			close_files(cmd);
+			return (FAILURE);
+		}
+	}
+	if (cmd->outfile != STDOUT_FILENO)
+	{
+		if (dup2(cmd->outfile, STDOUT_FILENO) == INVALID_FD)
+		{
+			close_files(cmd);
+			return (FAILURE);
+		}		
+	}
+	return (SUCCESS);
+}
+
 static void	launch_child(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data data)
 {
-	(void)exec_cmd;
-	(void)redirect_token;
-	(void)data;
-	free_data(data);
-	rl_clear_history();
-	exit(50);
+	int	exit_status;
+
+	exit_status = SUCCESS;
+	if (open_cmd_files(redirect_token, exec_cmd) == FAILURE)
+		end_process(data, FAILURE);
+	if (set_cmd_redirection(exec_cmd) == FAILURE)
+		end_process(data, FAILURE);
+	if (exec_cmd->argv[0] == NULL)
+		end_process(data, SUCCESS);
+	exec_cmd->path = get_cmd_path((const char *)exec_cmd->argv[0], (const t_env) * data.env, &exit_status);
+	if (exec_cmd->path == NULL)
+		end_process(data, exit_status);
+	if (access(exec_cmd->path, X_OK) == -1)
+	{
+		ft_fprintf(2, "minishell: %s :%s\n", exec_cmd->path, strerror(errno));
+		end_process(data, 126);
+	}
+	execve(exec_cmd->path, exec_cmd->argv, data.env->variables);
+	end_process(data, FAILURE);
 }
 
 int	launch_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data data)

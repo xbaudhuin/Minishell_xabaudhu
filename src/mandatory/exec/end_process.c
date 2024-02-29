@@ -12,9 +12,8 @@
 
 #include "minishell.h"
 
-void	end_process(t_node **root, t_env *env)
+void	end_process(t_data data, int exit_status)
 {
-	free_tree(root);
-	free_env(env);
-	exit(env->exit_status);
+	free_data(data);
+	exit(exit_status);
 }

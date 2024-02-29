@@ -117,21 +117,11 @@ SRCS_EXEC		=	mandatory/environment/free_env.c \
 					mandatory/exec/free_exec_cmd.c \
 					mandatory/exec/free_data.c \
 					mandatory/exec/set_builtin_redirection.c \
-					mandatory/read_line.c \
-					mandatory/check_special_char2.c \
-					mandatory/check_special_char.c \
-					mandatory/token_add_back.c \
-					mandatory/is_token.c \
-					mandatory/previous_token.c \
-					mandatory/parse_token.c \
-					mandatory/t_command.c \
-					mandatory/create_node.c \
-					mandatory/create_tree.c \
-					mandatory/simplify_token_list.c
 
-
-
-OBJS_EXEC		=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o})
+OBJS_EXEC		=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_PARSING:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_WILDCARD:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_HERE_DOC:.c=.o}) \
 
 ################################################################################
 #                                 RULES                                        #

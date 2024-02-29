@@ -17,4 +17,5 @@ void	free_data(t_data data)
 	free_exec_cmd(data.exec_cmd);
 	free_env(data.env);
 	free_tree(&(data.root));
+	rl_clear_history();
 }
