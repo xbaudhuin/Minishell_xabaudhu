@@ -101,6 +101,12 @@ char	*get_cmd_path(const char *cmd_first_arg, const t_env env, int *exit_status)
 	char	*cmd_path;
 
 	*exit_status = SUCCESS;
+	if (ft_getenv("PATH", env) == NULL)
+	{
+		ft_fprintf(2, "%s: command not found\n", cmd_first_arg);
+		*exit_status = 127;
+		return (NULL);
+	}
 	if (ft_strchr(cmd_first_arg, '/') != NULL)
 	{
 		cmd_path = ft_strdup(cmd_first_arg);

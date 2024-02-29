@@ -79,6 +79,8 @@ t_exec_cmd	**initialize_exec_cmd(const t_command **cmd)
 	while (cmd_num < nb_cmd)
 	{
 		exec_cmd[cmd_num]->argv = get_cmd_argv(cmd[cmd_num]);
+		exec_cmd[cmd_num]->infile = STDIN_FILENO;
+		exec_cmd[cmd_num]->outfile = STDOUT_FILENO;
 		if (exec_cmd[cmd_num]->argv == NULL)
 		{
 			free_exec_cmd(exec_cmd);
