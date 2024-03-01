@@ -30,19 +30,12 @@ static int	dup_std(int save_std[2])
 	return (SUCCESS);
 }
 
-static int	close_on_dup2_fail(int save_std[2], int infile, int outfile)
+static int	close_on_fail(int save_std[2], t_exec_cmd *exec_cmd)
 {
 	ft_fprintf(2, "minishell: launch_builtin: %s\n", strerror(errno));
 	close(save_std[0]);
 	close(save_std[1]);
-	if (infile != STDIN_FILENO || isatty(infile) == FALSE)
-	{
-		close(infile);
-	}
-	if (outfile != STDOUT_FILENO || isatty(outfile) == FALSE)
-	{
-		close(outfile);
-	}
+	close_cmd_files(exec_cmd);
 	return (FAILURE);
 }
 
@@ -55,18 +48,19 @@ int	set_builtin_redirection(t_exec_cmd *cmd,
 	{
 		close(save_std[0]);
 		close(save_std[1]);
+		close_cmd_files(cmd);
 		return (FAILURE);
 	}
 	if (cmd->infile != STDIN_FILENO)
 	{
 		if (dup2(cmd->infile, STDIN_FILENO) == INVALID_FD)
-			return (close_on_dup2_fail(save_std, cmd->infile, cmd->outfile));
+			return (close_on_fail(save_std, cmd));
 		close(cmd->infile);
 	}
 	if (cmd->outfile != STDOUT_FILENO)
 	{
 		if (dup2(cmd->outfile, STDOUT_FILENO) == INVALID_FD)
-			return (close_on_dup2_fail(save_std, cmd->infile, cmd->outfile));
+			return (close_on_fail(save_std, cmd));
 		close(cmd->outfile);
 	}
 	return (SUCCESS);

@@ -16,7 +16,6 @@ int	launch_tree(t_node *root, t_env *env)
 {
 	int		exit_status_left;
 
-	//exit_status_left = SUCCESS;
 	if (root->type == NODE_LEAF)
 	{
 		return (launch_node(root->cmd, env, root));

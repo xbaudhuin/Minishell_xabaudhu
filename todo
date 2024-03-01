@@ -1,0 +1,9 @@
+Handle weird option in echo (-nnnnnnnnnnnnnnnnnnnnnnnnnnnn)
+Handle argument in exit
+Handle '< stdout' and '> stdin' redirections
+Verify protection in builtins
+Verify protection in environment creation and modification
+Add define for both pipe sides
+Add more free in exit builtin
+Too many open fd at the end of exit builtin (but not with ctrl + D)
+Handle shellvl at the begining of the minishell (environment creation)

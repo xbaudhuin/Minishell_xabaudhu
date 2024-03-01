@@ -85,31 +85,3 @@ t_env	get_expended_env(const t_env old_env, int *ext_sts)
 	}
 	return (new_env);
 }
-
-// int main(int ac, char **av, char **env)
-// {
-// 	t_env	my_env;
-
-// 	(void)ac;
-// 	(void)av;
-// 	my_env = create_env((const char **)env);
-// 	size_t num = 0;
-// 	printf("env alloc size = %zu\n\n", my_env.allocated_size);
-// 	printf("is env full = %d\n\n", is_env_full(my_env));
-// 	while (num < my_env.allocated_size)
-// 	{
-// 		printf("%s\n", my_env.variables[num]);
-// 		++num;
-// 	}
-// 	my_env = get_expended_env(my_env);
-// 	num = 0;
-// 	printf("env alloc size = %zu\n\n", my_env.allocated_size);
-// 	printf("is env full = %d\n\n", is_env_full(my_env));
-// 	while (num < my_env.allocated_size)
-// 	{
-// 		printf("%s\n", my_env.variables[num]);
-// 		++num;
-// 	}
-// 	free_env(my_env);
-// 	return (0);
-// }

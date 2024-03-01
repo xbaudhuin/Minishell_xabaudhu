@@ -41,14 +41,14 @@ static int	open_cmd_here_doc(t_token *redir_toen)
 	char	*here_doc_content;
 
 	here_doc_content = redir_toen->word;
-	if (pipe(pipe_fd) == -1)
+	if (pipe(pipe_fd) == INVALID_FD)
 	{
 		ft_fprintf(2, "minishell: here doc :%s\n", strerror(errno));
 		return (INVALID_FD);
 	}
-	write(pipe_fd[0], here_doc_content, ft_strlen(here_doc_content));
-	close(pipe_fd[0]);
-	return (pipe_fd[1]);
+	write(pipe_fd[1], here_doc_content, ft_strlen(here_doc_content));
+	close(pipe_fd[1]);
+	return (pipe_fd[0]);
 }
 
 static int	open_cmd_outfile(t_token *redir_token, int redir_type)

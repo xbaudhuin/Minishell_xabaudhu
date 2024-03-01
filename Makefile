@@ -123,6 +123,7 @@ SRCS_EXEC		=	mandatory/exec/open_cmd_files.c \
 					mandatory/exec/close_cmd_files.c \
 					mandatory/exec/set_pipe_redirection.c \
 					mandatory/exec/set_cmd_redirection.c \
+					mandatory/exec/execute_a_cmd.c \
 
 SRCS_TEST		=	mandatory/test_builtins.c \
 					mandatory/signals/quit_signal.c \
