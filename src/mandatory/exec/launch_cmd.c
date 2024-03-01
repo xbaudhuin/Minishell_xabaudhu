@@ -12,49 +12,9 @@
 
 #include "minishell.h"
 
-static int	close_files(t_exec_cmd *cmd)
-{
-	if (cmd->infile != STDIN_FILENO || isatty(cmd->infile) == FALSE)
-	{
-		close(cmd->infile);
-	}
-	if (cmd->outfile != STDOUT_FILENO || isatty(cmd->outfile) == FALSE)
-	{
-		close(cmd->outfile);
-	}
-	if (isatty(STDIN_FILENO) == FALSE)
-		close(STDIN_FILENO);
-	if (isatty(STDOUT_FILENO) == FALSE)
-		close(STDOUT_FILENO);
-	return (SUCCESS);
-}
-
-int	set_cmd_redirection(t_exec_cmd *cmd)
-{
-	if (cmd->infile != STDIN_FILENO)
-	{
-		if (dup2(cmd->infile, STDIN_FILENO) == INVALID_FD)
-		{
-			ft_fprintf(2, "minishell: launch_cmd: %s\n", strerror(errno));
-			close_files(cmd);
-			return (FAILURE);
-		}
-	}
-	if (cmd->outfile != STDOUT_FILENO)
-	{
-		if (dup2(cmd->outfile, STDOUT_FILENO) == INVALID_FD)
-		{
-			ft_fprintf(2, "minishell: launch_cmd: %s\n", strerror(errno));
-			close_files(cmd);
-			return (FAILURE);
-		}		
-	}
-	return (SUCCESS);
-}
-
 static void	end_child(t_exec_cmd *exec_cmd, t_data data, int exit_status)
 {
-	close_files(exec_cmd);
+	close_cmd_files(exec_cmd);
 	end_process(data, exit_status);
 }
 
@@ -80,13 +40,13 @@ static void	launch_child(t_exec_cmd *exec_cmd,
 		end_process(data, 126);
 	}
 	execve(exec_cmd->path, exec_cmd->argv, data.env->variables);
-	close_files(exec_cmd);
+	close_cmd_files(exec_cmd);
 	end_process(data, FAILURE);
 }
 
 int	launch_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data data)
 {
-	int	pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
@@ -95,6 +55,8 @@ int	launch_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data data)
 	}
 	else if (pid == 0)
 	{
+		handle_sigquit(FALSE);
+		handle_sigint(FALSE);
 		launch_child(exec_cmd, redirect_token, data);
 	}
 	return(get_last_child_status(pid));

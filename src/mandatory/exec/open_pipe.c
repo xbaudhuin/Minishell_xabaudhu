@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_last_child_status.c                            :+:      :+:    :+:   */
+/*   open_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/29 17:46:02 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/29 17:46:03 by ldoyen--         ###   ########.fr       */
+/*   Created: 2024/03/01 14:46:18 by ldoyen--          #+#    #+#             */
+/*   Updated: 2024/03/01 14:46:18 by ldoyen--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_last_child_status(pid_t last_pid)
+int	open_pipe(t_data *data, int cmd_num)
 {
-	int 	code_exit;
-	int		exit_status;
-	pid_t	pid;
-
-	while (1)
+	if (cmd_num > 0)
 	{
-		pid = wait(&code_exit);
-		if (pid == last_pid)
+		if (cmd_num > 1)
+			close(data->tmp_fd);
+		close(data->pipe_fd[1]);
+		data->tmp_fd = data->pipe_fd[0];
+	}
+	if (cmd_num < data->nb_cmd - 1)
+	{
+		if (pipe(data->pipe_fd) == -1)
 		{
-			if (WIFEXITED(code_exit))
-			{
-				exit_status = WEXITSTATUS(code_exit);	
-			}		
-		}
-		else if (pid < 0)
-		{
-			break ;
+			ft_fprintf(2, "minishell: launch_pipeline: %s\n", strerror(errno));
+			return (FAILURE);
 		}
 	}
-	return (exit_status);
+	return (SUCCESS);
 }

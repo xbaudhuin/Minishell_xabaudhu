@@ -88,11 +88,12 @@ LIBFT_D			=	$(addprefix ${LIBFT_PATH}, ${LIBFT})
 
 NAME_TEST		=	test.exe
 
-SRCS_EXEC		=	mandatory/environment/free_env.c \
+SRCS_ENVIRONMENT =	mandatory/environment/free_env.c \
 					mandatory/environment/create_env.c \
 					mandatory/environment/ft_getenv.c \
 					mandatory/environment/get_expanded_env.c \
-					mandatory/builtins/echo/echo.c \
+
+SRCS_BUILTINS 	=	mandatory/builtins/echo/echo.c \
 					mandatory/builtins/env/env.c \
 					mandatory/builtins/export/export.c \
 					mandatory/builtins/pwd/pwd.c \
@@ -103,10 +104,8 @@ SRCS_EXEC		=	mandatory/environment/free_env.c \
 					mandatory/builtins/is_builtin.c \
 					mandatory/builtins/check_option.c \
 					mandatory/builtins/is_var_name_valid.c \
-					mandatory/test_builtins.c \
-					mandatory/signals/quit_signal.c \
-					mandatory/signals/int_signal.c \
-					mandatory/exec/open_cmd_files.c \
+
+SRCS_EXEC		=	mandatory/exec/open_cmd_files.c \
 					mandatory/exec/get_cmd_path.c \
 					mandatory/exec/get_cmd_argv.c \
 					mandatory/exec/launch_cmd.c \
@@ -120,11 +119,22 @@ SRCS_EXEC		=	mandatory/environment/free_env.c \
 					mandatory/exec/free_data.c \
 					mandatory/exec/set_builtin_redirection.c \
 					mandatory/exec/get_last_child_status.c \
+					mandatory/exec/open_pipe.c \
+					mandatory/exec/close_cmd_files.c \
+					mandatory/exec/set_pipe_redirection.c \
+					mandatory/exec/set_cmd_redirection.c \
+
+SRCS_TEST		=	mandatory/test_builtins.c \
+					mandatory/signals/quit_signal.c \
+					mandatory/signals/int_signal.c \
 
 OBJS_EXEC		=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_PARSING:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_WILDCARD:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_HERE_DOC:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_ENVIRONMENT:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_BUILTINS:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_TEST:.c=.o}) \
 
 ################################################################################
 #                                 RULES                                        #
