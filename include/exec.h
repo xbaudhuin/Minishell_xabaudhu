@@ -45,12 +45,15 @@ int			launch_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token,
 				t_data data);
 int			launch_builtin(t_exec_cmd *exec_cmd, t_token *redirect_token,
 				t_env *env);
-int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd , t_data data);
+int			launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd , t_data data);
 int			set_builtin_redirection(t_exec_cmd *exec_cmd,
 				t_token *redirect_token, int save_std[2]);
 void		free_exec_cmd(t_exec_cmd **exe_cmd);
 void		free_data(t_data data);
 int			get_last_child_status(pid_t last_pid);
 int			set_cmd_redirection(t_exec_cmd *cmd);
+int			open_pipe(t_data *data, int cmd_num);
+int			close_cmd_files(t_exec_cmd *cmd);
+int			set_pipe_redirection(t_data *data, int cmd_num);
 
 #endif
