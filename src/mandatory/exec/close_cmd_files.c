@@ -14,11 +14,11 @@
 
 int	close_cmd_files(t_exec_cmd *cmd)
 {
-	if (cmd->infile != STDIN_FILENO)
+	if (cmd->infile != STDIN_FILENO && cmd->infile != INVALID_FD)
 	{
 		close(cmd->infile);
 	}
-	if (cmd->outfile != STDOUT_FILENO)
+	if (cmd->outfile != STDOUT_FILENO && cmd->outfile != INVALID_FD)
 	{
 		close(cmd->outfile);
 	}

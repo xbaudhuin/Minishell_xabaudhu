@@ -12,8 +12,9 @@
 
 #include "minishell.h"
 
-void	end_process(t_data data, int exit_status)
+void	end_process(t_exec_cmd *exec_cmd, t_data data, int exit_status)
 {
+	close_cmd_files(exec_cmd);
 	free_data(data);
 	exit(exit_status);
 }

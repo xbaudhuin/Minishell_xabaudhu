@@ -19,7 +19,6 @@ int	set_cmd_redirection(t_exec_cmd *cmd)
 		if (dup2(cmd->infile, STDIN_FILENO) == INVALID_FD)
 		{
 			ft_fprintf(2, "minishell: launch_cmd: %s\n", strerror(errno));
-			close_cmd_files(cmd);
 			return (FAILURE);
 		}
 		close (cmd->infile);
@@ -29,7 +28,6 @@ int	set_cmd_redirection(t_exec_cmd *cmd)
 		if (dup2(cmd->outfile, STDOUT_FILENO) == INVALID_FD)
 		{
 			ft_fprintf(2, "minishell: launch_cmd: %s\n", strerror(errno));
-			close_cmd_files(cmd);
 			return (FAILURE);
 		}
 		close(cmd->outfile);

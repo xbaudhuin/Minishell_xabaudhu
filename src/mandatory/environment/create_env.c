@@ -85,22 +85,3 @@ t_env	create_env(const char **main_env)
 	add_pwd(new_env);
 	return (new_env);
 }
-
-// int	main(int ac, char **av, char **env)
-// {
-// 	(void)ac;
-// 	(void)av;
-// 	//char *pwd = getenv("PWD");
-// 	//ft_bzero(pwd, ft_strlen(pwd));
-// 	t_env new_env = create_env((const char **)env);
-// 	size_t	i = 0;
-// 	while (i < new_env.allocated_size)
-// 	{
-// 		if (new_env.variables[i])
-// 		{
-// 			printf("%s\n", new_env.variables[i]);
-// 		}
-// 		++i;
-// 	}
-// 	ft_free_str_array(new_env.variables);
-// }
