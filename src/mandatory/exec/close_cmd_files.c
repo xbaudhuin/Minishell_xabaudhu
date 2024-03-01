@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   launch_tree.c                                      :+:      :+:    :+:   */
+/*   close_cmd_files.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/27 17:24:40 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/27 17:24:40 by ldoyen--         ###   ########.fr       */
+/*   Created: 2024/03/01 14:49:55 by ldoyen--          #+#    #+#             */
+/*   Updated: 2024/03/01 14:49:56 by ldoyen--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	launch_tree(t_node *root, t_env *env)
+int	close_cmd_files(t_exec_cmd *cmd)
 {
-	int		exit_status_left;
-
-	//exit_status_left = SUCCESS;
-	if (root->type == NODE_LEAF)
+	if (cmd->infile != STDIN_FILENO)
 	{
-		return (launch_node(root->cmd, env, root));
+		close(cmd->infile);
 	}
-	else
+	if (cmd->outfile != STDOUT_FILENO)
 	{
-		exit_status_left = launch_tree(root->left_node, env);
+		close(cmd->outfile);
 	}
-	if ((exit_status_left == SUCCESS && root->type == NODE_AND)
-		|| (exit_status_left != SUCCESS && root->type == NODE_OR))
+	if (isatty(STDIN_FILENO) == FALSE)
 	{
-		return (launch_tree(root->right_node, env));
+		close(STDIN_FILENO);
 	}
-	else
+	if (isatty(STDOUT_FILENO) == FALSE)
 	{
-		return (exit_status_left);
+		close(STDOUT_FILENO);
 	}
+	return (SUCCESS);
 }
