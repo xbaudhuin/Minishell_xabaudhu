@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:34:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 20:35:10 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/03 13:28:26 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ static int	get_nb_wildcard(const char *word, char c)
 {
 	unsigned int	i;
 	unsigned int	nb_wildcard;
-	char			quotes;
 
 	i = 0;
 	nb_wildcard = 0;
-	quotes = '\0';
 	while (word[i] != '\0')
 	{
 		if (is_quotes(word[i]))
@@ -94,7 +92,7 @@ static char	*wildcard_expansion(char *word, unsigned int size_split, int mode)
 	return (str);
 }
 
-char	*wildcard(char *word)
+char	*expand_wildcard(char *word)
 {
 	unsigned int	nb_wildcard;
 	char			*str;

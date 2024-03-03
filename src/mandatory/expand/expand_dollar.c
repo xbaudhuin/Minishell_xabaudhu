@@ -6,12 +6,10 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/01 18:05:53 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/03 13:22:49 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "environment.h"
-#include "ft_printf.h"
 #include "minishell.h"
 #include "parsing.h"
 
@@ -172,7 +170,7 @@ int	is_dollar_expandable(const char *word)
 	return (FALSE);
 }
 
-int	fill_token_word(const char *buf, t_token *token)
+int	fill_token_word(const char *buf, t_token *token, unsigned int *index)
 {
 	unsigned int	i;
 	int				flag_quotes;
@@ -188,34 +186,58 @@ int	fill_token_word(const char *buf, t_token *token)
 		else
 			i++;
 	}
-	token->type = word;
+	token->type = WORD;
 	token->word = token_dup_word(buf, i, token);
 	if (token->word == NULL)
-		token->type = ERROR;
+	{
+		ft_del_token(token);
+		return (FAILURE);
+	}
+	*index += i;
 	return (SUCCESS);
 }
 
-int	re_tokenize(t_token *head)
+void	insert_mid_list(t_token *token, t_token *new_token)
+{
+	t_token	*next_token;
+
+	next_token = token->next;
+	new_token->next = next_token;
+	token->next = new_token;
+	new_token->previous = token;
+	if (next_token != NULL)
+	{
+		next_token->previous = new_token;
+	}
+}
+
+int	re_tokenize(t_token *token)
 {
 	unsigned int	i;
-	t_token			*token;
+	t_token			*new_token;
 	char			*buf;
 
-	buf = (*head)->word;
-	(*head)->word = NULL;
-	if (fill_token_word(buf, *head) == FAILURE)
+	buf = token->word;
+	token->word = NULL;
+	i = 0;
+	if (fill_token_word(buf, token, &i) == FAILURE)
 		return (FAILURE);
-	i = ft_strlen((*head)->word);
 	while (buf[i] != '\0')
 	{
 		i += skip_spaces(&buf[i]);
 		if (buf[i] != '\0')
 			break ;
-		token = fill_token_word(&buf[i], &i);
-		if (token == NULL || token->type == ERROR)
-			return (
-		
+		new_token = init_token();
+		if (new_token == NULL)
+		{
+			perror(RED"expand re_tokenize"RESET);
+			return (FAILURE);
+		}
+		if (fill_token_word(&buf[i], new_token, &i) == FAILURE)
+			return (FAILURE);
+		insert_mid_list(token, new_token);
 	}
+	return (SUCCESS);
 }
 
 int	expand_dollar_list(t_token **head, const t_env env)
@@ -233,8 +255,11 @@ int	expand_dollar_list(t_token **head, const t_env env)
 				free_token(head);
 				return (FAILURE);
 			}
-			tmp = re_tokenize(tmp);
-			if (tmp->type == )
+			if (re_tokenize(tmp) == FAILURE)
+			{
+				free_token(head);
+				return (FAILURE);
+			}
 		}
 		tmp = tmp->next;
 	}

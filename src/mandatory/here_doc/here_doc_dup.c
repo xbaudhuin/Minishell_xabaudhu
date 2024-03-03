@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:21:56 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 19:29:26 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/03 13:03:13 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,10 @@ static char	*trim_limit_dup(t_token *here_doc, unsigned int *len_limiter)
 	if (limiter == NULL)
 		return (NULL);
 	i = 0;
+	quotes = '\0';
 	while (here_doc->word[i])
 	{
-		len_to_cpy = go_to_next_quotes(&here_doc->word[i], '\0');
+		len_to_cpy = go_to_next_quotes(&here_doc->word[i], quotes);
 		ft_memmove(&limiter[*len_limiter], &here_doc->word[i], len_to_cpy);
 		i += len_to_cpy;
 		*len_limiter += len_to_cpy;
