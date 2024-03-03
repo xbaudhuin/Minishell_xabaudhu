@@ -46,9 +46,9 @@ static int	open_cmd_here_doc(t_token *redir_toen)
 		ft_fprintf(2, "minishell: here doc :%s\n", strerror(errno));
 		return (INVALID_FD);
 	}
-	write(pipe_fd[1], here_doc_content, ft_strlen(here_doc_content));
-	close(pipe_fd[1]);
-	return (pipe_fd[0]);
+	write(pipe_fd[WRITE_SIDE], here_doc_content, ft_strlen(here_doc_content));
+	close(pipe_fd[WRITE_SIDE]);
+	return (pipe_fd[READ_SIDE]);
 }
 
 static int	open_cmd_outfile(t_token *redir_token, int redir_type)

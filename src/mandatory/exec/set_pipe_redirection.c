@@ -17,12 +17,12 @@ static int	redirect_first_cmd(t_data *data)
 	int	exit_status;
 
 	exit_status = SUCCESS;
-	close(data->pipe_fd[0]);
-	if (dup2(data->pipe_fd[1], STDOUT_FILENO) == INVALID_FD)
+	close(data->pipe_fd[READ_SIDE]);
+	if (dup2(data->pipe_fd[WRITE_SIDE], STDOUT_FILENO) == INVALID_FD)
 	{
 		exit_status = FAILURE;
 	}
-	close(data->pipe_fd[1]);
+	close(data->pipe_fd[WRITE_SIDE]);
 	return (exit_status);
 }
 
@@ -44,13 +44,13 @@ static int	redirect_middle_cmd(t_data *data)
 	int	exit_status;
 
 	exit_status = SUCCESS;
-	close(data->pipe_fd[0]);
-	if (dup2(data->pipe_fd[1], STDOUT_FILENO) == INVALID_FD
+	close(data->pipe_fd[READ_SIDE]);
+	if (dup2(data->pipe_fd[WRITE_SIDE], STDOUT_FILENO) == INVALID_FD
 		|| dup2(data->tmp_fd, STDIN_FILENO) == INVALID_FD)
 	{
 		exit_status = FAILURE;
 	}
-	close(data->pipe_fd[1]);
+	close(data->pipe_fd[WRITE_SIDE]);
 	close(data->tmp_fd);	
 	return (exit_status);
 }

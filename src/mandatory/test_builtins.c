@@ -28,29 +28,7 @@ void	print_split(char **av)
 
 void	read_cmd_line(t_env *my_env)
 {
-	// char	*line;
-	// char	**argv_cmd;
-	// int		buildin_type;
-	
-	// while (1)
-	// {
-	// 	line = readline("minishell> ");
-	// 	if (!line)
-	// 		break ;
-	// 	if (ft_strlen(line) > 0)
-	// 		add_history((const char *)line);
-	// 	argv_cmd = ft_split(line, ' ');
-	// 	if (argv_cmd == NULL)
-	// 	{
-	// 		free(line);
-	// 		break ;
-	// 	}
-	// 	free(line);
-	// 	buildin_type = is_builtin((const char **)argv_cmd);
-	// 	my_env->exit_status = launch_cmd((const char **)argv_cmd, my_env, buildin_type);
-	// 	free_split(argv_cmd);
-	// }
-	// rl_clear_history();
+
 	char	*buf;
 	t_token	*head;
 	t_node	*root;
@@ -94,7 +72,7 @@ int	main(int ac, char **av, char **main_env)
 	handle_sigquit(TRUE);
 	handle_sigint(TRUE);
 	my_env = create_env((const char **)main_env);
-	if (my_env.variables == NULL || ft_getenv("PWD", (const t_env) my_env) == NULL)
+	if (my_env.variables == NULL || ft_getenv("PWD", (const t_env) my_env) == NULL || ft_getenv("SHLVL", (const t_env) my_env) == NULL)
 	{
 		return (MALLOC_FAIL);
 	}

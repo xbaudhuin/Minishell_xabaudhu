@@ -135,21 +135,3 @@ int	export(const char **argv, t_env *env)
 	}
 	return (exit_status);
 }
-
-// int	main(int ac, char **av, char **main_env)
-// {
-// 	t_env 	my_env;
-// 	int		exit_status;
-// 	char 	*arg_env[] = {"env", (char *)NULL};
-
-// 	(void)av;
-// 	(void)ac;
-// 	my_env = create_env((const char **)main_env);
-// 	printf("\n\nFIRST ENV : \n\n");
-// 	env((const char **)arg_env, my_env);
-// 	exit_status = export((const char **)(av +1), &my_env);
-// 	printf("\n\nSECOND ENV : \n\n"); 
-// 	env((const char **)arg_env, my_env);
-// 	free_env(my_env);
-// 	return (exit_status);
-// }

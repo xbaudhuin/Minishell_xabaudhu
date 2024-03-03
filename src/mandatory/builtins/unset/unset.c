@@ -12,22 +12,6 @@
 
 #include "minishell.h"
 
-static char	**get_last_address(const t_env env)
-{
-	size_t	var_num;
-
-	var_num = env.allocated_size - 1;
-	while (var_num >= 0)
-	{
-		if (env.variables[var_num] != NULL)
-		{
-			break ;
-		}
-		--var_num;
-	}
-	return (&env.variables[var_num]);
-}
-
 static void	swap_address(char **first_add, char **second_add)
 {
 	char	*temp;
@@ -64,7 +48,7 @@ static int	unset_one_variable(const char *name, t_env *env)
 	{
 		return (SUCCESS);
 	}
-	last_var_address = get_last_address((const t_env) * env);
+	last_var_address = get_first_null_address((const t_env) * env);
 	free(*variable_address);
 	*variable_address = NULL;
 	swap_address(variable_address, last_var_address);
