@@ -40,14 +40,3 @@ int	env(const char **argv, const t_env env)
 	print_env(env);
 	return (SUCCESS);
 }
-
-// int	main(int ac, char **av, char **main_env)
-// {
-// 	t_env	my_env;
-
-// 	(void)ac;
-// 	my_env = create_env((const char **)main_env);
-// 	env((const char **)av, (const t_env)my_env);
-// 	free_env(my_env);
-// 	return (SUCCESS);
-// }

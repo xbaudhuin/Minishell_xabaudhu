@@ -12,6 +12,29 @@
 
 #include "minishell.h"
 
+static void	close_pipe_fd(t_data *data)
+{
+	if (data->tmp_fd != INVALID_FD)
+	{
+		close(data->tmp_fd);
+	}
+	if (data->pipe_fd[READ_SIDE] != INVALID_FD)
+	{
+		close(data->pipe_fd[READ_SIDE]);
+	}
+	if (data->pipe_fd[WRITE_SIDE] != INVALID_FD)
+	{
+		close(data->pipe_fd[READ_SIDE]);
+	}
+}
+
+static int	fail_pipe_fork(t_data *data)
+{
+	close(data->pipe_fd[READ_SIDE]);
+	get_last_child_status(0);
+	return (FAILURE);
+}
+
 int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd , t_data data)
 {
 	int		cmd_num;
@@ -20,22 +43,28 @@ int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd , t_data data)
 	cmd_num = 0;
 	while (exec_cmd[cmd_num] != NULL)
 	{
-		open_pipe(&data, cmd_num);
+		if (open_pipe(&data, cmd_num) == FAILURE)
+			return (fail_pipe_fork(&data));
 		pid = fork();
 		if (pid == -1)
+		{
+			close_pipe_fd(&data);
+			get_last_child_status(0);
 			return (FAILURE);
+		}
 		else if (pid == 0)
 		{
-			handle_sigquit(FALSE);
-			handle_sigint(FALSE);
 			if (set_pipe_redirection(&data, cmd_num) == FAILURE)
-			{
 				end_process(exec_cmd[cmd_num], data, FAILURE);
+			if (is_builtin((const char **) exec_cmd[cmd_num]->argv) != NONE)
+			{
+				end_process(exec_cmd[cmd_num], data, launch_builtin(exec_cmd[cmd_num], cmd[cmd_num]->redirect_token, data.env));
 			}
-			execute_a_cmd(exec_cmd[cmd_num], cmd[cmd_num]->redirect_token, data);
+			else
+				execute_a_cmd(exec_cmd[cmd_num], cmd[cmd_num]->redirect_token, data);
 		}
 		++cmd_num;
 	}
-	close(data.pipe_fd[0]);
+	close(data.pipe_fd[READ_SIDE]);
 	return (get_last_child_status(pid));
 }

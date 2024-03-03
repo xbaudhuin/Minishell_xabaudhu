@@ -16,6 +16,9 @@
 # define INVALID_FD -1
 # define TTY -2
 
+# define READ_SIDE 0
+# define WRITE_SIDE 1
+
 enum e_launch_type
 {
 	LAUNCH_CMD = 1,

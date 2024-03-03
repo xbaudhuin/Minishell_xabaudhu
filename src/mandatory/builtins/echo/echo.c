@@ -12,79 +12,72 @@
 
 #include "minishell.h"
 
-static int	is_there_n_option(int argc, const char **argv)
+static int	is_n_option(const char *arg)
 {
-	char	*to_compare;
-	size_t	bytes_to_compare;
+	int	char_num;
 
-	to_compare = "-n";
-	bytes_to_compare = ft_strlen(to_compare) + 1;
-	if (argc > 1 && !ft_strncmp(argv[1], to_compare, bytes_to_compare))
-	{
-		return (TRUE);
-	}
-	else
+	char_num = 2;
+	if (arg[0] != '-' || arg[1] != 'n' )
 	{
 		return (FALSE);
 	}
+	while (arg[char_num] != '\0')
+	{
+		if (arg[char_num] != 'n')
+		{
+			return (FALSE);
+		}
+		++char_num;
+	}
+	return (TRUE);
 }
 
-static void	display_args(int start, int nb_args, const char **av)
+static void	display_args(int start, const char **av)
 {
 	int	arg_num;
 
 	arg_num = start;
-	while (arg_num < nb_args)
+	while (av[arg_num] != NULL)
 	{
 		ft_putstr_fd((char *)av[arg_num], STDOUT_FILENO);
 		++arg_num;
-		if (arg_num != nb_args)
+		if (av[arg_num] != NULL)
 		{
 			print_space();
 		}
 	}
 }
 
-int	set_start(int nl_option)
+void	handle_option(int start)
 {
-	int	start;
-
-	if (nl_option == FALSE)
-	{
-		start = 1;
-	}
-	else
-	{
-		start = 2;
-	}
-	return (start);
-}
-
-void	handle_option(int nl_option)
-{
-	if (nl_option == FALSE)
+	if (start == 1)
 	{
 		print_new_line();
 	}
 }
 
-int	echo(const char **argv)
+int	get_start(const char **argv)
 {
-	int	nb_args;
-	int	nl_option;
 	int	start;
 
-	nb_args = count_args(argv);
-	nl_option = is_there_n_option(nb_args, argv);
-	start = set_start(nl_option);
-	display_args(start, nb_args, argv);
-	handle_option(nl_option);
-	return (0);
+	start = 1;
+	while (argv[start] != NULL)
+	{
+		if (is_n_option((const char *)argv[start]) == FALSE)
+		{
+			break ;
+		}
+		++start;
+	}
+	return (start);
 }
 
-// int	main(int ac, char **av)
-// {
-	// (void)ac;
-	// echo((const char **)av);
-// }
-// 
+int	echo(const char **argv)
+{
+	int	start;
+
+	start = get_start(argv);
+	display_args(start, argv);
+	handle_option(start);
+	return (SUCCESS);
+}

@@ -18,8 +18,8 @@ int	open_pipe(t_data *data, int cmd_num)
 	{
 		if (cmd_num > 1)
 			close(data->tmp_fd);
-		close(data->pipe_fd[1]);
-		data->tmp_fd = data->pipe_fd[0];
+		close(data->pipe_fd[WRITE_SIDE]);
+		data->tmp_fd = data->pipe_fd[READ_SIDE];
 	}
 	if (cmd_num < data->nb_cmd - 1)
 	{

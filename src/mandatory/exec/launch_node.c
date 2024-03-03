@@ -47,6 +47,9 @@ static t_data	set_data(t_env *env, t_node *root, t_exec_cmd **exec_cmd)
 	data.env = env;
 	data.exec_cmd = exec_cmd;
 	data.root = root;
+	data.tmp_fd = INVALID_FD;
+	data.pipe_fd[READ_SIDE] = INVALID_FD;
+	data.pipe_fd[WRITE_SIDE] = INVALID_FD;
 	data.nb_cmd = get_nb_cmd((const t_exec_cmd **)exec_cmd);
 	return (data);
 }

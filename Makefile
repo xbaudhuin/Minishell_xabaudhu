@@ -92,6 +92,10 @@ SRCS_ENVIRONMENT =	mandatory/environment/free_env.c \
 					mandatory/environment/create_env.c \
 					mandatory/environment/ft_getenv.c \
 					mandatory/environment/get_expanded_env.c \
+					mandatory/environment/add_pwd.c \
+					mandatory/environment/add_shlvl.c \
+					mandatory/environment/update_shlvl.c \
+					mandatory/environment/get_first_null_address.c \
 
 SRCS_BUILTINS 	=	mandatory/builtins/echo/echo.c \
 					mandatory/builtins/env/env.c \

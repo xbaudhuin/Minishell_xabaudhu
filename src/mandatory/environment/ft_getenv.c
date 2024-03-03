@@ -81,15 +81,3 @@ char	*ft_getenv(const char *name, const t_env env)
 	variable_line = get_variable_line(name, env);
 	return (get_value((const char *)variable_line, name));
 }
-
-// int	main(int ac, char **av, char **env)
-// {
-// 	t_env	my_env;
-// 	(void)ac;
-// 	(void)av;
-
-// 	my_env = create_env((const char **)env);
-// 	printf("%s\n", ft_getenv("PWD22", (const t_env)my_env));
-// 	ft_free_str_array(my_env.variables);
-// 	return (0);
-// }

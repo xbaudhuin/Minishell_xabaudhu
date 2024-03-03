@@ -24,6 +24,18 @@ static int	is_pwd_exist(void)
 	}
 }
 
+static int	is_shlvl_exist(void)
+{
+	if (getenv("SHLVL") == NULL)
+	{
+		return (FALSE);
+	}
+	else
+	{
+		return (TRUE);
+	}
+}
+
 static size_t	get_malloc_size(const char **main_env)
 {
 	size_t	malloc_size;
@@ -33,21 +45,11 @@ static size_t	get_malloc_size(const char **main_env)
 	{
 		++malloc_size;
 	}
-	return (malloc_size);
-}
-
-static void	add_pwd(t_env new_env)
-{
-	char	*pwd_str;
-	char	*env_result;
-
-	if (is_pwd_exist() == FALSE && new_env.variables != NULL)
+	if (is_shlvl_exist() == FALSE)
 	{
-		env_result = getcwd(NULL, 0);
-		pwd_str = ft_strjoin("PWD=", env_result);
-		new_env.variables[new_env.allocated_size - 2] = pwd_str;
-		free(env_result);
+		++malloc_size;
 	}
+	return (malloc_size);
 }
 
 static char	**create_env_var(const char **main_env, size_t malloc_size)
@@ -66,7 +68,7 @@ static char	**create_env_var(const char **main_env, size_t malloc_size)
 		env_variables[var_num] = ft_strdup(main_env[var_num]);
 		if (env_variables[var_num] == NULL)
 		{
-			ft_free_str_array(env_variables);
+			free_split(env_variables);
 			return (NULL);
 		}
 		++var_num;
@@ -82,6 +84,21 @@ t_env	create_env(const char **main_env)
 	ft_bzero(&new_env, sizeof (new_env));
 	new_env.allocated_size = get_malloc_size(main_env);
 	new_env.variables = create_env_var(main_env, new_env.allocated_size);
-	add_pwd(new_env);
+	if (new_env.variables == NULL)
+	{
+		return (new_env);
+	}
+	if (is_pwd_exist() == FALSE)
+	{
+		add_pwd(new_env);
+	}
+	if (is_shlvl_exist() == FALSE)
+	{
+		add_shlvl(new_env);
+	}
+	else
+	{
+		update_shlvl(new_env);
+	}
 	return (new_env);
 }
