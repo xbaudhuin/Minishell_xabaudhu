@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:22:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 18:13:13 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/02/29 17:09:23 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	is_operator(const char c)
 	return (FALSE);
 }
 
-int	is_end_dollar_char(const char c)
+int	is_dollar_char(const char c)
 {
 	if (ft_isalnum(c) == 1)
 		return (TRUE);
