@@ -19,13 +19,9 @@ void	execute_a_cmd(t_exec_cmd *exec_cmd,
 
 	exit_status = SUCCESS;
 	if (open_cmd_files(redirect_token, exec_cmd) == FAILURE)
-	{
 		end_process(exec_cmd, data, FAILURE);
-	}
 	if (set_cmd_redirection(exec_cmd) == FAILURE)
-	{
 		end_process(exec_cmd, data, FAILURE);
-	}
 	if (exec_cmd->argv[0] == NULL)
 	{
 		end_process(exec_cmd, data, SUCCESS);

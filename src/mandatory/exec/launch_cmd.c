@@ -27,5 +27,5 @@ int	launch_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data data)
 		handle_sigint(FALSE);
 		execute_a_cmd(exec_cmd, redirect_token, data);
 	}
-	return(get_last_child_status(pid));
+	return (get_last_child_status(pid));
 }

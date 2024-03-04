@@ -35,7 +35,7 @@ static int	fail_pipe_fork(t_data *data)
 	return (FAILURE);
 }
 
-int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd , t_data data)
+int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd, t_data data)
 {
 	int		cmd_num;
 	pid_t	pid;
@@ -58,10 +58,12 @@ int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd , t_data data)
 				end_process(exec_cmd[cmd_num], data, FAILURE);
 			if (is_builtin((const char **) exec_cmd[cmd_num]->argv) != NONE)
 			{
-				end_process(exec_cmd[cmd_num], data, launch_builtin(exec_cmd[cmd_num], cmd[cmd_num]->redirect_token, data.env));
+				end_process(exec_cmd[cmd_num], data,
+					launch_builtin(exec_cmd[cmd_num], cmd[cmd_num]->redirect_token, data.env));
 			}
 			else
-				execute_a_cmd(exec_cmd[cmd_num], cmd[cmd_num]->redirect_token, data);
+				execute_a_cmd(exec_cmd[cmd_num],
+					cmd[cmd_num]->redirect_token, data);
 		}
 		++cmd_num;
 	}

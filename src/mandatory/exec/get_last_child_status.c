@@ -14,7 +14,7 @@
 
 int	get_last_child_status(pid_t last_pid)
 {
-	int 	code_exit;
+	int		code_exit;
 	int		exit_status;
 	pid_t	pid;
 
@@ -25,7 +25,7 @@ int	get_last_child_status(pid_t last_pid)
 		{
 			if (WIFEXITED(code_exit))
 			{
-				exit_status = WEXITSTATUS(code_exit);	
+				exit_status = WEXITSTATUS(code_exit);
 			}		
 		}
 		else if (pid < 0)

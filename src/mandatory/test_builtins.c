@@ -77,5 +77,5 @@ int	main(int ac, char **av, char **main_env)
 		return (MALLOC_FAIL);
 	}
 	read_cmd_line(&my_env);
-	builtin_exit(&my_env);
+	builtin_exit(NULL, &my_env, NULL);
 }
