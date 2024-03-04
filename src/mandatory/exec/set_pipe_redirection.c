@@ -51,7 +51,7 @@ static int	redirect_middle_cmd(t_data *data)
 		exit_status = FAILURE;
 	}
 	close(data->pipe_fd[WRITE_SIDE]);
-	close(data->tmp_fd);	
+	close(data->tmp_fd);
 	return (exit_status);
 }
 

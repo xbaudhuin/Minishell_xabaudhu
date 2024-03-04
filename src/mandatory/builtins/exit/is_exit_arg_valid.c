@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   open_pipe.c                                        :+:      :+:    :+:   */
+/*   is_exit_arg_valid.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/01 14:46:18 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/03/01 14:46:18 by ldoyen--         ###   ########.fr       */
+/*   Created: 2024/03/04 11:26:42 by ldoyen--          #+#    #+#             */
+/*   Updated: 2024/03/04 11:26:45 by ldoyen--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_pipe(t_data *data, int cmd_num)
+int	is_exit_arg_valid(const char *str)
 {
-	if (cmd_num > 0)
+	int	char_num;
+
+	char_num = 1;
+	if (ft_isdigit(str[0]) == FALSE && str[0] != '+' && str[0] != '-')
 	{
-		if (cmd_num > 1)
-			close(data->tmp_fd);
-		close(data->pipe_fd[WRITE_SIDE]);
-		data->tmp_fd = data->pipe_fd[READ_SIDE];
+		return (FALSE);
 	}
-	if (cmd_num < data->nb_cmd - 1)
+	if (ft_isdigit(str[0]) == FALSE && ft_isdigit(str[1]) == FALSE)
 	{
-		if (pipe(data->pipe_fd) == -1)
+		return (FALSE);
+	}
+	while (str[char_num] != '\0')
+	{
+		if (ft_isdigit(str[char_num]) == FALSE)
 		{
-			ft_fprintf(2, "minishell: launch_pipeline: %s\n", strerror(errno));
-			return (FAILURE);
+			return (FALSE);
 		}
+		++char_num;
 	}
-	return (SUCCESS);
+	return (TRUE);
 }

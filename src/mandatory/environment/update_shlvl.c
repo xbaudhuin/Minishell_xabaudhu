@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   update_shlvl.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/04 11:24:25 by ldoyen--          #+#    #+#             */
+/*   Updated: 2024/03/04 11:24:26 by ldoyen--         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	is_str_digit(const char *str)
@@ -41,7 +53,6 @@ static char	*get_shlvl_str(void)
 
 void	update_shlvl(t_env env)
 {
-
 	char	*shlvl_str;
 	char	**line_address;
 

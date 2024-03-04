@@ -50,6 +50,8 @@ static t_data	set_data(t_env *env, t_node *root, t_exec_cmd **exec_cmd)
 	data.tmp_fd = INVALID_FD;
 	data.pipe_fd[READ_SIDE] = INVALID_FD;
 	data.pipe_fd[WRITE_SIDE] = INVALID_FD;
+	data.save_std[STDIN_FILENO] = INVALID_FD;
+	data.save_std[STDOUT_FILENO] = INVALID_FD;
 	data.nb_cmd = get_nb_cmd((const t_exec_cmd **)exec_cmd);
 	return (data);
 }
@@ -68,7 +70,7 @@ int	launch_node(t_command **cmd, t_env *env, t_node *root)
 	if (launch_type == LAUNCH_BUILTIN)
 	{
 		env->exit_status = launch_builtin(exec_cmd[0],
-				cmd[0]->redirect_token, env);
+				cmd[0]->redirect_token, &data);
 	}
 	else if (launch_type == LAUNCH_CMD)
 	{

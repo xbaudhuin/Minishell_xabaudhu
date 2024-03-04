@@ -108,6 +108,7 @@ SRCS_BUILTINS 	=	mandatory/builtins/echo/echo.c \
 					mandatory/builtins/is_builtin.c \
 					mandatory/builtins/check_option.c \
 					mandatory/builtins/is_var_name_valid.c \
+					mandatory/builtins/exit/is_exit_arg_valid.c \
 
 SRCS_EXEC		=	mandatory/exec/open_cmd_files.c \
 					mandatory/exec/get_cmd_path.c \

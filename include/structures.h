@@ -17,11 +17,11 @@
 
 typedef struct s_env
 {
-	char	**variables;
-	size_t	allocated_size;
-	int		pwd_unset_time;
-	int		was_oldpwd_unset;
-	int		exit_status;
+	char				**variables;
+	size_t				allocated_size;
+	int					pwd_unset_time;
+	int					was_oldpwd_unset;
+	unsigned char		exit_status;
 }			t_env;
 
 typedef struct s_token
@@ -57,6 +57,17 @@ typedef struct s_node
 	struct s_node	*right_node;
 	struct s_node	*parent_node;
 }			t_node;
+
+typedef struct s_data
+{
+	t_exec_cmd	**exec_cmd;
+	t_env		*env;
+	t_node		*root;
+	int			pipe_fd[2];
+	int			save_std[2];
+	int			tmp_fd;
+	int			nb_cmd;
+}			t_data;
 
 typedef int(*t_is_valid_type)(int);
 
