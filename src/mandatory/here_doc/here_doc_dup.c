@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:21:56 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 19:29:26 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:10:03 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,15 @@ char	*ft_strjoin_free_s1(char *s1, const char *s2, unsigned int *len_join)
 	unsigned int	len_s2;
 
 	len_s2 = ft_strlen(s2);
-	join = ft_calloc(*len_join + len_s2 + 1, sizeof(*join));
+	join = ft_calloc(*len_join + len_s2 + 2, sizeof(*join));
 	if (join == NULL)
-		return (NULL);
+		return (free(s1), NULL);
 	ft_memmove(join, s1, *len_join);
-	ft_memmove(&join[*len_join], s2, len_s2);
+	join[*len_join] = '\n';
+	ft_memmove(&join[(*len_join) + 1], s2, len_s2);
 	free(s1);
 	*len_join += len_s2;
+	join[(*len_join) + 1] = '\0';
 	return (join);
 }
 
