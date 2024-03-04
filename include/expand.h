@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:26:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/03 13:30:15 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/04 18:12:28 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,9 @@ int		compare_wildcard(char **split, unsigned int size_split, char *file);
 char	*ft_strjoin_wildcard(char *s1, const char *s2);
 char	*trim_quotes_wildcard(const char *s, unsigned int len);
 int		expand_dollar(t_command **cmd, const t_env env);
+int		expand_wildcard(t_command **cmd);
+int		expand_token(t_command **cmd, const t_env env);
+int		re_tokenize(t_token *token);
+void	trim_quotes_all(t_command **cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:34:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/03 13:28:26 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/04 18:59:05 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	*compare_split_vs_file(char *word, char **split,
 	while (1)
 	{
 		ent = readdir(dir);
-		while (ent->d_name[0] == '.' && mode == HIDDEN_OFF)
+		while (ent && ent->d_name[0] == '.' && mode == HIDDEN_OFF)
 			ent = readdir(dir);
 		if (ent == NULL)
 			break ;
@@ -92,7 +92,7 @@ static char	*wildcard_expansion(char *word, unsigned int size_split, int mode)
 	return (str);
 }
 
-char	*expand_wildcard(char *word)
+char	*do_expand_wildcard(char *word)
 {
 	unsigned int	nb_wildcard;
 	char			*str;
@@ -110,6 +110,63 @@ char	*expand_wildcard(char *word)
 	str = wildcard_expansion(word, nb_wildcard, mode);
 	return (str);
 }
+
+int	is_wildcard_expandable(const char *word)
+{
+	if (get_nb_wildcard(word, '*') >= 1)
+		return (TRUE);
+	return (FALSE);
+}
+
+int	expand_wildcard_list(t_token **head)
+{
+	t_token	*tmp;
+
+	tmp = *head;
+	while (tmp)
+	{
+		if (is_wildcard_expandable(tmp->word) == TRUE)
+		{
+			tmp->word = do_expand_wildcard(tmp->word);
+			if (tmp->word == NULL)
+			{
+				free_token(head);
+				return (FAILURE);
+			}
+			if (re_tokenize(tmp) == FAILURE)
+			{
+				free_token(head);
+				return (FAILURE);
+			}
+		}
+		tmp = tmp->next;
+	}
+	return (SUCCESS);
+}
+
+int	expand_wildcard(t_command **cmd)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		if (cmd[i]->token)
+		{
+			if (expand_wildcard_list(&cmd[i]->token) == FAILURE)
+				return (FAILURE);
+		}
+		if (cmd[i]->redirect_token)
+		{
+			if (expand_wildcard_list(&cmd[i]->redirect_token) == FAILURE)
+				return (FAILURE);
+		}
+		i++;
+	}
+	return (SUCCESS);
+}
+
+
 /*
 #include <strings.h>
 
