@@ -6,7 +6,7 @@
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 12:16:18 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/20 12:16:19 by ldoyen--         ###   ########.fr       */
+/*   Updated: 2024/03/04 12:29:18 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	read_cmd_line(t_env *my_env)
 
 	error = 0;
 	head = NULL;
+	root = NULL;
 	(void)my_env;
 	while (1)
 	{
