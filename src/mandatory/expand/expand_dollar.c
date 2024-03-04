@@ -6,10 +6,11 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/03 13:22:49 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/04 17:09:00 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
 
@@ -65,6 +66,7 @@ unsigned int	get_len_env(char *word, const t_env env, unsigned int len_word)
 unsigned int	copy_from_env(char *word, char *dollar, const t_env env)
 {
 	unsigned int	len_word;
+	unsigned int	len_name;
 	char			save;
 	char			*name;
 
@@ -72,7 +74,8 @@ unsigned int	copy_from_env(char *word, char *dollar, const t_env env)
 	save = word[len_word];
 	word[len_word] = '\0';
 	name = ft_getenv(word, env);
-	ft_memmove(dollar, name, ft_strlen(name));
+	len_name = ft_strlen(name);
+	ft_memmove(dollar, name, len_name);
 	return (len_word);
 }
 
@@ -92,6 +95,8 @@ unsigned int	get_len_dollar(const char *word, const t_env env)
 		len_total += len_till_dollar;
 		if (word[i] == '\0')
 			break ;
+		if (word[i] == '$')
+			i++;
 		len_till_dollar = skip_dollar(&word[i]);
 		len_total += get_len_env((char *)&word[i], env, len_till_dollar);
 		i += len_till_dollar;
@@ -108,7 +113,7 @@ unsigned int	copy_till_dollar(const char *source,char *dest, char c)
 	flag_quotes= FALSE;
 	while (source[i] != '\0')
 	{
-		if (source[i] == '$' && flag_quotes == FALSE)
+		if (source[i] == c && flag_quotes == FALSE)
 			break ;
 		if (source[i] == '\'')
 		{
@@ -126,21 +131,25 @@ unsigned int	copy_till_dollar(const char *source,char *dest, char c)
 char	*do_dollar_expansion(char *word, const t_env env)
 {
 	unsigned int	i;
-	unsigned int	len;
+	unsigned int	len_dollar;
 	char			*dollar;
 
 	i = 0;
-	dollar = ft_calloc(get_len_dollar(word, env), sizeof(*dollar));
+	len_dollar = get_len_dollar(word, env);
+	dollar = ft_calloc(len_dollar + 1, sizeof(*dollar));
 	if (dollar == NULL)
 		return (FALSE);
 	while (word[i] != '\0')
 	{
-		i += copy_till_dollar(word, dollar, '$');
+		i += copy_till_dollar(&word[i], dollar, '$');
 		if (word[i] == '\0')
 			break ;
-		i += copy_from_env(word, dollar, env);
+		if (word[i] == '$')
+			i++;
+		i += copy_from_env(&word[i], dollar, env);
 	}
 	free(word);
+	dollar[len_dollar] = '\0';
 	return (dollar);
 }
 
@@ -168,76 +177,6 @@ int	is_dollar_expandable(const char *word)
 			i++;
 	}
 	return (FALSE);
-}
-
-int	fill_token_word(const char *buf, t_token *token, unsigned int *index)
-{
-	unsigned int	i;
-	int				flag_quotes;
-
-	i = 0;
-	flag_quotes = FALSE;
-	while (buf[i] != '\0')
-	{
-		if (ft_is_space(buf[i]) == TRUE)
-			break ;
-		if (is_quotes(buf[i]))
-			i += go_to_next_quotes(&buf[i + 1], buf[i]);
-		else
-			i++;
-	}
-	token->type = WORD;
-	token->word = token_dup_word(buf, i, token);
-	if (token->word == NULL)
-	{
-		ft_del_token(token);
-		return (FAILURE);
-	}
-	*index += i;
-	return (SUCCESS);
-}
-
-void	insert_mid_list(t_token *token, t_token *new_token)
-{
-	t_token	*next_token;
-
-	next_token = token->next;
-	new_token->next = next_token;
-	token->next = new_token;
-	new_token->previous = token;
-	if (next_token != NULL)
-	{
-		next_token->previous = new_token;
-	}
-}
-
-int	re_tokenize(t_token *token)
-{
-	unsigned int	i;
-	t_token			*new_token;
-	char			*buf;
-
-	buf = token->word;
-	token->word = NULL;
-	i = 0;
-	if (fill_token_word(buf, token, &i) == FAILURE)
-		return (FAILURE);
-	while (buf[i] != '\0')
-	{
-		i += skip_spaces(&buf[i]);
-		if (buf[i] != '\0')
-			break ;
-		new_token = init_token();
-		if (new_token == NULL)
-		{
-			perror(RED"expand re_tokenize"RESET);
-			return (FAILURE);
-		}
-		if (fill_token_word(&buf[i], new_token, &i) == FAILURE)
-			return (FAILURE);
-		insert_mid_list(token, new_token);
-	}
-	return (SUCCESS);
 }
 
 int	expand_dollar_list(t_token **head, const t_env env)

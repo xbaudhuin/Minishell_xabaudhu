@@ -6,7 +6,7 @@
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 19:09:02 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/02/27 19:09:03 by ldoyen--         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:14:00 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	launch_node(t_command **cmd, t_env *env, t_node *root)
 
 	if (global == SIGINT)
 		return (130);
+	if (expand_token(cmd, (const t_env) * env) == FAILURE)
+		return (FAILURE);
 	exec_cmd = initialize_exec_cmd((const t_command **)cmd);
 	if (exec_cmd == NULL)
 		return (FAILURE);

@@ -75,9 +75,15 @@ SRCS_HERE_DOC	=	mandatory/here_doc/here_doc.c \
 					mandatory/here_doc/here_doc_dup.c \
 					mandatory/here_doc/here_doc_stdin.c \
 
+SRCS_EXPAND		=	mandatory/expand/expand.c \
+					mandatory/expand/expand_dollar.c \
+					mandatory/expand/re_tokenize.c \
+					mandatory/expand/trim_quotes_all.c \
+
 OBJS			=	$(addprefix ${OBJ_PATH}, ${SRCS_PARSING:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_WILDCARD:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_HERE_DOC:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_EXPAND:.c=.o}) \
 
 
 LIBFT_D			=	$(addprefix ${LIBFT_PATH}, ${LIBFT})
@@ -138,6 +144,7 @@ OBJS_EXEC		=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_PARSING:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_WILDCARD:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_HERE_DOC:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_EXPAND:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_ENVIRONMENT:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_BUILTINS:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_TEST:.c=.o}) \
@@ -179,7 +186,7 @@ ${TXT}:
 
 clean:
 		make -C ${LIBFT_PATH} clean --no-print-directory
-		${RM}  ${OBJ_PATH} 
+		${RM}  ${OBJ_PATH}
 
 fclean:		clean
 		make -C ${LIBFT_PATH} fclean --no-print-directory
