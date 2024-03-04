@@ -61,10 +61,8 @@ void	read_cmd_line(t_env *my_env)
 		}
 		free_tree(go_to_root(root));
 		head = NULL;
-		root = NULL;
-		
+		root = NULL;	
 	}
-	rl_clear_history();
 }
 
 int	main(int ac, char **av, char **main_env)

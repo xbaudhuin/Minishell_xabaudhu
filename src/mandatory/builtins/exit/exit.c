@@ -26,6 +26,7 @@ static void	close_save_std(int save_std[2])
 
 static void	free_all(t_env *env, t_data *data)
 {
+	rl_clear_history();
 	free_env(env);
 	if (data != NULL)
 	{
