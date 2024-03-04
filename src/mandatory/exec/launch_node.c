@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+extern int	global;
+
 static int	get_nb_cmd(const t_exec_cmd **exec_cmd)
 {
 	int	nb_cmd;
@@ -62,6 +64,8 @@ int	launch_node(t_command **cmd, t_env *env, t_node *root)
 	t_data		data;
 	int			launch_type;
 
+	if (global == SIGINT)
+		return (130);
 	exec_cmd = initialize_exec_cmd((const t_command **)cmd);
 	if (exec_cmd == NULL)
 		return (FAILURE);
