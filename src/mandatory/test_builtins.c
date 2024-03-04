@@ -42,6 +42,7 @@ void	read_cmd_line(t_env *my_env)
 	(void)my_env;
 	while (1)
 	{
+		global = 0;
 		buf =  readline("minishell> ");
 		if (!buf)
 			return ;

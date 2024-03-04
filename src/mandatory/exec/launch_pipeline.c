@@ -62,8 +62,10 @@ int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd, t_data data)
 {
 	int		cmd_num;
 	pid_t	pid;
+	pid_t	pgid;
 
 	cmd_num = 0;
+	pgid = 0;
 	while (exec_cmd[cmd_num] != NULL)
 	{
 		if (open_pipe(&data, cmd_num) == FAILURE)
@@ -81,6 +83,8 @@ int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd, t_data data)
 		{
 			do_child(exec_cmd, cmd_num, data, cmd);
 		}
+		if (pgid == 0)
+			pgid = pid;
 		++cmd_num;
 	}
 	close(data.pipe_fd[READ_SIDE]);
