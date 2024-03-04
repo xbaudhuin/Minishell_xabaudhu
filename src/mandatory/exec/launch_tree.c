@@ -12,9 +12,12 @@
 
 #include "minishell.h"
 
+extern int	global;
+
 int	launch_tree(t_node *root, t_env *env)
 {
 	int		exit_status_left;
+
 
 	if (root->type == NODE_LEAF)
 	{

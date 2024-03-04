@@ -40,6 +40,8 @@ static void	do_child(t_exec_cmd **exec_cmd, int cmd_num, t_data data,
 {
 	int	builtin_return;
 
+	handle_sigint(FALSE);
+	handle_sigquit(FALSE);
 	if (set_pipe_redirection(&data, cmd_num) == FAILURE)
 	{
 		end_process(exec_cmd[cmd_num], data, FAILURE);

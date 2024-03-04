@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+int	global;
+
 void	print_split(char **av)
 {
 	int	i = 0;
@@ -67,7 +69,7 @@ void	read_cmd_line(t_env *my_env)
 int	main(int ac, char **av, char **main_env)
 {
 	t_env	my_env;
-
+	
 	(void)ac;
 	(void)av;
 	handle_sigquit(TRUE);
