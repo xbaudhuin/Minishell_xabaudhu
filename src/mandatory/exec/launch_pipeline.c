@@ -28,11 +28,32 @@ static void	close_pipe_fd(t_data *data)
 	}
 }
 
-static int	fail_pipe_fork(t_data *data)
+static int	fail_open_pipe(t_data *data)
 {
 	close(data->pipe_fd[READ_SIDE]);
 	get_last_child_status(0);
 	return (FAILURE);
+}
+
+static void	do_child(t_exec_cmd **exec_cmd, int cmd_num, t_data data,
+	t_command **cmd)
+{
+	int	builtin_return;
+
+	if (set_pipe_redirection(&data, cmd_num) == FAILURE)
+	{
+		end_process(exec_cmd[cmd_num], data, FAILURE);
+	}
+	if (is_builtin((const char **) exec_cmd[cmd_num]->argv) != NONE)
+	{
+		builtin_return = launch_builtin(exec_cmd[cmd_num],
+				cmd[cmd_num]->redirect_token, data.env);
+		end_process(exec_cmd[cmd_num], data, builtin_return);
+	}
+	else
+	{
+		execute_a_cmd(exec_cmd[cmd_num], cmd[cmd_num]->redirect_token, data);
+	}
 }
 
 int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd, t_data data)
@@ -44,7 +65,7 @@ int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd, t_data data)
 	while (exec_cmd[cmd_num] != NULL)
 	{
 		if (open_pipe(&data, cmd_num) == FAILURE)
-			return (fail_pipe_fork(&data));
+			return (fail_open_fork(&data));
 		pid = fork();
 		if (pid == -1)
 		{
@@ -54,16 +75,7 @@ int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd, t_data data)
 		}
 		else if (pid == 0)
 		{
-			if (set_pipe_redirection(&data, cmd_num) == FAILURE)
-				end_process(exec_cmd[cmd_num], data, FAILURE);
-			if (is_builtin((const char **) exec_cmd[cmd_num]->argv) != NONE)
-			{
-				end_process(exec_cmd[cmd_num], data,
-					launch_builtin(exec_cmd[cmd_num], cmd[cmd_num]->redirect_token, data.env));
-			}
-			else
-				execute_a_cmd(exec_cmd[cmd_num],
-					cmd[cmd_num]->redirect_token, data);
+			do_child(exec_cmd, cmd_num, data, cmd);
 		}
 		++cmd_num;
 	}
