@@ -30,7 +30,7 @@ static void	free_all(t_env *env, t_data *data)
 	if (data != NULL)
 	{
 		free_exec_cmd(data->exec_cmd);
-		free_tree(data->root);
+		free_tree(go_to_root(data->root));
 		close_save_std(data->save_std);
 	}
 }

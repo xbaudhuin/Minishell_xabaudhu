@@ -47,7 +47,7 @@ static void	do_child(t_exec_cmd **exec_cmd, int cmd_num, t_data data,
 	if (is_builtin((const char **) exec_cmd[cmd_num]->argv) != NONE)
 	{
 		builtin_return = launch_builtin(exec_cmd[cmd_num],
-				cmd[cmd_num]->redirect_token, data.env);
+				cmd[cmd_num]->redirect_token, &data);
 		end_process(exec_cmd[cmd_num], data, builtin_return);
 	}
 	else
@@ -65,7 +65,9 @@ int	launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd, t_data data)
 	while (exec_cmd[cmd_num] != NULL)
 	{
 		if (open_pipe(&data, cmd_num) == FAILURE)
-			return (fail_open_fork(&data));
+		{
+			return (fail_open_pipe(&data));
+		}
 		pid = fork();
 		if (pid == -1)
 		{
