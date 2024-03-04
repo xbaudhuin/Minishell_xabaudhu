@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/04 19:34:23 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/04 20:20:52 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ unsigned int	copy_from_env(char *word, char *dollar, const t_env env, unsigned i
 	save = word[len_word];
 	word[len_word] = '\0';
 	name = ft_getenv(word, env);
+	word[len_word] = save;
 	len_name = ft_strlen(name);
 	ft_memmove(dollar, name, len_name);
 	*index_dollar += len_name;

@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 17:06:42 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/04 19:41:44 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/04 20:37:05 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,40 @@ static int	fill_token_word(const char *buf, t_token *token, unsigned int *index)
 	return (SUCCESS);
 }
 
-static void	insert_mid_list(t_token *token, t_token *new_token)
+static void	add_back_list(t_token *token, t_token *new_token)
 {
-	t_token	*next_token;
+	t_token	*tmp;
 
-	next_token = token->next;
-	new_token->next = next_token;
-	token->next = new_token;
-	new_token->previous = token;
-	if (next_token != NULL)
-	{
-		next_token->previous = new_token;
-	}
+	tmp = token;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = new_token;
+	new_token->previous = tmp;
+}
+
+static void	insert_mid_list(t_token *token, t_token *save_next)
+{
+	t_token	*tmp;
+
+	tmp = token;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = save_next;
+	if (save_next != NULL)
+		save_next->previous = tmp;
 }
 
 int	re_tokenize(t_token *token)
 {
 	unsigned int	i;
 	t_token			*new_token;
+	t_token			*save_next;
 	char			*buf;
 
 	buf = token->word;
 	token->word = NULL;
+	save_next = token->next;
+	token->next = NULL;
 	i = 0;
 	if (fill_token_word(buf, token, &i) == FAILURE)
 		return (free(buf), FAILURE);
@@ -77,9 +89,10 @@ int	re_tokenize(t_token *token)
 		}
 		if (fill_token_word(&buf[i], new_token, &i) == FAILURE)
 			return (free(buf), FAILURE);
-		insert_mid_list(token, new_token);
+		add_back_list(token, new_token);
 	}
 	free(buf);
+	insert_mid_list(token, save_next);
 	return (SUCCESS);
 }
 

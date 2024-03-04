@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:34:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/04 19:46:51 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/04 20:50:57 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,17 @@ static char	*wildcard_expansion(char *word, unsigned int size_split, int mode)
 	split_word = ft_split_wildcard(word, size_split);
 	if (split_word == NULL)
 		return (word);
+	/////TEMP RESET ERRNO
+	errno = 0;
 	str = compare_split_vs_file(word, split_word, size_split, mode);
 	free_wildcard(split_word, size_split);
 	if (errno)
 	{
 		free(str);
+		free(word);
+		str = NULL;
 		perror(RED"wildcard_expansion:"RESET);
-		return (free(str), NULL);
+		return (NULL);
 	}
 	if (str == NULL)
 		return (word);
