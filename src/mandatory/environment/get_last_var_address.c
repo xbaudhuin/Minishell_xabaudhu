@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_first_null_address.c                           :+:      :+:    :+:   */
+/*   get_last_var_address.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/04 11:24:39 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/03/04 11:24:40 by ldoyen--         ###   ########.fr       */
+/*   Created: 2024/03/04 19:44:03 by ldoyen--          #+#    #+#             */
+/*   Updated: 2024/03/04 19:44:03 by ldoyen--         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**get_first_null_address(const t_env env)
+char	**get_last_var_address(const t_env env)
 {
 	int	var_num;
 
@@ -25,5 +25,5 @@ char	**get_first_null_address(const t_env env)
 		}
 		--var_num;
 	}
-	return (&env.variables[var_num + 1]);
+	return (&env.variables[var_num]);
 }
