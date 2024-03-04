@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 17:06:42 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/04 18:32:56 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:41:44 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	fill_token_word(const char *buf, t_token *token, unsigned int *index)
 		if (ft_is_space(buf[i]) == TRUE)
 			break ;
 		if (is_quotes(buf[i]))
-			i += go_to_next_quotes(&buf[i + 1], buf[i]);
+			i += go_to_next_quotes(&buf[i + 1], buf[i]) + 1;
 		else
 			i++;
 	}

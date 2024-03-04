@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/04 17:09:00 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:34:23 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ unsigned int	get_len_env(char *word, const t_env env, unsigned int len_word)
 	return (len_expand);
 }
 
-unsigned int	copy_from_env(char *word, char *dollar, const t_env env)
+unsigned int	copy_from_env(char *word, char *dollar, const t_env env, unsigned int *index_dollar)
 {
 	unsigned int	len_word;
 	unsigned int	len_name;
@@ -76,6 +76,7 @@ unsigned int	copy_from_env(char *word, char *dollar, const t_env env)
 	name = ft_getenv(word, env);
 	len_name = ft_strlen(name);
 	ft_memmove(dollar, name, len_name);
+	*index_dollar += len_name;
 	return (len_word);
 }
 
@@ -104,7 +105,7 @@ unsigned int	get_len_dollar(const char *word, const t_env env)
 	return (len_total);
 }
 
-unsigned int	copy_till_dollar(const char *source,char *dest, char c)
+unsigned int	copy_till_dollar(const char *source,char *dest, char c, unsigned int *index_dollar)
 {
 	unsigned int	i;
 	int				flag_quotes;
@@ -125,31 +126,34 @@ unsigned int	copy_till_dollar(const char *source,char *dest, char c)
 		dest[i] = source[i];
 		i++;
 	}
+	*index_dollar += i;
 	return (i);
 }
 
 char	*do_dollar_expansion(char *word, const t_env env)
 {
 	unsigned int	i;
+	unsigned int	index_dollar;
 	unsigned int	len_dollar;
 	char			*dollar;
 
 	i = 0;
+	index_dollar = 0;
 	len_dollar = get_len_dollar(word, env);
 	dollar = ft_calloc(len_dollar + 1, sizeof(*dollar));
 	if (dollar == NULL)
 		return (FALSE);
 	while (word[i] != '\0')
 	{
-		i += copy_till_dollar(&word[i], dollar, '$');
+		i += copy_till_dollar(&word[i], &dollar[index_dollar], '$', &index_dollar);
 		if (word[i] == '\0')
 			break ;
 		if (word[i] == '$')
 			i++;
-		i += copy_from_env(&word[i], dollar, env);
+		i += copy_from_env(&word[i], &dollar[index_dollar], env, &index_dollar);
 	}
 	free(word);
-	dollar[len_dollar] = '\0';
+	dollar[index_dollar] = '\0';
 	return (dollar);
 }
 

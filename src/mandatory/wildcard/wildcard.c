@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:34:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/04 18:59:05 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:46:51 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	get_nb_wildcard(const char *word, char c)
 	{
 		if (is_quotes(word[i]))
 			i += go_to_next_quotes(&word[i + 1], word[i]) + 1;
-		if (word[i] == c)
+		else if (word[i] == c)
 		{
 			nb_wildcard++;
 			while (word[i] == c)
