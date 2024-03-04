@@ -48,7 +48,7 @@ static int	unset_one_variable(const char *name, t_env *env)
 	{
 		return (SUCCESS);
 	}
-	last_var_address = get_first_null_address((const t_env) * env);
+	last_var_address = get_last_var_address((const t_env) * env);
 	free(*variable_address);
 	*variable_address = NULL;
 	swap_address(variable_address, last_var_address);

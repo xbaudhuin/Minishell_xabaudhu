@@ -102,6 +102,7 @@ SRCS_ENVIRONMENT =	mandatory/environment/free_env.c \
 					mandatory/environment/add_shlvl.c \
 					mandatory/environment/update_shlvl.c \
 					mandatory/environment/get_first_null_address.c \
+					mandatory/environment/get_last_var_address.c \
 
 SRCS_BUILTINS 	=	mandatory/builtins/echo/echo.c \
 					mandatory/builtins/env/env.c \

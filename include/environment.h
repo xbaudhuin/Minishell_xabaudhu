@@ -26,4 +26,5 @@ void	add_pwd(t_env new_env);
 void	add_shlvl(t_env new_env);
 void	update_shlvl(t_env env);
 char	**get_first_null_address(const t_env env);
+char	**get_last_var_address(const t_env env);
 #endif
