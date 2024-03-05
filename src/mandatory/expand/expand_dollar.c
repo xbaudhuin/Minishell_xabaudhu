@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/04 20:20:52 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:46:29 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ unsigned int	skip_dollar(const char *word)
 	unsigned int	i;
 
 	i = 0;
+	if (word[i] == '?')
+		return (1);
 	while (is_dollar_char(word[i])== TRUE)
 		i++;
 	return (i);
@@ -56,11 +58,26 @@ unsigned int	get_len_env(char *word, const t_env env, unsigned int len_word)
 	save = word[len_word];
 	word[len_word] = '\0';
 	dollar = ft_getenv(word, env);
+	word[len_word] = save;
 	if (dollar == NULL)
 		return (0);
 	len_expand = ft_strlen(dollar);
-	word[len_word] = save;
 	return (len_expand);
+}
+
+unsigned int	ft_len_unb(unsigned int nb)
+{
+	unsigned int	len;
+
+	len = 0;
+	if (nb == 0)
+		return (1);
+	while (nb > 0)
+	{
+		len++;
+		nb /= 10;
+	}
+	return (len);
 }
 
 unsigned int	copy_from_env(char *word, char *dollar, const t_env env, unsigned int *index_dollar)
@@ -99,9 +116,17 @@ unsigned int	get_len_dollar(const char *word, const t_env env)
 			break ;
 		if (word[i] == '$')
 			i++;
-		len_till_dollar = skip_dollar(&word[i]);
-		len_total += get_len_env((char *)&word[i], env, len_till_dollar);
-		i += len_till_dollar;
+		if (word[i] == '?')
+		{
+			i++;
+			len_total += ft_len_unb(env.exit_status);
+		}
+		else
+		{
+			len_till_dollar = skip_dollar(&word[i]);
+			len_total += get_len_env((char *)&word[i], env, len_till_dollar);
+			i += len_till_dollar;
+		}
 	}
 	return (len_total);
 }
@@ -131,6 +156,33 @@ unsigned int	copy_till_dollar(const char *source,char *dest, char c, unsigned in
 	return (i);
 }
 
+void	add_exit_status(char *dollar, unsigned int *index, const t_env env)
+{
+	char			name[4];
+	unsigned char	nb;
+	unsigned int	i;
+
+	ft_bzero(name, 4);
+	nb = env.exit_status;
+	i = 0;
+	if (env.exit_status >= 100)
+	{
+		name[i] = env.exit_status / 100 + 48;
+		nb = env.exit_status % 100;
+		i++;
+	}
+	if (nb >= 10)
+	{
+		name[i] = nb / 10 + 48;
+		nb = nb % 10;
+		i++;
+	}
+	name[i] = nb + 48;
+	i++;
+	ft_memmove(dollar, name, i);
+	*index += i;
+}
+
 char	*do_dollar_expansion(char *word, const t_env env)
 {
 	unsigned int	i;
@@ -151,7 +203,13 @@ char	*do_dollar_expansion(char *word, const t_env env)
 			break ;
 		if (word[i] == '$')
 			i++;
-		i += copy_from_env(&word[i], &dollar[index_dollar], env, &index_dollar);
+		if (word[i] == '?')
+		{
+			i++;
+			add_exit_status(&dollar[index_dollar], &index_dollar, env);
+		}
+		else
+			i += copy_from_env(&word[i], &dollar[index_dollar], env, &index_dollar);
 	}
 	free(word);
 	dollar[index_dollar] = '\0';

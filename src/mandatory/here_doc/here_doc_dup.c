@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:21:56 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/04 13:20:32 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/05 14:01:39 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ static char	*trim_limit_dup(t_token *here_doc, unsigned int *len_limiter)
 			i++;
 		}
 	}
-	limiter[*len_limiter] = '\n';
-	*len_limiter += 1;
 	limiter[*len_limiter] = '\0';
 	return (limiter);
 }
