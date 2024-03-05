@@ -22,6 +22,7 @@
 # include "ft_printf.h"
 # include "parsing.h"
 # include "expand.h"
+#include "my_signals.h"
 
 #define RESET  "\x1B[0m"
 #define RED "\x1B[31m"
@@ -95,9 +96,6 @@ enum e_type_token
 };
 
 //Handle signal
-
-int				handle_sigquit(int ignore);
-int				handle_sigint(int new_prompt);
 
 
 void	print_token(t_token **head);
