@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/05 15:46:29 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:55:05 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ unsigned int	skip_dollar(const char *word)
 	unsigned int	i;
 
 	i = 0;
+	if (word[i] == '$')
+		return (0);
 	if (word[i] == '?')
 		return (1);
 	while (is_dollar_char(word[i])== TRUE)
@@ -115,7 +117,14 @@ unsigned int	get_len_dollar(const char *word, const t_env env)
 		if (word[i] == '\0')
 			break ;
 		if (word[i] == '$')
+		{
 			i++;
+			if (word[i] == '\0')
+			{
+				len_total += 1;
+				break ;
+			}
+		}
 		if (word[i] == '?')
 		{
 			i++;
@@ -199,11 +208,15 @@ char	*do_dollar_expansion(char *word, const t_env env)
 	while (word[i] != '\0')
 	{
 		i += copy_till_dollar(&word[i], &dollar[index_dollar], '$', &index_dollar);
-		if (word[i] == '\0')
-			break ;
 		if (word[i] == '$')
 			i++;
-		if (word[i] == '?')
+		if (word[i] == '\0')
+		{
+			dollar[index_dollar] = '$';
+			index_dollar++;
+			break ;
+		}
+		else if (word[i] == '?')
 		{
 			i++;
 			add_exit_status(&dollar[index_dollar], &index_dollar, env);
