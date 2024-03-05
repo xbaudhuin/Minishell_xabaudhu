@@ -90,7 +90,7 @@ char	*construct_path(const char *cmd_first_arg,
 		free(cmd_path);
 		++path_num;
 	}
-	ft_fprintf(2, "%s: command not found\n", cmd_first_arg);
+	ft_fprintf(2, "minishell: %s: command not found\n", cmd_first_arg);
 	*exit_status = 127;
 	return (free_split(env_paths), NULL);
 }
@@ -111,9 +111,9 @@ char	*get_cmd_path(const char *cmd_first_arg,
 		}
 		return (cmd_path);
 	}
-	if (ft_getenv("PATH", env) == NULL)
+	if (ft_getenv("PATH", env) == NULL || ft_strlen(cmd_first_arg) == 0)
 	{
-		ft_fprintf(2, "%s: command not found\n", cmd_first_arg);
+		ft_fprintf(2, "minishell: %s: command not found\n", cmd_first_arg);
 		*exit_status = 127;
 		return (NULL);
 	}

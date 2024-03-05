@@ -57,8 +57,10 @@ void	read_cmd_line(t_env *my_env)
 				free_tree(go_to_root(root));
 			//print_tree(&root, 0);
 			my_env->exit_status = launch_tree(root, my_env);
-			printf("exit status = %d\n", my_env->exit_status);
 		}
+		else
+			my_env->exit_status = 2;
+		printf("exit status = %d\n", my_env->exit_status);
 		free_tree(go_to_root(root));
 		head = NULL;
 		root = NULL;	
