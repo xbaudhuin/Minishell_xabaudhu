@@ -26,8 +26,6 @@ enum e_launch_type
 	LAUNCH_PIPELINE = 3,
 };
 
-
-
 int			open_cmd_files(t_token *redirect_token, t_exec_cmd *cmd);
 char		*get_cmd_path(const char *cmd_first_arg,
 				const t_env env, int *exit_status);
@@ -51,5 +49,7 @@ int			open_pipe(t_data *data, int cmd_num);
 int			close_cmd_files(t_exec_cmd *cmd);
 int			set_pipe_redirection(t_data *data, int cmd_num);
 void		execute_a_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data data);
+int			is_stdin(const char *path);
+int			is_stdout(const char *path);
 
 #endif
