@@ -45,15 +45,13 @@ static void	exit_after_rl(t_env *env, t_data *data)
 static int	get_exit_arg(const char *arg)
 {
 	unsigned char	exit_arg;
+	int				error;
 
-	if (is_exit_arg_valid(arg) == FALSE)
+	exit_arg = atoll_check_of(arg, &error);
+	if (error == FAILURE)
 	{
 		exit_arg = 2;
-		ft_fprintf(2, "minishell: exit: %s: numeric argument required", arg);
-	}
-	else
-	{
-		exit_arg = ft_atoi(arg);
+		ft_fprintf(2, "minishell: exit: %s: numeric argument required\n", arg);
 	}
 	return (exit_arg);
 }
