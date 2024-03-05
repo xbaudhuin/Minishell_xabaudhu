@@ -26,18 +26,32 @@ void	rl_new_prompt(int signal)
 	}
 }
 
-int	handle_sigint(int new_prompt)
+void	close_stdin(int signal)
+{
+	if (signal == SIGINT)
+	{
+		global = SIGINT;
+		close(STDIN_FILENO);
+	}
+}
+
+
+int	handle_sigint(int option)
 {
 	struct sigaction	action;
 
 	ft_bzero(&action, sizeof (action));
-	if (new_prompt == TRUE)
+	if (option == NEW_PROMPT)
 	{
 		action.sa_handler = &rl_new_prompt;
 	}
-	else
+	else if (option == DEFAULT)
 	{
 		action.sa_handler = SIG_DFL;
+	}
+	else
+	{
+		action.sa_handler = &close_stdin;
 	}
 	sigaction(SIGINT, &action, NULL);
 	return (SUCCESS);
