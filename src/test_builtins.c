@@ -14,20 +14,6 @@
 
 int	g_global;
 
-void	print_split(char **av)
-{
-	int	i = 0;
-
-	if (av)
-	{
-		while (av[i])
-		{
-			printf("%s\n", av[i]);
-			i++;
-		}
-	}
-}
-
 void	read_cmd_line(t_env *my_env)
 {
 
@@ -43,6 +29,8 @@ void	read_cmd_line(t_env *my_env)
 	while (1)
 	{
 		buf =  readline("minishell> ");
+		if (g_global == SIGINT)
+			my_env->exit_status = 130;
 		if (!buf)
 			return ;
 		else
@@ -54,10 +42,8 @@ void	read_cmd_line(t_env *my_env)
 			free(buf);
 			if (head != NULL && check_token_list(&head) == TRUE)
 			{
-				//print_token(&head);
 				if (create_tree(&head, &root, &error, NULL) == FAILURE)
 					free_tree(go_to_root(root));
-				//print_tree(&root, 0);
 				my_env->exit_status = launch_tree(root, my_env);
 			}
 			else if (g_global == SIGINT)
