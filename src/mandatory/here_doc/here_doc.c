@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 12:30:55 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/05 16:59:41 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:16:01 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ void	do_here_doc(t_token *here_doc, t_token **head, int *previous_type)
 	limiter = get_limiter(here_doc);
 	if (limiter == NULL)
 		return ;
-	get_stdin(here_doc, limiter, here_doc->len_word);
-	if (here_doc->word == NULL)
+	if (get_stdin(here_doc, limiter, here_doc->len_word) == SIGINT)
+	{
+		here_doc->type = ERROR;
+	}
+	else if (here_doc->word == NULL)
 	{
 		here_doc->word = ft_strdup("");
 		if (here_doc->word == NULL)

@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/05 16:55:05 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:10:57 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,17 +209,19 @@ char	*do_dollar_expansion(char *word, const t_env env)
 	{
 		i += copy_till_dollar(&word[i], &dollar[index_dollar], '$', &index_dollar);
 		if (word[i] == '$')
-			i++;
-		if (word[i] == '\0')
-		{
-			dollar[index_dollar] = '$';
-			index_dollar++;
-			break ;
-		}
-		else if (word[i] == '?')
 		{
 			i++;
-			add_exit_status(&dollar[index_dollar], &index_dollar, env);
+			if (word[i] == '\0')
+			{
+				dollar[index_dollar] = '$';
+				index_dollar++;
+				break ;
+			}
+			else if (word[i] == '?')
+			{
+				i++;
+				add_exit_status(&dollar[index_dollar], &index_dollar, env);
+			}
 		}
 		else
 			i += copy_from_env(&word[i], &dollar[index_dollar], env, &index_dollar);

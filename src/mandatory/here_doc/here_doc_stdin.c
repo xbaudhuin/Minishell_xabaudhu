@@ -6,13 +6,15 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:28:04 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/04 13:08:04 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 12:28:11 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
+extern int	global;
+
+int	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 {
 	char			*line;
 
@@ -22,8 +24,9 @@ void	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 		line = readline("here_doc> ");
 		if (line == NULL)
 		{
-			ft_fprintf(2, "minishell: warning: here_document"
-				"delimited by end-of-file wanted: %s", limiter);
+			if (global == 0)
+				ft_fprintf(2, "minishell: warning: here_document"
+					"delimited by end-of-file wanted: %s", limiter);
 			break ;
 		}
 		if (ft_strncmp(limiter, line, len_lim + 1) == 0)
@@ -33,9 +36,12 @@ void	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 		if (here_doc->word == NULL)
 		{
 			here_doc->type = ERROR;
-			return ;
+			break ;
 		}
 		free(line);
 	}
 	free(line);
+	if (global == 130)
+		return (SIGINT);
+	return (SUCCESS);
 }
