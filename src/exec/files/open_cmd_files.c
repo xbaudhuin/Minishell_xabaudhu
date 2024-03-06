@@ -126,7 +126,7 @@ int	open_cmd_files(t_token *redirect_token, t_exec_cmd *cmd)
 		{
 			cmd->outfile = get_fd(tmp_redir_token, cmd->outfile, redir_type);
 		}
-		else if (tmp_redir_token->type == HERE_DOC)
+		else if (is_here_doc_token(redir_type) == TRUE)
 		{
 			cmd->infile = get_fd(tmp_redir_token, cmd->infile, redir_type);
 		}
