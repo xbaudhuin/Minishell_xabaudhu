@@ -28,6 +28,10 @@ static int	get_sig_status(int code_exit)
 	{
 		status = 130;
 	}
+	else
+	{
+		status += 128;
+	}
 	return (status);
 }
 
