@@ -6,12 +6,11 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 17:06:42 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 14:29:52 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 16:57:50 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "parsing.h"
 
 static int	filltoken_word(const char *buf, t_token *token, unsigned int *index)
 {
