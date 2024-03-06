@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:49:16 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 15:50:17 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 16:04:37 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,3 @@ int	ft_reverse_ncmp(const char *s1, const char *s2, size_t n)
 	}
 	return ((unsigned char)s1[i] - (unsigned char)s2[j]);
 }
-

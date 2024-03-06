@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:54:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/29 13:57:42 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 15:11:36 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void	ft_del_token(t_token *token)
 	if (token != NULL)
 	{
 		if (token->word != NULL)
+		{
 			free(token->word);
+			token->word = NULL;
+		}
 		free(token);
 		token = NULL;
 	}
