@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-extern int	global;
+extern int	g_global;
 
 static int	get_nb_cmd(const t_exec_cmd **exec_cmd)
 {
@@ -64,7 +64,7 @@ int	launch_node(t_command **cmd, t_env *env, t_node *root)
 	t_data		data;
 	int			launch_type;
 
-	if (global == SIGINT)
+	if (g_global == SIGINT)
 		return (130);
 	if (expand_token(cmd, (const t_env) * env) == FAILURE)
 		return (FAILURE);
@@ -74,19 +74,13 @@ int	launch_node(t_command **cmd, t_env *env, t_node *root)
 	data = set_data(env, root, exec_cmd);
 	launch_type = get_launch_type(data);
 	if (launch_type == LAUNCH_BUILTIN)
-	{
 		env->exit_status = launch_builtin(exec_cmd[0],
 				cmd[0]->redirect_token, &data);
-	}
 	else if (launch_type == LAUNCH_CMD)
-	{
 		env->exit_status = launch_cmd(exec_cmd[0],
 				cmd[0]->redirect_token, data);
-	}
 	else
-	{
 		env->exit_status = launch_pipeline(cmd, exec_cmd, data);
-	}
 	free_exec_cmd(exec_cmd);
 	return (env->exit_status);
 }

@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-extern int	global;
+extern int	g_global;
 
 void	rl_new_prompt(int signal)
 {
 	if (signal == SIGINT)
 	{
-		global = SIGINT;
+		g_global = SIGINT;
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 1);
@@ -30,11 +30,10 @@ void	close_stdin(int signal)
 {
 	if (signal == SIGINT)
 	{
-		global = SIGINT;
+		g_global = SIGINT;
 		close(STDIN_FILENO);
 	}
 }
-
 
 int	handle_sigint(int option)
 {

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	global;
+int	g_global;
 
 void	print_split(char **av)
 {
@@ -47,7 +47,7 @@ void	read_cmd_line(t_env *my_env)
 			return ;
 		else
 		{
-			global = 0;
+			g_global = 0;
 			if (ft_strlen(buf) > 0)
 				add_history(buf);
 			parse_to_token(buf, &head);
@@ -60,7 +60,7 @@ void	read_cmd_line(t_env *my_env)
 				//print_tree(&root, 0);
 				my_env->exit_status = launch_tree(root, my_env);
 			}
-			else if (global == SIGINT)
+			else if (g_global == SIGINT)
 				my_env->exit_status = 130;
 			else
 				my_env->exit_status = 2;

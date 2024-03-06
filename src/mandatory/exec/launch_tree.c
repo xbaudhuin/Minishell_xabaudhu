@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-extern int	global;
+extern int	g_global;
 
 int	launch_tree(t_node *root, t_env *env)
 {

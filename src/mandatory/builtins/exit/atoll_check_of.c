@@ -16,7 +16,7 @@ long long	atoll_check_of(const char *str, int *error)
 {
 	long long	result;
 	int			i;
-	int	sign;
+	int			sign;
 
 	*error = SUCCESS;
 	i = 0;
