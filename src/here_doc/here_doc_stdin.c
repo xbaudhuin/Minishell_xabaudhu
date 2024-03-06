@@ -58,7 +58,7 @@ int	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 	handle_sigint(NEW_PROMPT);
 	close(save_std);
 	free(line);
-	if (global == SIGINT)
+	if (g_global == SIGINT)
 		return (SIGINT);
 	return (SUCCESS);
 }

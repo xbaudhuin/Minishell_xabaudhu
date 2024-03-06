@@ -118,27 +118,27 @@ SRCS_BUILTINS 	=	builtins/echo/echo.c \
 					builtins/is_var_name_valid.c \
 					builtins/exit/atoll_check_of.c \
 
-SRCS_EXEC		=	exec/open_cmd_files.c \
-					exec/get_cmd_path.c \
-					exec/get_cmd_argv.c \
-					exec/launch_cmd.c \
-					exec/end_process.c \
-					exec/launch_tree.c \
+SRCS_EXEC		=	exec/launch_tree.c \
 					exec/launch_node.c \
-					exec/launch_pipeline.c \
-					exec/launch_builtin.c \
-					exec/initialize_exec_cmd.c \
-					exec/free_exec_cmd.c \
-					exec/free_data.c \
-					exec/set_builtin_redirection.c \
-					exec/get_last_child_status.c \
-					exec/open_pipe.c \
-					exec/close_cmd_files.c \
-					exec/set_pipe_redirection.c \
-					exec/set_cmd_redirection.c \
-					exec/execute_a_cmd.c \
-					exec/is_stdin.c \
-					exec/is_stdout.c \
+					exec/pipeline/launch_pipeline.c \
+					exec/pipeline/set_pipe_redirection.c \
+					exec/pipeline/open_pipe.c \
+					exec/command/set_cmd_redirection.c \
+					exec/command/launch_cmd.c \
+					exec/command/execute_a_cmd.c \
+					exec/builtin/launch_builtin.c \
+					exec/builtin/set_builtin_redirection.c \
+					exec/files/is_stdin.c \
+					exec/files/is_stdout.c \
+					exec/files/open_cmd_files.c \
+					exec/files/close_cmd_files.c \
+					exec/fork/get_last_child_status.c \
+					exec/fork/end_process.c \
+					exec/exec_cmd_struct/free_data.c \
+					exec/exec_cmd_struct/free_exec_cmd.c \
+					exec/exec_cmd_struct/get_cmd_argv.c \
+					exec/exec_cmd_struct/initialize_exec_cmd.c \
+					exec/exec_cmd_struct/get_cmd_path.c \
 
 SRCS_TEST		=	test_builtins.c \
 					signals/quit_signal.c \
