@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 12:10:57 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 13:38:32 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,9 +222,9 @@ char	*do_dollar_expansion(char *word, const t_env env)
 				i++;
 				add_exit_status(&dollar[index_dollar], &index_dollar, env);
 			}
+			else
+				i += copy_from_env(&word[i], &dollar[index_dollar], env, &index_dollar);
 		}
-		else
-			i += copy_from_env(&word[i], &dollar[index_dollar], env, &index_dollar);
 	}
 	free(word);
 	dollar[index_dollar] = '\0';
