@@ -106,16 +106,18 @@ int	cd(const char **argv, t_env *env)
 
 	if (count_args(argv) != 2)
 	{
-		ft_fprintf(STDERR_FILENO,
-			"minishell: cd: only one argument is required\n");
+		ft_fprintf(2, "minishell: cd: only one argument is required\n");
 		return (FAILURE);
 	}
 	old_pwd = getcwd(NULL, 0);
 	if (chdir((const char *)argv[1]) != SUCCESS)
-		return (perror("minishell: cd: "), free(old_pwd), FAILURE);
+	{
+		ft_fprintf(2, "minishell: cd: %s: %s\n", argv[1], strerror(errno));
+		return (free(old_pwd), FAILURE);
+	}
 	new_pwd = getcwd(NULL, 0);
 	if (old_pwd == NULL || new_pwd == NULL)
-		return (perror("minishell: cd: "), free(old_pwd),
+		return (perror("minishell: cd: "),free(old_pwd),
 			free(new_pwd), FAILURE);
 	if (update_oldpwd(old_pwd, env) == MALLOC_FAIL)
 		return (free(old_pwd), free(new_pwd), MALLOC_FAIL);
