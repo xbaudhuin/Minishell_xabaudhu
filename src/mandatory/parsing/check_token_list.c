@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_token.c                                      :+:      :+:    :+:   */
+/*   check_token_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:15:17 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 18:21:55 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 14:57:24 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
 static int	check_parenthesis_flag(const int type, int *flag)
 {
@@ -45,7 +46,7 @@ static t_is_valid_type	get_new_valid_type(const int type)
 	if (type == PIPE)
 		return (&previous_pipe_token);
 	if (is_redirect_token(type) == TRUE)
-		return (&is_word_token);
+		return (&previous_word_token);
 	if (is_word_token(type) == TRUE)
 		return (&previous_word_token);
 	if (is_operator_token(type) == TRUE)

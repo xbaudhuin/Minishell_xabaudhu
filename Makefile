@@ -79,6 +79,8 @@ SRCS_EXPAND		=	mandatory/expand/expand.c \
 					mandatory/expand/expand_dollar.c \
 					mandatory/expand/re_tokenize.c \
 					mandatory/expand/trim_quotes_all.c \
+					mandatory/expand/copy_dollar.c \
+					mandatory/expand/len_dollar.c \
 
 OBJS			=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_PARSING:.c=.o}) \

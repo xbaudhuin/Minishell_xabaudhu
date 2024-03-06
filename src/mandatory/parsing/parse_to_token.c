@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:47:25 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/01 16:52:23 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 16:11:00 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ t_token	**parse_to_token(const char *buf, t_token **head)
 			do_here_doc(token, head, &previous_type);
 		else
 			previous_type = token->type;
+		if (token == NULL || token->type == ERROR)
+			return (parse_token_error(head, NULL));
 	}
 	return (head);
 }

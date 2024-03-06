@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:13 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/29 15:02:23 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 16:05:28 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	transform_pipe(t_token *token)
 		token->type = OR;
 }
 
-static void transform_redirect(t_token *token)
+static void	transform_redirect(t_token *token)
 {
 	if (token->type == REDIRECT_IN)
 	{
@@ -47,6 +47,6 @@ void	transform_token(t_token *token)
 		if (token->len_word != 2)
 			token->type = ERROR;
 	}
-	if (is_redirect_token(token->type)== TRUE)
+	if (is_redirect_token(token->type) == TRUE)
 		transform_redirect(token);
 }

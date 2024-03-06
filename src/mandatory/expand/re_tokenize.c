@@ -6,13 +6,14 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 17:06:42 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/04 20:37:05 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 14:29:52 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
-static int	fill_token_word(const char *buf, t_token *token, unsigned int *index)
+static int	filltoken_word(const char *buf, t_token *token, unsigned int *index)
 {
 	unsigned int	i;
 	int				flag_quotes;
@@ -62,20 +63,12 @@ static void	insert_mid_list(t_token *token, t_token *save_next)
 		save_next->previous = tmp;
 }
 
-int	re_tokenize(t_token *token)
+static int	create_new_token(const char *buf, t_token *token)
 {
 	unsigned int	i;
 	t_token			*new_token;
-	t_token			*save_next;
-	char			*buf;
 
-	buf = token->word;
-	token->word = NULL;
-	save_next = token->next;
-	token->next = NULL;
 	i = 0;
-	if (fill_token_word(buf, token, &i) == FAILURE)
-		return (free(buf), FAILURE);
 	while (buf[i] != '\0')
 	{
 		i += skip_spaces(&buf[i]);
@@ -85,14 +78,31 @@ int	re_tokenize(t_token *token)
 		if (new_token == NULL)
 		{
 			perror(RED"expand re_tokenize"RESET);
-			return (free(buf), FAILURE);
+			return (FAILURE);
 		}
-		if (fill_token_word(&buf[i], new_token, &i) == FAILURE)
-			return (free(buf), FAILURE);
+		if (filltoken_word(&buf[i], new_token, &i) == FAILURE)
+			return (FAILURE);
 		add_back_list(token, new_token);
 	}
+	return (SUCCESS);
+}
+
+int	re_tokenize(t_token *token)
+{
+	unsigned int	i;
+	t_token			*save_next;
+	char			*buf;
+
+	buf = token->word;
+	token->word = NULL;
+	save_next = token->next;
+	token->next = NULL;
+	i = 0;
+	if (filltoken_word(buf, token, &i) == FAILURE)
+		return (free(buf), FAILURE);
+	if (create_new_token(&buf[i], token) == FAILURE)
+		return (free(buf), FAILURE);
 	free(buf);
 	insert_mid_list(token, save_next);
 	return (SUCCESS);
 }
-

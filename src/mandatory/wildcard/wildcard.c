@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:34:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/05 14:54:44 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 16:06:51 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,23 +168,3 @@ int	expand_wildcard(t_command **cmd)
 	}
 	return (SUCCESS);
 }
-
-
-/*
-#include <strings.h>
-
-int main(int ac, char **av)
-{
-	(void)ac;
-	char *str = NULL;
-	str = strdup(av[1]);
-	str = wildcard(str);
-	if (str == NULL)
-	{
-		ft_printf(RED"str = NULL\n"RESET);
-		return (0);
-	}
-	ft_printf("%s\n", str);
-	free(str);
-	return (0);
-}*/

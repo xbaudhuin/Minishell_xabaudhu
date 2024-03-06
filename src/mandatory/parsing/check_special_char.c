@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:22:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/29 17:09:23 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 14:53:03 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,3 @@ int	is_dollar_char(const char c)
 		return (TRUE);
 	return (FALSE);
 }
-/*
-int	is_portable_char(const char c)
-{
-	if (c == 0)
-		return (TRUE);
-	if (c >= 7 && c <= 13)
-		return (TRUE);
-	if (c >= 32 && c <= 126)
-		return (TRUE);
-	return (FALSE);
-}*/
