@@ -17,7 +17,6 @@ static int	ino_cmp(ino_t ino_stdin, ino_t ino_fd0, const char *path)
 	struct stat	buffer;
 	int			status;
 
-	
 	status = lstat(path, &buffer);
 	if (status == -1)
 	{

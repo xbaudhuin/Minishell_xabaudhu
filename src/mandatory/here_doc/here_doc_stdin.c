@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-extern int	global;
+extern int	g_global;
 
 int	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 {
@@ -32,7 +32,7 @@ int	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 		line = readline("> ");
 		if (line == NULL)
 		{
-			if (global == 0)
+			if (g_global == 0)
 				ft_fprintf(2, "minishell: warning: here_document"
 					"delimited by end-of-file wanted: %s", limiter);
 			break ;
@@ -58,7 +58,7 @@ int	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 	handle_sigint(NEW_PROMPT);
 	close(save_std);
 	free(line);
-	if (global == 130)
+	if (g_global == 130)
 		return (SIGINT);
 	return (SUCCESS);
 }

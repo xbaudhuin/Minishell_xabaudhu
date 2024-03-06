@@ -38,7 +38,8 @@ int			launch_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token,
 				t_data data);
 int			launch_builtin(t_exec_cmd *exec_cmd, t_token *redirect_token,
 				t_data *data);
-int			launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd , t_data data);
+int			launch_pipeline(t_command **cmd, t_exec_cmd **exec_cmd,
+				t_data data);
 int			set_builtin_redirection(t_exec_cmd *exec_cmd,
 				t_token *redirect_token, int save_std[2]);
 void		free_exec_cmd(t_exec_cmd **exe_cmd);
@@ -48,7 +49,8 @@ int			set_cmd_redirection(t_exec_cmd *cmd);
 int			open_pipe(t_data *data, int cmd_num);
 int			close_cmd_files(t_exec_cmd *cmd);
 int			set_pipe_redirection(t_data *data, int cmd_num);
-void		execute_a_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data data);
+void		execute_a_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token,
+				t_data data);
 int			is_stdin(const char *path);
 int			is_stdout(const char *path);
 
