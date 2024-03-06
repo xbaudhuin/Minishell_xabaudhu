@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:28:04 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 16:16:05 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 18:19:21 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 	handle_sigint(NEW_PROMPT);
 	close(save_std);
 	free(line);
-	if (global == SIGINT)
+	if (g_global == SIGINT)
 		return (SIGINT);
 	return (SUCCESS);
 }

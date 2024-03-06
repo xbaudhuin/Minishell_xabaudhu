@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:14:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 15:48:11 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 18:30:15 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	len_if_dollar(
 	unsigned int	len_till_dollar;
 
 	*i += 1;
-	if (is_dollar_char(word[*i]) == FALSE && is_quotes(word[*i]) == FALSE)
+	if (is_dollar_quotes(word[*i]) == FALSE)
 	{
 		*len_total += 1;
 		if (word[*i] == '\0')

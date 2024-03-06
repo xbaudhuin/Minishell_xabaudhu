@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:21:29 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 16:12:56 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 18:29:36 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	copy_dollar(
 				i++;
 				add_exit_status(&dollar[*i_dollar], i_dollar, env);
 			}
-			else if (is_dollar_char(word[i]) == FALSE && is_quotes(word[i]) == FALSE)
+			else if (is_dollar_quotes(word[i]) == FALSE)
 			{
 				dollar[*i_dollar] = '$';
 				*i_dollar += 1;

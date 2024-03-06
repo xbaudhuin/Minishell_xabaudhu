@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:25:12 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 18:34:57 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 18:30:37 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,11 @@ unsigned int	skip_spaces(const char *buf)
 	while (ft_is_space(buf[i]) == TRUE)
 		i++;
 	return (i);
+}
+
+int	is_dollar_quotes(const char c)
+{
+	if (is_dollar_char(c) == FALSE && is_quotes(c) == FALSE)
+		return (FALSE);
+	return (TRUE);
 }
