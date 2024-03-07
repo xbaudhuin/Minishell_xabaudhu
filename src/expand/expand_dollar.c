@@ -6,11 +6,12 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 15:42:24 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 14:20:42 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
 unsigned int	skip_dollar(const char *word)
 {
@@ -26,30 +27,47 @@ unsigned int	skip_dollar(const char *word)
 	return (i);
 }
 
-int	is_dollar_expandable(const char *word)
+int	is_dollar_expandable(const char *word, int type)
 {
 	unsigned int	i;
-	int				flag_quotes;
+	char			flag_quotes;
 
 	i = 0;
 	flag_quotes = FALSE;
-	if (word == NULL)
+	if (word == NULL || type == HERE_DOC_NO_EXPAND)
 		return (FALSE);
 	while (word[i] != '\0')
 	{
-		if (word[i] == '\'')
+		if (is_quotes(word[i]))
 		{
 			if (flag_quotes == FALSE)
-				flag_quotes = TRUE;
-			else
-				flag_quotes = TRUE;
+				flag_quotes = word[i];
+			else if (flag_quotes == word[i])
+				flag_quotes = FALSE;
 		}
-		if (word[i] == '$' && flag_quotes == FALSE)
+		if (word[i] == '$' && flag_quotes != '\'')
 			return (TRUE);
 		else
 			i++;
 	}
 	return (FALSE);
+}
+
+static t_token	*ft_remove_one_from_list(t_token *token, t_token **head)
+{
+	t_token	*previous;
+	t_token	*next;
+
+	previous = token->previous;
+	next = token->next;
+	if (previous != NULL)
+		previous->next = next;
+	if (next != NULL)
+		next->previous = previous;
+	if (*head == token)
+		(*head) = next;
+	ft_del_token(token);
+	return (NULL);
 }
 
 int	expand_dollar_list(t_token **head, const t_env env)
@@ -59,7 +77,7 @@ int	expand_dollar_list(t_token **head, const t_env env)
 	tmp = *head;
 	while (tmp)
 	{
-		if (is_dollar_expandable(tmp->word) == TRUE)
+		if (is_dollar_expandable(tmp->word, tmp->type) == TRUE)
 		{
 			tmp->word = do_dollar_expansion(tmp->word, env);
 			if (tmp->word == NULL)
@@ -67,12 +85,16 @@ int	expand_dollar_list(t_token **head, const t_env env)
 				free_token(head);
 				return (FAILURE);
 			}
-			if (re_tokenize(tmp) == FAILURE)
+			if (tmp->word[0] == '\0')
+				tmp = ft_remove_one_from_list(tmp, head);
+			else if (re_tokenize(tmp) == FAILURE)
 			{
 				free_token(head);
 				return (FAILURE);
 			}
 		}
+		if (tmp == NULL)
+			break ;
 		tmp = tmp->next;
 	}
 	return (SUCCESS);

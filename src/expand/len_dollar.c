@@ -6,11 +6,12 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:14:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 15:48:11 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:09:50 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
 static unsigned int	ft_len_unb(unsigned int nb)
 {
@@ -44,17 +45,21 @@ static unsigned int	get_len_env(
 	return (len_expand);
 }
 
-static unsigned int	get_len_word_without_dollar(const char *word)
+static unsigned int	get_len_word_without_dollar(const char *word, char *flag_quotes)
 {
 	unsigned int	i;
 
 	i = 0;
 	while (word[i] != '\0')
 	{
-		if (word[i] == '\'')
+		if (is_quotes(word[i]))
 		{
+			if (*flag_quotes == FALSE)
+				*flag_quotes = word[i];
+			else if (*flag_quotes == word[i])
+				*flag_quotes = FALSE;
 			i++;
-			while (word[i] != '\0' && word[i] != '\'')
+			while (word[i] != '\0' && word[i] != '\'' && *flag_quotes == '\'')
 				i++;
 			if (word[i] == '\'')
 				i++;
@@ -68,12 +73,12 @@ static unsigned int	get_len_word_without_dollar(const char *word)
 }
 
 int	len_if_dollar(
-	const char *word, unsigned int *i, unsigned int *len_total, const t_env env)
+	const char *word, unsigned int *i, unsigned int *len_total, const t_env env, char *flag_quotes)
 {
 	unsigned int	len_till_dollar;
 
 	*i += 1;
-	if (is_dollar_char(word[*i]) == FALSE && is_quotes(word[*i]) == FALSE)
+	if (is_dollar_quotes(word[*i], *flag_quotes) == FALSE)
 	{
 		*len_total += 1;
 		if (word[*i] == '\0')
@@ -98,20 +103,22 @@ unsigned int	get_len_dollar(const char *word, const t_env env)
 	unsigned int	i;
 	unsigned int	len_till_dollar;
 	unsigned int	len_total;
+	char			flag_quotes;
 
 	i = 0;
 	len_total = 0;
 	len_till_dollar = 0;
+	flag_quotes = FALSE;
 	while (word[i] != '\0')
 	{
-		len_till_dollar = get_len_word_without_dollar(&word[i]);
+		len_till_dollar = get_len_word_without_dollar(&word[i], &flag_quotes);
 		i += len_till_dollar;
 		len_total += len_till_dollar;
 		if (word[i] == '\0')
 			break ;
-		if (word[i] == '$')
+		if (word[i] == '$' && flag_quotes != '\'')
 		{
-			if (len_if_dollar(word, &i, &len_total, env) == FALSE)
+			if (len_if_dollar(word, &i, &len_total, env, &flag_quotes) == FALSE)
 				break ;
 		}
 	}

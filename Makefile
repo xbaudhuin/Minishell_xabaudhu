@@ -76,10 +76,10 @@ SRCS_PARSING	=	parsing/check_special_char2.c \
 					parsing/tree_utils.c \
 					parsing/free_function.c \
 					debug.c \
-					parsing/read_line.c \
 
 SRCS_WILDCARD	=	wildcard/opendir.c \
 					wildcard/wildcard.c \
+					wildcard/wildcard_expansion.c \
 					wildcard/wildcard_split.c \
 					wildcard/wildcard_utils.c \
 					wildcard/trim_quotes_wildcard.c \

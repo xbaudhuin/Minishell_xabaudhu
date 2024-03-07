@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:26:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 15:23:05 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/06 18:23:46 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int				compare_wildcard(char **split, unsigned int size_split, char *file);
 char			*ft_strjoin_wildcard(char *s1, const char *s2);
 char			*trim_quotes_wildcard(const char *s, unsigned int len);
 int				expand_wildcard(t_command **cmd);
+char			*do_expand_wildcard(char *word);
+int				get_nb_wildcard(const char *word, char c);
 
 //dollar function
 unsigned int	skip_dollar(const char *word);
