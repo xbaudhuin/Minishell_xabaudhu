@@ -6,11 +6,12 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:21:29 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 18:29:36 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:03:24 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
 void	add_exit_status(char *dollar, unsigned int *index, const t_env env)
 {
@@ -68,13 +69,13 @@ unsigned int	copy_till_dollar(
 	flag_quotes = FALSE;
 	while (source[i] != '\0')
 	{
-		if (source[i] == c && flag_quotes == FALSE)
+		if (source[i] == c && flag_quotes != '\'')
 			break ;
-		if (source[i] == '\'')
+		if (is_quotes(source[i]))
 		{
 			if (flag_quotes == FALSE)
-				flag_quotes = TRUE;
-			else
+				flag_quotes = source[i];
+			else if (flag_quotes == source[i])
 				flag_quotes = FALSE;
 		}
 		dest[i] = source[i];
@@ -88,11 +89,46 @@ void	copy_dollar(
 	char *word, char *dollar, unsigned int *i_dollar, const t_env env)
 {
 	unsigned int	i;
+	char			flag_quotes;
 
 	i = 0;
+	flag_quotes = FALSE;
 	while (word[i] != '\0')
 	{
-		i += copy_till_dollar(&word[i], &dollar[*i_dollar], '$', i_dollar);
+		if (is_quotes(word[i]))
+		{
+			if (flag_quotes == FALSE)
+				flag_quotes = word[i];
+			else if (flag_quotes == word[i])
+				flag_quotes = FALSE;
+		}
+		if (word[i] == '$' && flag_quotes != '\'')
+		{
+			i++;
+			if (word[i] == '?')
+			{
+				i++;
+				add_exit_status(&dollar[*i_dollar], i_dollar, env);
+			}
+			else if (is_dollar_quotes(word[i], flag_quotes) == FALSE)
+			{
+				dollar[*i_dollar] = '$';
+				*i_dollar += 1;
+				if (word[i] == '\0')
+					return ;
+			}
+			else
+				i += copy_from_env(&word[i], &dollar[*i_dollar], env, i_dollar);
+
+		}
+		else
+		{
+			dollar[*i_dollar] = word[i];
+			*i_dollar += 1;
+			i++;
+		}
+
+	/*	i += copy_till_dollar(&word[i], &dollar[*i_dollar], '$', i_dollar);
 		if (word[i] == '$')
 		{
 			i++;
@@ -110,7 +146,7 @@ void	copy_dollar(
 			}
 			else
 				i += copy_from_env(&word[i], &dollar[*i_dollar], env, i_dollar);
-		}
+		}*/
 	}
 }
 
@@ -122,6 +158,7 @@ char	*do_dollar_expansion(char *word, const t_env env)
 
 	i = 0;
 	index_dollar = 0;
+	printf(BLU"get_len_dollar= %d\n",get_len_dollar(word, env));
 	dollar = ft_calloc(get_len_dollar(word, env) + 1, sizeof(*dollar));
 	if (dollar == NULL)
 		return (FALSE);

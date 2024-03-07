@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:15:17 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 14:57:24 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 13:58:30 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ static int	check_lasttoken(const int type, int flag, int (*is_valid_type)(int))
 		return (TRUE);
 	if (is_word_token(type) == TRUE)
 		return (TRUE);
-	if (type == HERE_DOC)
-		return (TRUE);
-	if (type == HERE_DOC_NO_EXPAND)
+	if (is_here_doc_token(type) == TRUE)
 		return (TRUE);
 	return (FALSE);
 }
@@ -46,7 +44,7 @@ static t_is_valid_type	get_new_valid_type(const int type)
 	if (type == PIPE)
 		return (&previous_pipe_token);
 	if (is_redirect_token(type) == TRUE)
-		return (&previous_word_token);
+		return (&is_word_token);
 	if (is_word_token(type) == TRUE)
 		return (&previous_word_token);
 	if (is_operator_token(type) == TRUE)
@@ -55,6 +53,8 @@ static t_is_valid_type	get_new_valid_type(const int type)
 		return (&early_valid_type);
 	if (type == PARENTHESIS_CLOSE)
 		return (&previous_parenthesis_close_token);
+	if (is_here_doc_token(type) == TRUE)
+		return (&previous_word_token);
 	return (&previous_type_error);
 }
 

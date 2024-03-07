@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:51:16 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 18:28:27 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:01:39 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int				is_parenthesis(const char c);
 int				is_redirection(const char c);
 int				is_operator(const char c);
 int				is_dollar_char(const char c);
-int				is_dollar_quotes(const char c);
+int				is_dollar_quotes(const char c, const char quotes);
 int				is_opening_flag(const char c);
 int				ft_is_space(const char c);
 

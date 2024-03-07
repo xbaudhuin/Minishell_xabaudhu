@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:25:12 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 18:30:37 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 12:14:43 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,12 @@ unsigned int	skip_spaces(const char *buf)
 	return (i);
 }
 
-int	is_dollar_quotes(const char c)
+int	is_dollar_quotes(const char c, const char quotes)
 {
-	if (is_dollar_char(c) == FALSE && is_quotes(c) == FALSE)
+	if (is_dollar_char(c) == FALSE)
+	{
+		if (is_quotes(c) == FALSE || (quotes != FALSE && quotes != c))
 		return (FALSE);
+	}
 	return (TRUE);
 }

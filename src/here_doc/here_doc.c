@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 12:30:55 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 14:59:27 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 14:04:58 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	do_here_doc(t_token *here_doc, t_token **head, int *previous_type)
 		here_doc->type = HERE_DOC;
 	else
 		here_doc->type = HERE_DOC_NO_EXPAND;
+	printf(BLU"HERE_DOC=%d, here_doc->type = %d\n"RESET, HERE_DOC, here_doc->type);
 	limiter = get_limiter(here_doc);
 	if (limiter == NULL)
 		return ;

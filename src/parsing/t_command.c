@@ -6,11 +6,12 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:36:50 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/03 13:26:35 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 14:08:08 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
 static unsigned int	get_nb_pipe(const t_token *token)
 {
@@ -62,7 +63,7 @@ static void	fill_and_trim_command_array(
 			token = remove_pipe(token);
 			i++;
 		}
-		else if (is_redirect_token(token->type) == TRUE)
+		else if (is_redirect_token(token->type) == TRUE || is_here_doc_token(token->type) == TRUE)
 		{
 			token = add_back_redirect(cmd[i], token);
 		}
