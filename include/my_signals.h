@@ -18,6 +18,7 @@ enum	e_sigint
 	NEW_PROMPT = 0,
 	CLOSE_IN = 1,
 	DEFAULT = 3,
+	IGNORE = 4,
 };
 
 int				handle_sigquit(int ignore);

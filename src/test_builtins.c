@@ -21,21 +21,28 @@ void	read_cmd_line(t_env *my_env)
 	t_token	*head;
 	t_node	*root;
 	int		error;
+	int		new_line;
 
+	
 	error = 0;
 	head = NULL;
 	root = NULL;
 	(void)my_env;
+	new_line = 0;
 	while (1)
 	{
+		handle_sigint(NEW_PROMPT);
 		buf =  readline("minishell> ");
-		if (g_global == SIGINT)
-			my_env->exit_status = 130;
 		if (!buf)
 			return ;
 		else
 		{
-			g_global = 0;
+			if (g_global == SIGINT)
+			{
+				my_env->exit_status = 130;
+				g_global = 0;
+
+			}
 			if (ft_strlen(buf) > 0)
 				add_history(buf);
 			parse_to_token(buf, &head);
@@ -46,14 +53,17 @@ void	read_cmd_line(t_env *my_env)
 					free_tree(go_to_root(root));
 				my_env->exit_status = launch_tree(root, my_env);
 			}
-			else if (g_global == SIGINT)
-				my_env->exit_status = 130;
 			else
 				my_env->exit_status = 2;
-			printf("exit status = %d\n", my_env->exit_status);
+			if (my_env->exit_status == 130)
+			{
+				write(1, "\n", 1);
+			}
+			//printf("exit status = %d\n", my_env->exit_status);
 			free_tree(go_to_root(root));
 			head = NULL;
 			root = NULL;
+			g_global = 0;
 		}
 	}
 }
@@ -62,6 +72,8 @@ int	main(int ac, char **av, char **main_env)
 {
 	t_env	my_env;
 	
+
+
 	(void)ac;
 	(void)av;
 	handle_sigquit(TRUE);

@@ -27,6 +27,9 @@ int	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 	}
 	handle_sigint(CLOSE_IN);
 	here_doc->len_word = 0;
+	//rl_on_new_line();
+	// rl_replace_line("", 1);
+	// rl_redisplay();
 	while (1)
 	{
 		line = readline("> ");
@@ -55,6 +58,7 @@ int	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 		here_doc->type = ERROR;
 		return (FAILURE);
 	}
+	rl_replace_line("coucou", 0);
 	handle_sigint(NEW_PROMPT);
 	close(save_std);
 	free(line);

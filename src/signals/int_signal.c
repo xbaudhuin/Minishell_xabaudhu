@@ -19,7 +19,7 @@ void	rl_new_prompt(int signal)
 	if (signal == SIGINT)
 	{
 		g_global = SIGINT;
-		printf("\n");
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
@@ -31,7 +31,13 @@ void	close_stdin(int signal)
 	if (signal == SIGINT)
 	{
 		g_global = SIGINT;
+		write(1, "\n", 1);
+		rl_replace_line("", 1);
 		close(STDIN_FILENO);
+		//rl_replace_line("", 1);
+		// rl_on_new_line();
+		// rl_redisplay();
+		//close(STDIN_FILENO);
 	}
 }
 
@@ -48,9 +54,13 @@ int	handle_sigint(int option)
 	{
 		action.sa_handler = SIG_DFL;
 	}
-	else
+	else if (option == CLOSE_IN)
 	{
 		action.sa_handler = &close_stdin;
+	}
+	else
+	{
+		action.sa_handler = SIG_IGN;
 	}
 	sigaction(SIGINT, &action, NULL);
 	return (SUCCESS);

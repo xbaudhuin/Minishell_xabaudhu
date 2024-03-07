@@ -45,7 +45,6 @@ void	do_here_doc(t_token *here_doc, t_token **head, int *previous_type)
 		here_doc->type = HERE_DOC;
 	else
 		here_doc->type = HERE_DOC_NO_EXPAND;
-	printf(BLU"HERE_DOC=%d, here_doc->type = %d\n"RESET, HERE_DOC, here_doc->type);
 	limiter = get_limiter(here_doc);
 	if (limiter == NULL)
 		return ;
