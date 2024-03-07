@@ -40,11 +40,10 @@ void	read_cmd_line(t_env *my_env)
 			if (g_global == SIGINT)
 			{
 				my_env->exit_status = 130;
-				g_global = 0;
-
 			}
 			if (ft_strlen(buf) > 0)
 				add_history(buf);
+			g_global = 0;
 			parse_to_token(buf, &head);
 			free(buf);
 			if (head != NULL && check_token_list(&head) == TRUE)
@@ -59,11 +58,9 @@ void	read_cmd_line(t_env *my_env)
 			{
 				write(1, "\n", 1);
 			}
-			//printf("exit status = %d\n", my_env->exit_status);
 			free_tree(go_to_root(root));
 			head = NULL;
 			root = NULL;
-			g_global = 0;
 		}
 	}
 }

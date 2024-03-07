@@ -158,7 +158,6 @@ char	*do_dollar_expansion(char *word, const t_env env)
 
 	i = 0;
 	index_dollar = 0;
-	printf(BLU"get_len_dollar= %d\n",get_len_dollar(word, env));
 	dollar = ft_calloc(get_len_dollar(word, env) + 1, sizeof(*dollar));
 	if (dollar == NULL)
 		return (FALSE);

@@ -27,17 +27,15 @@ int	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 	}
 	handle_sigint(CLOSE_IN);
 	here_doc->len_word = 0;
-	//rl_on_new_line();
-	// rl_replace_line("", 1);
-	// rl_redisplay();
 	while (1)
 	{
+
 		line = readline("> ");
 		if (line == NULL)
 		{
 			if (g_global == 0)
 				ft_fprintf(2, "minishell: warning: here_document"
-					"delimited by end-of-file wanted: %s", limiter);
+					"delimited by end-of-file wanted: %s\n", limiter);
 			break ;
 		}
 		if (ft_strncmp(limiter, line, len_lim + 1) == 0)
@@ -58,11 +56,10 @@ int	get_stdin(t_token *here_doc, char *limiter, unsigned int len_lim)
 		here_doc->type = ERROR;
 		return (FAILURE);
 	}
-	rl_replace_line("coucou", 0);
 	handle_sigint(NEW_PROMPT);
 	close(save_std);
 	free(line);
-	if (g_global == SIGINT)
+	if (g_global == 1)
 		return (SIGINT);
 	return (SUCCESS);
 }

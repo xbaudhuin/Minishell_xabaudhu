@@ -18,10 +18,13 @@ void	rl_new_prompt(int signal)
 {
 	if (signal == SIGINT)
 	{
-		g_global = SIGINT;
-		write(1, "\n", 1);
+		if (g_global != 1)
+		{
+			write(1, "\n", 1);
+			g_global = SIGINT;
+		}
 		rl_on_new_line();
-		rl_replace_line("", 1);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
@@ -30,14 +33,9 @@ void	close_stdin(int signal)
 {
 	if (signal == SIGINT)
 	{
-		g_global = SIGINT;
+		g_global = 1;
 		write(1, "\n", 1);
-		rl_replace_line("", 1);
 		close(STDIN_FILENO);
-		//rl_replace_line("", 1);
-		// rl_on_new_line();
-		// rl_redisplay();
-		//close(STDIN_FILENO);
 	}
 }
 
