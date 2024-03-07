@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:33:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/29 14:02:32 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 19:14:16 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,15 @@ static void	break_list(t_token *operator, t_token **left_t, t_token **right_t)
 	}
 }
 
-int	create_tree(t_token **head, t_node **node, int *error, t_node *parent)
+static int	free_token_break_list(t_token **head, t_token *right_node, t_token *operator)
+{
+	free_token(head);
+	free_token(&operator);
+	free_token(&right_node);
+	return (FAILURE);
+}
+
+int	create_tree(t_token **head, t_node **node, t_node *parent)
 {
 	t_token	*left_node_token;
 	t_token	*right_node_token;
@@ -61,20 +69,22 @@ int	create_tree(t_token **head, t_node **node, int *error, t_node *parent)
 
 	if (head == NULL || (*head) == NULL)
 		return (SUCCESS);
-	if (*error != 0)
-		return (free_token(&operator), FAILURE);
 	operator = get_next_prio_operator(head);
 	if (operator == NULL)
 	{
-		*node = create_node(head, NODE_LEAF, error, parent);
-		if (*error != 0)
+		*node = create_node(head, NODE_LEAF, parent);
+		if (*node == NULL)
 			return (FAILURE);
 		return (SUCCESS);
 	}
 	break_list(operator, &left_node_token, &right_node_token);
-	*node = create_node(&operator, get_type_node(operator), error, parent);
-	create_tree(head, &(*node)->left_node, error, *node);
-	create_tree(&right_node_token, &(*node)->right_node, error, *node);
+	*node = create_node(&operator, get_type_node(operator), parent);
+	if (*node == NULL)
+		return (free_token_break_list(head, right_node_token, operator));
+	if (create_tree(head, &(*node)->left_node, *node) == FAILURE)
+		return (free_token_break_list(head, right_node_token, operator));
+	if (create_tree(&right_node_token, &(*node)->right_node, *node) == FAILURE)
+		return (free_token_break_list(head, right_node_token, operator));
 	free_token(&operator);
 	return (SUCCESS);
 }

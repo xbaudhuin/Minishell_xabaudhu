@@ -6,7 +6,7 @@
 /*   By: ldoyen-- <ldoyen--@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 12:16:18 by ldoyen--          #+#    #+#             */
-/*   Updated: 2024/03/04 12:29:18 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 19:20:25 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,17 @@ void	read_cmd_line(t_env *my_env)
 			if (ft_strlen(buf) > 0)
 				add_history(buf);
 			g_global = 0;
-			parse_to_token(buf, &head);
+			parse_to_token(buf, &head, my_env);
 			free(buf);
-			if (head != NULL && check_token_list(&head) == TRUE)
+			if (head != NULL && check_token_list(&head, my_env) == TRUE)
 			{
-				if (create_tree(&head, &root, &error, NULL) == FAILURE)
+				if (create_tree(&head, &root, NULL) == FAILURE)
+				{
+					my_env->exit_status = 139;
 					free_tree(go_to_root(root));
+				}
 				my_env->exit_status = launch_tree(root, my_env);
 			}
-			else
-				my_env->exit_status = 2;
 			if (my_env->exit_status == 130)
 			{
 				write(1, "\n", 1);

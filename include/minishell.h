@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:10:44 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 13:04:37 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:19:46 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ enum e_node
 
 enum e_type_token
 {
+	FAIL_DUP	= -2,
+	FAIL_MALLOC = -1,
 	ERROR = 0,
 	PARENTHESIS_OPEN = 1,
 	PARENTHESIS_CLOSE = 2,

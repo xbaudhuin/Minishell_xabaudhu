@@ -6,11 +6,22 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:47:25 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 16:11:00 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:32:42 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_token_type_error(const int type)
+{
+	if (type == ERROR)
+		return (TRUE);
+	if (type == FAIL_DUP)
+		return(TRUE);
+	if (type == FAIL_MALLOC)
+		return (TRUE);
+	return (FALSE);
+}
 
 static t_token	*get_current_token(const char *buf, unsigned int *index_buf)
 {
@@ -32,19 +43,22 @@ static t_token	*get_current_token(const char *buf, unsigned int *index_buf)
 	return (token);
 }
 
-static t_token	**parse_token_error(t_token **head, t_token *token)
+static t_token	**parse_token_error(t_token **head, t_token *token, t_env *env)
 {
-	if (token && token->type == ERROR)
+	if (token && (token->type == ERROR || token->type == FAIL_DUP))
 	{
+		env->exit_status = 2;
 		ft_fprintf(2, RED "minishell: "
 			"syntax error near unexpected token %s\n" RESET, token->word);
 		ft_del_token(token);
 	}
+	else if (token == NULL || token->type == FAIL_MALLOC)
+		env->exit_status = 139;
 	free_token(head);
 	return (NULL);
 }
 
-t_token	**parse_to_token(const char *buf, t_token **head)
+t_token	**parse_to_token(const char *buf, t_token **head, t_env *env)
 {
 	unsigned int	i;
 	t_token			*token;
@@ -58,15 +72,15 @@ t_token	**parse_to_token(const char *buf, t_token **head)
 		if (buf[i] == '\0')
 			break ;
 		token = get_current_token(&buf[i], &i);
-		if (token == NULL || token->type == ERROR)
-			return (parse_token_error(head, token));
+		if (token == NULL || is_token_type_error(token->type) == TRUE)
+			return (parse_token_error(head, token, env));
 		ft_token_add_back(head, token);
 		if (is_here_doc(previous_type, token->type) == TRUE)
 			do_here_doc(token, head, &previous_type);
 		else
 			previous_type = token->type;
-		if (token == NULL || token->type == ERROR)
-			return (parse_token_error(head, NULL));
+		if (token == NULL || is_token_type_error(token->type) == TRUE)
+			return (parse_token_error(head, NULL, env));
 	}
 	return (head);
 }

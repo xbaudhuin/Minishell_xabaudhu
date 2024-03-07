@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:14:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 12:09:50 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 19:34:38 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ static unsigned int	get_len_word_without_dollar(const char *word, char *flag_quo
 			while (word[i] != '\0' && word[i] != '\'' && *flag_quotes == '\'')
 				i++;
 			if (word[i] == '\'')
+			{
 				i++;
+				*flag_quotes = FALSE;
+			}
 		}
 		else if (word[i] == '$')
 			break ;

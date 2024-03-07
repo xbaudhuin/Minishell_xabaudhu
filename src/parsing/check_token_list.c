@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:15:17 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 13:58:30 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:28:17 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,15 @@ static t_is_valid_type	get_new_valid_type(const int type)
 	return (&previous_type_error);
 }
 
-static int	error_parsing_token(t_token **head, const char *word)
+static int	error_parsing_token(t_token **head, const char *word, t_env *env)
 {
+	env->exit_status = 2;
 	ft_fprintf(2, RED "minishell: parse error near: "RESET"'%s'\n", word);
 	free_token(head);
 	return (FALSE);
 }
 
-int	check_token_list(t_token **head)
+int	check_token_list(t_token **head, t_env *env)
 {
 	int				(*is_valid_type)(int);
 	t_token			*tmp_token;
@@ -86,7 +87,7 @@ int	check_token_list(t_token **head)
 	}
 	if (tmp_token->next != NULL
 		|| check_lasttoken(tmp_token->type, flag, is_valid_type) == FALSE)
-		return (error_parsing_token(head, tmp_token->word));
+		return (error_parsing_token(head, tmp_token->word, env));
 	simplify_token_list(head);
 	return (TRUE);
 }

@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:36:50 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 14:08:08 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/07 19:12:25 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	fill_and_trim_command_array(
 	cmd[nb_cmd] = NULL;
 }
 
-t_command	**create_command_array(t_token *token, int *error)
+t_command	**create_command_array(t_token *token)
 {
 	t_command		**cmd;
 	unsigned int	nb_cmd;
@@ -86,7 +86,6 @@ t_command	**create_command_array(t_token *token, int *error)
 	cmd = init_command_array(nb_cmd);
 	if (cmd == NULL)
 	{
-		*error = 1;
 		perror(RED "minishell: fail create_command: "RESET);
 		return (NULL);
 	}
