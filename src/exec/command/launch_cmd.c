@@ -28,7 +28,6 @@ int	launch_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data data)
 		handle_sigint(DEFAULT);
 		execute_a_cmd(exec_cmd, redirect_token, data);
 	}
-	handle_sigint(IGNORE);
 	pgid = pid;
 	return (get_last_child_status(pid));
 }
