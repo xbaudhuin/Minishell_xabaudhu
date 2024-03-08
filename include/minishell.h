@@ -22,16 +22,16 @@
 # include "ft_printf.h"
 # include "parsing.h"
 # include "expand.h"
-#include "my_signals.h"
+# include "my_signals.h"
 
-#define RESET  "\x1B[0m"
-#define RED "\x1B[31m"
-#define GRN  "\x1B[32m"
-#define YEL  "\x1B[33m"
-#define BLU  "\x1B[37m"
-#define MAG  "\x1B[35m"
-#define CYN  "\x1B[36m"
-#define WHT  "\x1B[37m"
+# define RESET  "\x1B[0m"
+# define RED "\x1B[31m"
+# define GRN  "\x1B[32m"
+# define YEL  "\x1B[33m"
+# define BLU  "\x1B[37m"
+# define MAG  "\x1B[35m"
+# define CYN  "\x1B[36m"
+# define WHT  "\x1B[37m"
 
 # include <stdio.h>
 # include <readline/readline.h>
@@ -98,12 +98,9 @@ enum e_type_token
 	APPEND_OUT = 12,
 };
 
-//Handle signal
-
-
 void	print_token(t_token **head);
 void	print_tree(t_node **root, int id);
-//expand
+
 char	*wildcard(char *word);
 
 void	minishell(const char **main_env);
