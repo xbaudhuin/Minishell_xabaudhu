@@ -17,6 +17,10 @@ static int	is_str_digit(const char *str)
 	int	char_num;
 
 	char_num = 0;
+	if (str == NULL)
+	{
+		return (FALSE);
+	}
 	while (str[char_num] != '\0')
 	{
 		if (ft_isdigit(str[char_num] == FALSE))
@@ -34,7 +38,10 @@ static char	*get_shlvl_str(void)
 	char	*shlvl_str;
 	char	*shlvl_full_str;
 
-	shlvl = ft_atoi(getenv("SHLVL"));
+	shlvl_str = getenv("SHLVL");
+	if (shlvl_str==NULL)
+		return (NULL);
+	shlvl = ft_atoi(shlvl_str);
 	shlvl += 1;
 	shlvl_str = ft_itoa(shlvl);
 	if (shlvl_str == NULL)

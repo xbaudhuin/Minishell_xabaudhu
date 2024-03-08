@@ -22,11 +22,13 @@ void	add_pwd(t_env new_env)
 	if (pwd_value == NULL)
 	{
 		ft_fprintf(2, "minishell: %s\n", strerror(errno));
+		return ;
 	}
 	pwd_str = ft_strjoin("PWD=", pwd_value);
 	if (pwd_str == NULL)
 	{
 		ft_fprintf(2, "minishell: %s\n", strerror(errno));
+		return ;
 	}
 	null_address = get_first_null_address((const t_env) new_env);
 	*null_address = pwd_str;

@@ -24,7 +24,14 @@ t_node	*create_node(t_token **head, int type_node, t_node *parent)
 	node->exit_status = -1;
 	node->type = type_node;
 	if (type_node == NODE_LEAF)
+	{
 		node->cmd = create_command_array(*head);
+		if (node->cmd==NULL)
+		{
+			free(node);
+			return (NULL);
+		}
+	}
 	else
 	{
 		node->cmd = NULL;
