@@ -6,46 +6,34 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:14:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 19:34:38 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 15:53:57 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "parsing.h"
 
-static unsigned int	ft_len_unb(unsigned int nb)
+static unsigned int	len_skip_quotes(const char *word, char *flag_quotes)
 {
-	unsigned int	len;
+	unsigned int	i;
 
-	len = 0;
-	if (nb == 0)
-		return (1);
-	while (nb > 0)
+	i = 0;
+	if (*flag_quotes == FALSE)
+		*flag_quotes = word[i];
+	else if (*flag_quotes == word[i])
+		*flag_quotes = FALSE;
+	i++;
+	while (word[i] != '\0' && word[i] != '\'' && *flag_quotes == '\'')
+		i++;
+	if (word[i] == '\'')
 	{
-		len++;
-		nb /= 10;
+		i++;
+		*flag_quotes = FALSE;
 	}
-	return (len);
+	return (i);
 }
 
-static unsigned int	get_len_env(
-	char *word, const t_env env, unsigned int len_word)
-{
-	char			save;
-	char			*dollar;
-	unsigned int	len_expand;
-
-	save = word[len_word];
-	word[len_word] = '\0';
-	dollar = ft_getenv(word, env);
-	word[len_word] = save;
-	if (dollar == NULL)
-		return (0);
-	len_expand = ft_strlen(dollar);
-	return (len_expand);
-}
-
-static unsigned int	get_len_word_without_dollar(const char *word, char *flag_quotes)
+static unsigned int	get_len_word_without_dollar(
+	const char *word, char *flag_quotes)
 {
 	unsigned int	i;
 
@@ -54,18 +42,7 @@ static unsigned int	get_len_word_without_dollar(const char *word, char *flag_quo
 	{
 		if (is_quotes(word[i]))
 		{
-			if (*flag_quotes == FALSE)
-				*flag_quotes = word[i];
-			else if (*flag_quotes == word[i])
-				*flag_quotes = FALSE;
-			i++;
-			while (word[i] != '\0' && word[i] != '\'' && *flag_quotes == '\'')
-				i++;
-			if (word[i] == '\'')
-			{
-				i++;
-				*flag_quotes = FALSE;
-			}
+			i += len_skip_quotes(&word[i], flag_quotes);
 		}
 		else if (word[i] == '$')
 			break ;
@@ -75,30 +52,31 @@ static unsigned int	get_len_word_without_dollar(const char *word, char *flag_quo
 	return (i);
 }
 
-int	len_if_dollar(
-	const char *word, unsigned int *i, unsigned int *len_total, const t_env env, char *flag_quotes)
+unsigned int	len_if_dollar(const char *word,
+					unsigned int *len_total, const t_env env, char *flag_quotes)
 {
 	unsigned int	len_till_dollar;
+	unsigned int	i;
 
-	*i += 1;
-	if (is_dollar_quotes(word[*i], *flag_quotes) == FALSE)
+	i = 1;
+	if (is_dollar_quotes(word[i], *flag_quotes) == FALSE)
 	{
 		*len_total += 1;
-		if (word[*i] == '\0')
-			return (FALSE);
+		if (word[i] == '\0')
+			return (i);
 	}
-	if (word[*i] == '?')
+	if (word[i] == '?')
 	{
-		*i += 1;
+		i += 1;
 		*len_total += ft_len_unb(env.exit_status);
 	}
 	else
 	{
-		len_till_dollar = skip_dollar(&word[*i]);
-		*len_total += get_len_env((char *)&word[*i], env, len_till_dollar);
-		*i += len_till_dollar;
+		len_till_dollar = skip_dollar(&word[i]);
+		*len_total += get_len_env((char *)&word[i], env, len_till_dollar);
+		i += len_till_dollar;
 	}
-	return (TRUE);
+	return (i);
 }
 
 unsigned int	get_len_dollar(const char *word, const t_env env)
@@ -121,7 +99,8 @@ unsigned int	get_len_dollar(const char *word, const t_env env)
 			break ;
 		if (word[i] == '$' && flag_quotes != '\'')
 		{
-			if (len_if_dollar(word, &i, &len_total, env, &flag_quotes) == FALSE)
+			i += len_if_dollar(&word[i], &len_total, env, &flag_quotes);
+			if (word[i] == '\0')
 				break ;
 		}
 	}

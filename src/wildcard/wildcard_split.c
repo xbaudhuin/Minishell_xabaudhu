@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:22 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/29 14:43:34 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 15:01:38 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ static unsigned int	skip_char(const char *word, char c)
 	return (i);
 }
 
-static int	fill_split_wildcard(char **split, const char *word)
+static int	fill_split_wildcard(
+	char **split, const char *word, const unsigned int size_split)
 {
 	unsigned int	i;
 	unsigned int	len_to_wildcard;
@@ -73,7 +74,7 @@ static int	fill_split_wildcard(char **split, const char *word)
 
 	k = 0;
 	i = 0;
-	while (word[i] != '\0')
+	while (word[i] != '\0' && k < size_split)
 	{
 		len_to_wildcard = len_till_next_wildcard(&word[i]);
 		if (len_to_wildcard == 0)
@@ -87,7 +88,10 @@ static int	fill_split_wildcard(char **split, const char *word)
 			split[k] = trim_quotes_wildcard(&word[i], len_to_wildcard);
 			if (split[k] == NULL)
 				return (free_wildcard(split, k), FAILURE);
-			k++;
+			if (split[k][0] == '\0')
+				free(split[k]);
+			else
+				k++;
 			i += len_to_wildcard;
 		}
 	}
@@ -102,7 +106,7 @@ char	**ft_split_wildcard(const char *word, unsigned int nb_wildcard)
 	split_wildcard = ft_calloc(nb_wildcard, sizeof(*split_wildcard));
 	if (split_wildcard == NULL)
 		return (NULL);
-	if (fill_split_wildcard(split_wildcard, word) == FAILURE)
+	if (fill_split_wildcard(split_wildcard, word, nb_wildcard) == FAILURE)
 	{
 		perror(RED"split_wildcard"RESET);
 		return (NULL);

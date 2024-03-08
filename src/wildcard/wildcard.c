@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:34:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 12:23:48 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 14:43:08 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,28 @@
 
 int	is_wildcard_expandable(const char *word, const int type)
 {
+	unsigned int	i;
+	char			quotes;
+
+	i = 0;
+	quotes = '\0';
 	if (is_here_doc_token(type) == TRUE)
 		return (FALSE);
-	if (get_nb_wildcard(word, '*') >= 1)
-		return (TRUE);
+	while (word[i] != '\0')
+	{
+		if (is_quotes(word[i]))
+		{
+			quotes = word[i];
+			i++;
+			while (word[i] && word[i] != quotes)
+				i++;
+			i++;
+		}
+		else if (word[i] == '*')
+			return (TRUE);
+		else
+			i++;
+	}
 	return (FALSE);
 }
 
@@ -33,6 +51,7 @@ int	expand_wildcard_list(t_token **head)
 	{
 		if (is_wildcard_expandable(tmp->word, tmp->type) == TRUE)
 		{
+			printf(RED"TRUE\n"RESET);
 			tmp->word = do_expand_wildcard(tmp->word);
 			if (tmp->word == NULL)
 			{

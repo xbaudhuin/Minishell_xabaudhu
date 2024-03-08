@@ -6,68 +6,11 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:21:53 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 14:21:21 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 17:48:21 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static unsigned int	next_quotes_wildcard(
-	const char *word, char quotes, int *flag, unsigned int *wildcard)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (word[i] != '\0')
-	{
-		if (word[i] == quotes)
-		{
-			i++;
-			break ;
-		}
-		if (*flag == 1)
-		{
-			*flag = 0;
-			*wildcard += 1;
-		}
-		i++;
-	}
-	return (i);
-}
-
-int	get_nb_wildcard(const char *word, char c)
-{
-	unsigned int	i;
-	unsigned int	nb_wildcard;
-	int				flag;
-
-	i = 0;
-	nb_wildcard = 0;
-	flag = 0;
-	while (word[i] != '\0')
-	{
-		if (is_quotes(word[i]))
-			i += next_quotes_wildcard(&word[i + 1], word[i], &flag, &nb_wildcard) + 1;
-		else if (word[i] == c)
-		{
-			nb_wildcard++;
-			flag = 1;
-			while (word[i] == c)
-				i++;
-		}
-		else
-		{
-			if (flag == 1)
-			{
-				flag = 0;
-				nb_wildcard++;
-			}
-			i++;
-		}
-	}
-	if (i > 0 && word[i - 1] == c )
-	return (nb_wildcard);
-}
 
 static char	*compare_split_vs_file(char *word, char **split,
 							unsigned int size_split, int mode)

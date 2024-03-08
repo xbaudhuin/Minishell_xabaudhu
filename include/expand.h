@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:26:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 18:23:46 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 17:03:02 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,17 @@ int				get_nb_wildcard(const char *word, char c);
 //dollar function
 unsigned int	skip_dollar(const char *word);
 int				expand_dollar(t_command **cmd, const t_env env);
+unsigned int	ft_len_unb(unsigned int nb);
+unsigned int	get_len_env(
+	char *word, const t_env env, unsigned int len_word);
+unsigned int	len_if_dollar(const char *word, unsigned int *len_total,
+						   const t_env env, char *flag_quotes);
 unsigned int	get_len_dollar(const char *word, const t_env env);
+unsigned int	copy_till_dollar(
+	const char *source, char *dest, char c, unsigned int *index_dollar);
+void	add_exit_status(char *dollar, unsigned int *index, const t_env env);
+unsigned int	copy_from_env(
+	char *word, char *dollar, const t_env env, unsigned int *index_dollar);
 char			*do_dollar_expansion(char *word, const t_env env);
 
 #endif

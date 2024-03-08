@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:33:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 19:14:16 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 15:21:16 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static void	break_list(t_token *operator, t_token **left_t, t_token **right_t)
 	}
 }
 
-static int	free_token_break_list(t_token **head, t_token *right_node, t_token *operator)
+static int	free_token_break_list(
+	t_token **head, t_token *right_node, t_token *operator)
 {
 	free_token(head);
 	free_token(&operator);
