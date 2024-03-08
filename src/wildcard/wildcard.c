@@ -6,16 +6,19 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:34:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 18:22:43 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 12:23:48 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 #include <dirent.h>
 #include <errno.h>
 
-int	is_wildcard_expandable(const char *word)
+int	is_wildcard_expandable(const char *word, const int type)
 {
+	if (is_here_doc_token(type) == TRUE)
+		return (FALSE);
 	if (get_nb_wildcard(word, '*') >= 1)
 		return (TRUE);
 	return (FALSE);
@@ -28,7 +31,7 @@ int	expand_wildcard_list(t_token **head)
 	tmp = *head;
 	while (tmp)
 	{
-		if (is_wildcard_expandable(tmp->word) == TRUE)
+		if (is_wildcard_expandable(tmp->word, tmp->type) == TRUE)
 		{
 			tmp->word = do_expand_wildcard(tmp->word);
 			if (tmp->word == NULL)

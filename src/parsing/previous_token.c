@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 16:00:39 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 13:57:31 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 11:48:33 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,9 @@ int	previous_operator_token(const int type)
 int	previous_parenthesis_close_token(const int type)
 {
 	if (is_redirect_token(type) == TRUE)
-		return (TRUE);
+		return (FALSE);
+	if (type == PIPE)
+		return (FALSE);
 	if (is_operator_token(type) == TRUE)
 		return (TRUE);
 	if (type == PARENTHESIS_CLOSE)

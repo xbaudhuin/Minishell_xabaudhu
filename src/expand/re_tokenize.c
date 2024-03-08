@@ -6,11 +6,12 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 17:06:42 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 12:33:27 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 12:32:58 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
 static int	filltoken_word(
 	const char *buf, t_token *token, unsigned int *index, int type)
@@ -102,7 +103,10 @@ int	re_tokenize(t_token *token)
 	i = 0;
 	if (filltoken_word(buf, token, &i, type) == FAILURE)
 		return (free(buf), FAILURE);
-	if (create_new_token(&buf[i], token, type) == FAILURE)
+	i += skip_spaces(&buf[i]);
+	if (is_redirect_token(token->type) == TRUE && buf[i] != '\0')
+		token->type = ERROR;
+	else if (create_new_token(&buf[i], token, type) == FAILURE)
 		return (free(buf), FAILURE);
 	free(buf);
 	insert_mid_list(token, save_next);

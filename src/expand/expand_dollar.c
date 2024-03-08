@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 14:20:42 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 12:25:58 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ unsigned int	skip_dollar(const char *word)
 	return (i);
 }
 
-int	is_dollar_expandable(const char *word, int type)
+int	is_dollar_expandable(const char *word, const int type)
 {
 	unsigned int	i;
 	char			flag_quotes;
 
 	i = 0;
 	flag_quotes = FALSE;
-	if (word == NULL || type == HERE_DOC_NO_EXPAND)
+	if (word == NULL || is_here_doc_token(type) == TRUE)
 		return (FALSE);
 	while (word[i] != '\0')
 	{
