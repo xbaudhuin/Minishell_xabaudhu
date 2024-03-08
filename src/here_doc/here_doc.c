@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	here_doc_handle_list(t_token *here_doc, t_token **head)
+static void	here_doc_handle_list(t_token *here_doc, t_token **head)
 {
 	t_token	*redirect;
 
@@ -30,6 +30,21 @@ void	here_doc_handle_list(t_token *here_doc, t_token **head)
 		here_doc->previous = redirect->previous;
 		ft_del_token(redirect);
 	}
+}
+
+static int	handle_null_str(t_token *here_doc)
+{
+	if (here_doc->word == NULL)
+	{
+		here_doc->word = ft_strdup("");
+		if (here_doc->word == NULL)
+		{
+			here_doc->type = FAIL_MALLOC;
+			perror(RED"do_here_doc"RESET);
+			return (FAILURE);
+		}
+	}
+	return (SUCCESS);
 }
 
 int	do_here_doc(t_token *here_doc, t_token **head, int *previous_type)
@@ -53,14 +68,5 @@ int	do_here_doc(t_token *here_doc, t_token **head, int *previous_type)
 		here_doc->type = ERROR;
 	}
 	free(limiter);
-	if (here_doc->word == NULL)
-	{
-		here_doc->word = ft_strdup("");
-		if (here_doc->word == NULL)
-		{
-			perror(RED"do_here_doc"RESET);
-			return (FAILURE);
-		}
-	}
-	return (SUCCESS);
+	return (handle_null_str(here_doc));
 }

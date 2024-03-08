@@ -65,7 +65,6 @@ int	get_nb_wildcard(const char *word, char c)
 			i++;
 		}
 	}
-	if (i > 0 && word[i - 1] == c )
 	return (nb_wildcard);
 }
 

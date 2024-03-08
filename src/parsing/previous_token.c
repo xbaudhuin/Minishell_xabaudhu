@@ -51,6 +51,8 @@ int	previous_operator_token(const int type)
 		return (TRUE);
 	if (is_redirect_token(type) == TRUE)
 		return (TRUE);
+	if (is_here_doc_token(type) == TRUE)
+		return (TRUE);
 	return (FALSE);
 }
 

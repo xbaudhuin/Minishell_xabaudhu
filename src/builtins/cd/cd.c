@@ -117,7 +117,7 @@ int	cd(const char **argv, t_env *env)
 	}
 	new_pwd = getcwd(NULL, 0);
 	if (old_pwd == NULL || new_pwd == NULL)
-		return (perror("minishell: cd: "),free(old_pwd),
+		return (perror("minishell: cd: "), free(old_pwd),
 			free(new_pwd), FAILURE);
 	if (update_oldpwd(old_pwd, env) == MALLOC_FAIL)
 		return (free(old_pwd), free(new_pwd), MALLOC_FAIL);
