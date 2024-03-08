@@ -52,7 +52,7 @@ static t_exec_cmd	**alloc_exec_cmd(int nb_cmd)
 	while (cmd_num < nb_cmd)
 	{
 		exec_cmd[cmd_num] = ft_calloc(sizeof (**exec_cmd), 1);
-		if (exec_cmd == NULL)
+		if (exec_cmd[cmd_num] == NULL)
 		{
 			ft_fprintf(2, "minishell: malloc error in launch_node\n");
 			free_empty_exec_cmd(exec_cmd);

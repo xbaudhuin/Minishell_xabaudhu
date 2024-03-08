@@ -36,16 +36,16 @@ static int	is_shlvl_exist(void)
 	}
 }
 
-static size_t	get_malloc_size(const char **main_env)
+static size_t	get_malloc_size(const char **main_env, int pwd_exist, int shlvl_exist)
 {
 	size_t	malloc_size;
 
 	malloc_size = ft_strarraylen(main_env) + 1;
-	if (is_pwd_exist() == FALSE)
+	if (pwd_exist == FALSE)
 	{
 		++malloc_size;
 	}
-	if (is_shlvl_exist() == FALSE)
+	if (shlvl_exist == FALSE)
 	{
 		++malloc_size;
 	}
@@ -76,23 +76,26 @@ static char	**create_env_var(const char **main_env, size_t malloc_size)
 	return (env_variables);
 }
 
-//ajouter protection sur add pwd en cas de fail MALLOC
 t_env	create_env(const char **main_env)
 {
 	t_env	new_env;
+	int		pwd_exist;
+	int		shlvl_exist;
 
+	pwd_exist = is_pwd_exist();
+	shlvl_exist = is_shlvl_exist();
 	ft_bzero(&new_env, sizeof (new_env));
-	new_env.allocated_size = get_malloc_size(main_env);
+	new_env.allocated_size = get_malloc_size(main_env, pwd_exist, shlvl_exist);
 	new_env.variables = create_env_var(main_env, new_env.allocated_size);
 	if (new_env.variables == NULL)
 	{
 		return (new_env);
 	}
-	if (is_pwd_exist() == FALSE)
+	if (pwd_exist == FALSE)
 	{
 		add_pwd(new_env);
 	}
-	if (is_shlvl_exist() == FALSE)
+	if (shlvl_exist == FALSE)
 	{
 		add_shlvl(new_env);
 	}
