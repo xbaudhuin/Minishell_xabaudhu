@@ -105,4 +105,7 @@ void	print_token(t_token **head);
 void	print_tree(t_node **root, int id);
 //expand
 char	*wildcard(char *word);
+
+void	minishell(const char **main_env);
+
 #endif

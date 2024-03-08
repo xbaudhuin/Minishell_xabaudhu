@@ -140,9 +140,11 @@ SRCS_EXEC		=	exec/launch_tree.c \
 					exec/exec_cmd_struct/initialize_exec_cmd.c \
 					exec/exec_cmd_struct/get_cmd_path.c \
 
-SRCS_TEST		=	test_builtins.c \
-					signals/quit_signal.c \
+SRCS_SIGNALS	=	signals/quit_signal.c \
 					signals/int_signal.c \
+
+SRCS_MAIN		=	main.c \
+					minishell.c \
 
 OBJS			=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_PARSING:.c=.o}) \
@@ -151,7 +153,8 @@ OBJS			=	$(addprefix ${OBJ_PATH}, ${SRCS_EXEC:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_EXPAND:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_ENVIRONMENT:.c=.o}) \
 					$(addprefix ${OBJ_PATH}, ${SRCS_BUILTINS:.c=.o}) \
-					$(addprefix ${OBJ_PATH}, ${SRCS_TEST:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_SIGNALS:.c=.o}) \
+					$(addprefix ${OBJ_PATH}, ${SRCS_MAIN:.c=.o}) \
 
 LIBFT_D			=	$(addprefix ${LIBFT_PATH}, ${LIBFT})
 

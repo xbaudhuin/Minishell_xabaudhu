@@ -119,16 +119,15 @@ int	open_cmd_files(t_token *redirect_token, t_exec_cmd *cmd)
 	{
 		redir_type = tmp_redir_token->type;
 		if (redir_type == REDIRECT_IN)
-		{
 			cmd->infile = get_fd(tmp_redir_token, cmd->infile, redir_type);
-		}
 		else if (redir_type == REDIRECT_OUT || redir_type == APPEND_OUT)
-		{
 			cmd->outfile = get_fd(tmp_redir_token, cmd->outfile, redir_type);
-		}
 		else if (is_here_doc_token(redir_type) == TRUE)
-		{
 			cmd->infile = get_fd(tmp_redir_token, cmd->infile, redir_type);
+		else if (redir_type == ERROR)
+		{
+			ft_fprintf(2, "minishell: ambigous redirect\n");
+			return (FAILURE);
 		}
 		if (cmd->infile == INVALID_FD || cmd->outfile == INVALID_FD)
 			return (FAILURE);
