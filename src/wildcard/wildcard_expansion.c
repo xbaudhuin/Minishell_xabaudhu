@@ -6,13 +6,14 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:21:53 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 12:10:45 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 14:21:21 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static unsigned int	next_quotes_wildcard(const char *word, char quotes, int *flag, unsigned int *wildcard)
+static unsigned int	next_quotes_wildcard(
+	const char *word, char quotes, int *flag, unsigned int *wildcard)
 {
 	unsigned int	i;
 
@@ -64,6 +65,7 @@ int	get_nb_wildcard(const char *word, char c)
 			i++;
 		}
 	}
+	if (i > 0 && word[i - 1] == c )
 	return (nb_wildcard);
 }
 

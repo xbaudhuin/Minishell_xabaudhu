@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:39:17 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/23 18:42:54 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 12:39:36 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,18 @@ static void	interpret_cmd_line(t_env *my_env, char *buf)
 {
 	t_token	*head;
 	t_node	*root;
-	int		error;
 
-	error = 0;
 	head = NULL;
 	root = NULL;
 	update_exit_status(my_env);
 	if (ft_strlen(buf) > 0)
 		add_history(buf);
 	g_global = 0;
-	parse_to_token(buf, &head);
+	parse_to_token(buf, &head, my_env);
 	free(buf);
-	if (head != NULL && check_token_list(&head) == TRUE)
+	if (head != NULL && check_token_list(&head, my_env) == TRUE)
 	{
-		if (create_tree(&head, &root, &error, NULL) == FAILURE)
+		if (create_tree(&head, &root, NULL) == FAILURE)
 			free_tree(go_to_root(root));
 		handle_sigint(IGNORE);
 		my_env->exit_status = launch_tree(root, my_env);
