@@ -6,11 +6,12 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 16:56:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 17:01:30 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 13:05:59 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parsing.h"
 
 unsigned int	copy_till_dollar(
 	const char *source, char *dest, char c, unsigned int *index_dollar)

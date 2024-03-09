@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:33:14 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 15:21:16 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 13:51:24 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	create_tree(t_token **head, t_node **node, t_node *parent)
 	if (*node == NULL)
 		return (free_token_break_list(head, right_node_token, operator));
 	if (create_tree(head, &(*node)->left_node, *node) == FAILURE)
-		return (free_token_break_list(head, right_node_token, operator));
+		return (free_token(&operator), FAILURE);
 	if (create_tree(&right_node_token, &(*node)->right_node, *node) == FAILURE)
-		return (free_token_break_list(head, right_node_token, operator));
+		return (free_token(&operator), FAILURE);
 	free_token(&operator);
 	return (SUCCESS);
 }

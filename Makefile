@@ -83,6 +83,7 @@ SRCS_WILDCARD	=	wildcard/opendir.c \
 					wildcard/wildcard_split.c \
 					wildcard/wildcard_utils.c \
 					wildcard/trim_quotes_wildcard.c \
+					wildcard/get_nb_wildcard.c \
 
 SRCS_HERE_DOC	=	here_doc/here_doc.c \
 					here_doc/here_doc_dup.c \
@@ -93,7 +94,9 @@ SRCS_EXPAND		=	expand/expand.c \
 					expand/re_tokenize.c \
 					expand/trim_quotes_all.c \
 					expand/copy_dollar.c \
+					expand/copy_dollar_utils.c \
 					expand/len_dollar.c \
+					expand/len_dollar_utils.c \
 
 SRCS_ENVIRONMENT =	environment/free_env.c \
 					environment/create_env.c \

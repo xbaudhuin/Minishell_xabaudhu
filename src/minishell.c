@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 16:39:17 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 12:39:36 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 14:27:33 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ static void	interpret_cmd_line(t_env *my_env, char *buf)
 	if (head != NULL && check_token_list(&head, my_env) == TRUE)
 	{
 		if (create_tree(&head, &root, NULL) == FAILURE)
+		{
 			free_tree(go_to_root(root));
+			root = NULL;
+		}
 		handle_sigint(IGNORE);
 		my_env->exit_status = launch_tree(root, my_env);
 	}

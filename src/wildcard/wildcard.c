@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 16:34:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 14:43:08 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 13:16:47 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	expand_wildcard_list(t_token **head)
 	{
 		if (is_wildcard_expandable(tmp->word, tmp->type) == TRUE)
 		{
-			printf(RED"TRUE\n"RESET);
 			tmp->word = do_expand_wildcard(tmp->word);
 			if (tmp->word == NULL)
 			{

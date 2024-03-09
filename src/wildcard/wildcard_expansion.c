@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 18:21:53 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/09 12:54:55 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 13:16:17 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*wildcard_expansion(char *word, unsigned int size_split, int mode)
 	{
 		free(str);
 		free(word);
-		str = NULL;
+		word = NULL;
 		perror(RED"wildcard_expansion:"RESET);
 		return (NULL);
 	}

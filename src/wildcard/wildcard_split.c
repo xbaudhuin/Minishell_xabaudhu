@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:53:22 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/09 12:48:32 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:16:16 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ static int	fill_split_wildcard(
 		}
 		else
 		{
-			if (trim_quotes_wildcard(&word[i], len_to_wildcard, split, &k) == FAILURE)
+			if (trim_quotes_wildcard(
+					&word[i], len_to_wildcard, split, &k) == FAILURE)
 				return (free_wildcard(split, k), FAILURE);
 			i += len_to_wildcard;
 		}

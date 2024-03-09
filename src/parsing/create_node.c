@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 19:45:34 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 19:11:02 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:14:37 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,14 @@ t_node	*create_node(t_token **head, int type_node, t_node *parent)
 
 	node = malloc(sizeof(t_node));
 	if (node == NULL)
-	{
 		return (NULL);
-	}
 	node->exit_status = -1;
 	node->type = type_node;
 	if (type_node == NODE_LEAF)
 	{
 		node->cmd = create_command_array(*head);
-		if (node->cmd==NULL)
-		{
-			free(node);
-			return (NULL);
-		}
+		if (node->cmd == NULL)
+			return (free(node), NULL);
 	}
 	else
 	{

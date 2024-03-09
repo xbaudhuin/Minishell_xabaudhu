@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:21:29 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 17:01:53 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 13:01:03 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,9 @@ void	copy_dollar(
 
 char	*do_dollar_expansion(char *word, const t_env env)
 {
-	unsigned int	i;
 	unsigned int	index_dollar;
 	char			*dollar;
 
-	i = 0;
 	index_dollar = 0;
 	dollar = ft_calloc(get_len_dollar(word, env) + 1, sizeof(*dollar));
 	if (dollar == NULL)

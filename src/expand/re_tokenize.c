@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 17:06:42 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 12:32:58 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 15:15:28 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ static int	filltoken_word(
 	const char *buf, t_token *token, unsigned int *index, int type)
 {
 	unsigned int	i;
-	int				flag_quotes;
 
 	i = 0;
-	flag_quotes = FALSE;
 	while (buf[i] != '\0')
 	{
 		if (ft_is_space(buf[i]) == TRUE)
