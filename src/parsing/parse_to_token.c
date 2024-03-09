@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 19:47:25 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 12:21:21 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 15:21:30 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_token_type_error(const int type)
 	if (type == ERROR)
 		return (TRUE);
 	if (type == FAIL_DUP)
-		return(TRUE);
+		return (TRUE);
 	if (type == FAIL_MALLOC)
 		return (TRUE);
 	return (FALSE);

@@ -6,82 +6,64 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:21:29 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 12:03:24 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 17:01:53 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parsing.h"
 
-void	add_exit_status(char *dollar, unsigned int *index, const t_env env)
+void	handle_flag_quotes(const char c, char *flag_quotes)
 {
-	char			name[4];
-	unsigned char	nb;
-	unsigned int	i;
-
-	ft_bzero(name, 4);
-	nb = env.exit_status;
-	i = 0;
-	if (env.exit_status >= 100)
-	{
-		name[i] = env.exit_status / 100 + 48;
-		nb = env.exit_status % 100;
-		i++;
-	}
-	if (nb >= 10)
-	{
-		name[i] = nb / 10 + 48;
-		nb = nb % 10;
-		i++;
-	}
-	name[i] = nb + 48;
-	i++;
-	ft_memmove(dollar, name, i);
-	*index += i;
+	if (*flag_quotes == FALSE)
+		*flag_quotes = c;
+	else if (*flag_quotes == c)
+		*flag_quotes = FALSE;
 }
 
-unsigned int	copy_from_env(
-	char *word, char *dollar, const t_env env, unsigned int *index_dollar)
-{
-	unsigned int	len_word;
-	unsigned int	len_name;
-	char			save;
-	char			*name;
-
-	len_word = skip_dollar(word);
-	save = word[len_word];
-	word[len_word] = '\0';
-	name = ft_getenv(word, env);
-	word[len_word] = save;
-	len_name = ft_strlen(name);
-	ft_memmove(dollar, name, len_name);
-	*index_dollar += len_name;
-	return (len_word);
-}
-
-unsigned int	copy_till_dollar(
-	const char *source, char *dest, char c, unsigned int *index_dollar)
+unsigned int	handle_dollar_noquotes(
+	char *word, char *dollar, unsigned int *i_dollar, const t_env env)
 {
 	unsigned int	i;
-	int				flag_quotes;
 
-	i = 0;
-	flag_quotes = FALSE;
-	while (source[i] != '\0')
+	i = 1;
+	if (word[i] == '?')
 	{
-		if (source[i] == c && flag_quotes != '\'')
-			break ;
-		if (is_quotes(source[i]))
-		{
-			if (flag_quotes == FALSE)
-				flag_quotes = source[i];
-			else if (flag_quotes == source[i])
-				flag_quotes = FALSE;
-		}
-		dest[i] = source[i];
 		i++;
+		add_exit_status(&dollar[*i_dollar], i_dollar, env);
 	}
-	*index_dollar += i;
+	else if (is_dollar_quotes(word[i], FALSE) == FALSE)
+	{
+		dollar[*i_dollar] = '$';
+		*i_dollar += 1;
+		if (word[i] == '\0')
+			return (i);
+	}
+	else
+		i += copy_from_env(&word[i], &dollar[*i_dollar], env, i_dollar);
+	return (i);
+}
+
+unsigned int	handle_dollar_double_quotes(
+	char *word, char *dollar, unsigned int *i_dollar, const t_env env)
+{
+	unsigned int	i;
+
+	i = 1;
+	if (word[i] == '?')
+	{
+		i++;
+		add_exit_status(&dollar[*i_dollar], i_dollar, env);
+	}
+	else if (is_dollar_quotes(word[i], '"') == FALSE)
+	{
+		dollar[*i_dollar] = '$';
+		*i_dollar += 1;
+		if (word[i] == '\0')
+			return (i);
+	}
+	else
+		i += copy_from_env(&word[i], &dollar[*i_dollar], env, i_dollar);
 	return (i);
 }
 
@@ -96,30 +78,13 @@ void	copy_dollar(
 	while (word[i] != '\0')
 	{
 		if (is_quotes(word[i]))
-		{
-			if (flag_quotes == FALSE)
-				flag_quotes = word[i];
-			else if (flag_quotes == word[i])
-				flag_quotes = FALSE;
-		}
+			handle_flag_quotes(word[i], &flag_quotes);
 		if (word[i] == '$' && flag_quotes != '\'')
 		{
-			i++;
-			if (word[i] == '?')
-			{
-				i++;
-				add_exit_status(&dollar[*i_dollar], i_dollar, env);
-			}
-			else if (is_dollar_quotes(word[i], flag_quotes) == FALSE)
-			{
-				dollar[*i_dollar] = '$';
-				*i_dollar += 1;
-				if (word[i] == '\0')
-					return ;
-			}
+			if (flag_quotes == FALSE)
+				i += handle_dollar_noquotes(word, dollar, i_dollar, env);
 			else
-				i += copy_from_env(&word[i], &dollar[*i_dollar], env, i_dollar);
-
+				i += handle_dollar_double_quotes(word, dollar, i_dollar, env);
 		}
 		else
 		{
@@ -127,26 +92,6 @@ void	copy_dollar(
 			*i_dollar += 1;
 			i++;
 		}
-
-	/*	i += copy_till_dollar(&word[i], &dollar[*i_dollar], '$', i_dollar);
-		if (word[i] == '$')
-		{
-			i++;
-			if (word[i] == '?')
-			{
-				i++;
-				add_exit_status(&dollar[*i_dollar], i_dollar, env);
-			}
-			else if (is_dollar_quotes(word[i]) == FALSE)
-			{
-				dollar[*i_dollar] = '$';
-				*i_dollar += 1;
-				if (word[i] == '\0')
-					return ;
-			}
-			else
-				i += copy_from_env(&word[i], &dollar[*i_dollar], env, i_dollar);
-		}*/
 	}
 }
 

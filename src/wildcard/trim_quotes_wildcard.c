@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 15:57:07 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 17:38:27 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 12:49:03 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,21 @@ static void	copy_trim_quotes_wildcard(const char *source, char *dest)
 	dest[j] = '\0';
 }
 
-char	*trim_quotes_wildcard(const char *s, unsigned int len)
+int	trim_quotes_wildcard(
+	const char *s, unsigned int len, char **split, unsigned int *k)
 {
-	char			*trim_dup;
-
-	trim_dup = ft_calloc(len, sizeof(*trim_dup) + 1);
-	if (trim_dup == NULL)
-		return (NULL);
-	copy_trim_quotes_wildcard(s, trim_dup);
-	return (trim_dup);
+	split[*k] = ft_calloc(len, sizeof(char) + 1);
+	if (split[*k] == NULL)
+		return (FAILURE);
+	copy_trim_quotes_wildcard(s, split[*k]);
+	if (split[*k][0] == '\0')
+	{
+		free(split[*k]);
+		split[*k] = NULL;
+	}
+	else
+	{
+		*k += 1;
+	}
+	return (SUCCESS);
 }

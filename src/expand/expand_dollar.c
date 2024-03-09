@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 12:25:58 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 17:06:13 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,17 +81,11 @@ int	expand_dollar_list(t_token **head, const t_env env)
 		{
 			tmp->word = do_dollar_expansion(tmp->word, env);
 			if (tmp->word == NULL)
-			{
-				free_token(head);
-				return (FAILURE);
-			}
+				return (free_token(head), FAILURE);
 			if (tmp->word[0] == '\0')
 				tmp = ft_remove_one_from_list(tmp, head);
 			else if (re_tokenize(tmp) == FAILURE)
-			{
-				free_token(head);
-				return (FAILURE);
-			}
+				return (free_token(head), FAILURE);
 		}
 		if (tmp == NULL)
 			break ;

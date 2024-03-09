@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 15:36:50 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 19:12:25 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/08 15:20:16 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static void	fill_and_trim_command_array(
 			token = remove_pipe(token);
 			i++;
 		}
-		else if (is_redirect_token(token->type) == TRUE || is_here_doc_token(token->type) == TRUE)
+		else if (is_redirect_token(token->type) == TRUE
+			|| is_here_doc_token(token->type) == TRUE)
 		{
 			token = add_back_redirect(cmd[i], token);
 		}
