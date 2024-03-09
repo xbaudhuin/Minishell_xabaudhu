@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:51:16 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/07 19:11:43 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/09 12:52:36 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char			*get_limiter(t_token *here_doc);
 unsigned int	go_to_next_quotes(const char *str, char quotes);
 int				get_stdin(t_token *here_doc, char *limiter,
 					unsigned int len_lim);
-int			do_here_doc(t_token *here_doc, t_token **head,
+int				do_here_doc(t_token *here_doc, t_token **head,
 					int *previous_type);
 
 unsigned int	skip_spaces(const char *buf);
