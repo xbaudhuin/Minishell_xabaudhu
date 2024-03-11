@@ -36,7 +36,8 @@ static int	is_shlvl_exist(void)
 	}
 }
 
-static size_t	get_malloc_size(const char **main_env, int pwd_exist, int shlvl_exist)
+static size_t	get_malloc_size(const char **main_env,
+	int pwd_exist, int shlvl_exist)
 {
 	size_t	malloc_size;
 
@@ -100,8 +101,6 @@ t_env	create_env(const char **main_env)
 		add_shlvl(new_env);
 	}
 	else
-	{
 		update_shlvl(new_env);
-	}
 	return (new_env);
 }
