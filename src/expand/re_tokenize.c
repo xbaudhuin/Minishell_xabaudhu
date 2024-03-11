@@ -32,7 +32,6 @@ static int	filltoken_word(
 	token->word = token_dup_word(buf, i, token);
 	if (token->word == NULL)
 	{
-		ft_del_token(token);
 		return (FAILURE);
 	}
 	*index += i;
