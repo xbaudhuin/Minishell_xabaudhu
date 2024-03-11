@@ -46,7 +46,13 @@ static int	open_cmd_here_doc(t_token *redir_token)
 		ft_fprintf(2, "minishell: here doc :%s\n", strerror(errno));
 		return (INVALID_FD);
 	}
-	write(pipe_fd[WRITE_SIDE], here_doc_content, ft_strlen(here_doc_content));
+	if (ft_strlen(here_doc_content) > 64000)
+	{
+		write(pipe_fd[WRITE_SIDE], here_doc_content, 64000);
+		ft_fprintf(2, "minishell: warning: here_doc size limited to 64000\n");
+	}
+	else
+		write(pipe_fd[WRITE_SIDE], here_doc_content, ft_strlen(here_doc_content));
 	close(pipe_fd[WRITE_SIDE]);
 	return (pipe_fd[READ_SIDE]);
 }

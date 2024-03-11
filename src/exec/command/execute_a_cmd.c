@@ -32,11 +32,7 @@ void	execute_a_cmd(t_exec_cmd *exec_cmd,
 	{
 		end_process(exec_cmd, data, exit_status);
 	}
-	if (access(exec_cmd->path, X_OK) == -1)
-	{
-		ft_fprintf(2, "minishell: %s :%s\n", exec_cmd->path, strerror(errno));
-		end_process(exec_cmd, data, 126);
-	}
 	execve(exec_cmd->path, exec_cmd->argv, data.env->variables);
-	end_process(exec_cmd, data, FAILURE);
+	ft_fprintf(2, "minishell: %s: %s\n", exec_cmd->path, strerror(errno));
+	end_process(exec_cmd, data, 126);
 }
