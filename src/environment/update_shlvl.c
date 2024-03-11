@@ -39,7 +39,7 @@ static char	*get_shlvl_str(void)
 	char	*shlvl_full_str;
 
 	shlvl_str = getenv("SHLVL");
-	if (shlvl_str==NULL)
+	if (shlvl_str == NULL)
 		return (NULL);
 	shlvl = ft_atoi(shlvl_str);
 	shlvl += 1;
