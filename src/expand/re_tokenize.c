@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 17:06:42 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/09 15:15:28 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/11 12:07:59 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	filltoken_word(
 	token->word = token_dup_word(buf, i, token);
 	if (token->word == NULL)
 	{
-		ft_del_token(token);
 		return (FAILURE);
 	}
 	*index += i;
@@ -80,7 +79,7 @@ static int	create_new_token(const char *buf, t_token *token, int type)
 			return (FAILURE);
 		}
 		if (filltoken_word(&buf[i], new_token, &i, type) == FAILURE)
-			return (FAILURE);
+			return (free(token), FAILURE);
 		add_back_list(token, new_token);
 	}
 	return (SUCCESS);
