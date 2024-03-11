@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:21:29 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/09 13:01:03 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/11 11:51:18 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ void	copy_dollar(
 		if (word[i] == '$' && flag_quotes != '\'')
 		{
 			if (flag_quotes == FALSE)
-				i += handle_dollar_noquotes(word, dollar, i_dollar, env);
+				i += handle_dollar_noquotes(&word[i], dollar, i_dollar, env);
 			else
-				i += handle_dollar_double_quotes(word, dollar, i_dollar, env);
+				i += handle_dollar_double_quotes(&word[i], dollar, i_dollar, env);
 		}
 		else
 		{
