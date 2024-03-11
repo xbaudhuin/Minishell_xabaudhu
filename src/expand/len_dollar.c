@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:14:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/11 15:48:21 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:02:00 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ static unsigned int	len_skip_quotes(const char *word, char *flag_quotes)
 	}
 	i++;
 	while (word[i] != '\0' && is_dollar_quotes(word[i], *flag_quotes) == TRUE)
+	{
+		if (word[i] == *flag_quotes)
+			break ;
 		i++;
+	}
 	if (word[i] == *flag_quotes)
 	{
 		i++;
