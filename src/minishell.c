@@ -14,17 +14,21 @@
 
 extern int	g_global;
 
-static void	update_exit_status(t_env *env)
+static void	update_exit_status(t_env *env, const char *buf)
 {
 	if (g_global == SIGINT || g_global == 1)
 	{
 		env->exit_status = 130;
 	}
+	if (ft_strlen(buf) == 0)
+	{
+		env->exit_status = 0;
+	}
 }
 
-static void	new_line_on_child_sigint(t_env *env)
+static void	new_line_on_child_sigint(void)
 {
-	if (env->exit_status == 130)
+	if ((g_global == SIGINT || g_global == SIGQUIT))
 	{
 		write(1, "\n", 1);
 	}
@@ -35,9 +39,10 @@ static void	interpret_cmd_line(t_env *my_env, char *buf)
 	t_token	*head;
 	t_node	*root;
 
+
 	head = NULL;
 	root = NULL;
-	update_exit_status(my_env);
+	update_exit_status(my_env, buf);
 	if (ft_strlen(buf) > 0)
 		add_history(buf);
 	g_global = 0;
@@ -51,9 +56,14 @@ static void	interpret_cmd_line(t_env *my_env, char *buf)
 			root = NULL;
 		}
 		handle_sigint(IGNORE);
+		my_env->last_exit_mode = 0;
 		my_env->exit_status = launch_tree(root, my_env);
+		new_line_on_child_sigint();
+		if (my_env->exit_status != 130)
+		{
+			g_global = 0;
+		}
 	}
-	new_line_on_child_sigint(my_env);
 	free_tree(go_to_root(root));
 }
 
