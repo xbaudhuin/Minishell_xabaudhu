@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 16:56:15 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/09 13:05:59 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/11 15:49:54 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,12 @@ unsigned int	copy_from_env(
 	ft_memmove(dollar, name, len_name);
 	*index_dollar += len_name;
 	return (len_word);
+}
+
+unsigned int	dollar_digit(char *dollar, unsigned int *i_dollar, char digit)
+{
+	dollar[*i_dollar] = '$';
+	dollar[*i_dollar + 1] = digit;
+	*i_dollar += 2;
+	return (1);
 }

@@ -6,10 +6,11 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:21:29 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/11 11:51:18 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/11 15:50:43 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
 
@@ -21,7 +22,7 @@ void	handle_flag_quotes(const char c, char *flag_quotes)
 		*flag_quotes = FALSE;
 }
 
-unsigned int	handle_dollar_noquotes(
+static unsigned int	handle_dollar_noquotes(
 	char *word, char *dollar, unsigned int *i_dollar, const t_env env)
 {
 	unsigned int	i;
@@ -32,6 +33,8 @@ unsigned int	handle_dollar_noquotes(
 		i++;
 		add_exit_status(&dollar[*i_dollar], i_dollar, env);
 	}
+	else if (ft_isdigit(word[i]) == TRUE)
+		i += dollar_digit(dollar, i_dollar, word[i]);
 	else if (is_dollar_quotes(word[i], FALSE) == FALSE)
 	{
 		dollar[*i_dollar] = '$';
@@ -44,7 +47,7 @@ unsigned int	handle_dollar_noquotes(
 	return (i);
 }
 
-unsigned int	handle_dollar_double_quotes(
+static unsigned int	handle_dollar_double_quotes(
 	char *word, char *dollar, unsigned int *i_dollar, const t_env env)
 {
 	unsigned int	i;
@@ -55,6 +58,8 @@ unsigned int	handle_dollar_double_quotes(
 		i++;
 		add_exit_status(&dollar[*i_dollar], i_dollar, env);
 	}
+	else if (ft_isdigit(word[i]) == TRUE)
+		i += dollar_digit(dollar, i_dollar, word[i]);
 	else if (is_dollar_quotes(word[i], '"') == FALSE)
 	{
 		dollar[*i_dollar] = '$';
@@ -84,7 +89,8 @@ void	copy_dollar(
 			if (flag_quotes == FALSE)
 				i += handle_dollar_noquotes(&word[i], dollar, i_dollar, env);
 			else
-				i += handle_dollar_double_quotes(&word[i], dollar, i_dollar, env);
+				i += handle_dollar_double_quotes(
+						&word[i], dollar, i_dollar, env);
 		}
 		else
 		{

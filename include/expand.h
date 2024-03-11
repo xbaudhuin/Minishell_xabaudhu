@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 17:26:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/09 12:52:19 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/11 15:50:10 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ unsigned int	len_if_dollar(const char *word, unsigned int *len_total,
 unsigned int	get_len_dollar(const char *word, const t_env env);
 unsigned int	copy_till_dollar(const char *source,
 					char *dest, char c, unsigned int *index_dollar);
+unsigned int	dollar_digit(char *dollar, unsigned int *i_dollar, char digit);
 void			add_exit_status(
 					char *dollar, unsigned int *index, const t_env env);
 unsigned int	copy_from_env(char *word, char *dollar,

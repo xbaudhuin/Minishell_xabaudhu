@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 14:50:13 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/06 16:05:28 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/11 14:52:30 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	transform_redirect(t_token *token)
 		if (token->len_word >= 3)
 			token->type = ERROR;
 		if (token->len_word == 2)
-			token->type = HERE_DOC;
+			token->type = HERE_DOC_TOKEN;
 	}
 	if (token->type == REDIRECT_OUT)
 	{

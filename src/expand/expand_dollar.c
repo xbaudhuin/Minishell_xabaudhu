@@ -6,10 +6,11 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:17:31 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/09 14:34:58 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/11 15:01:01 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
 

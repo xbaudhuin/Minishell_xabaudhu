@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:12:35 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/02/28 19:29:05 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/11 14:53:23 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	previous_pipe_token(const int type)
 
 int	is_here_doc(const int previous_type, const int current_type)
 {
-	if (previous_type == HERE_DOC && current_type == WORD)
+	if (previous_type == HERE_DOC_TOKEN && current_type == WORD)
 		return (TRUE);
 	return (FALSE);
 }

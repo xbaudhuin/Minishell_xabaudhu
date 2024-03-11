@@ -6,11 +6,13 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:14:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/08 15:53:57 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/11 15:48:21 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
+#include "parsing.h"
 
 static unsigned int	len_skip_quotes(const char *word, char *flag_quotes)
 {
@@ -20,11 +22,14 @@ static unsigned int	len_skip_quotes(const char *word, char *flag_quotes)
 	if (*flag_quotes == FALSE)
 		*flag_quotes = word[i];
 	else if (*flag_quotes == word[i])
+	{
 		*flag_quotes = FALSE;
+		return (i);
+	}
 	i++;
-	while (word[i] != '\0' && word[i] != '\'' && *flag_quotes == '\'')
+	while (word[i] != '\0' && is_dollar_quotes(word[i], *flag_quotes) == TRUE)
 		i++;
-	if (word[i] == '\'')
+	if (word[i] == *flag_quotes)
 	{
 		i++;
 		*flag_quotes = FALSE;
@@ -40,7 +45,7 @@ static unsigned int	get_len_word_without_dollar(
 	i = 0;
 	while (word[i] != '\0')
 	{
-		if (is_quotes(word[i]))
+		if (is_quotes(word[i]) && (*flag_quotes == FALSE))
 		{
 			i += len_skip_quotes(&word[i], flag_quotes);
 		}
@@ -50,6 +55,12 @@ static unsigned int	get_len_word_without_dollar(
 			i++;
 	}
 	return (i);
+}
+
+static unsigned int	check_digit(unsigned int *len_total)
+{
+	*len_total += 2;
+	return (1);
 }
 
 unsigned int	len_if_dollar(const char *word,
@@ -70,6 +81,8 @@ unsigned int	len_if_dollar(const char *word,
 		i += 1;
 		*len_total += ft_len_unb(env.exit_status);
 	}
+	else if (ft_isdigit(word[i]) == TRUE)
+		i += check_digit(len_total);
 	else
 	{
 		len_till_dollar = skip_dollar(&word[i]);
