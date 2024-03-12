@@ -18,14 +18,14 @@ static int	restore_std(int save_std[2])
 	{
 		close(save_std[0]);
 		close(save_std[1]);
-		printf("minishell: launch_builtin: %s\n", strerror(errno));
+		ft_fprintf(2, "minishell: launch_builtin: %s\n", strerror(errno));
 		return (FAILURE);
 	}
 	if (dup2(save_std[1], STDOUT_FILENO) == INVALID_FD)
 	{
 		close(save_std[0]);
 		close(save_std[1]);
-		printf("minishell: launch_builtin: %s\n", strerror(errno));
+		ft_fprintf(2, "minishell: launch_builtin: %s\n", strerror(errno));
 		return (FAILURE);
 	}
 	close(save_std[0]);
@@ -68,6 +68,7 @@ int	launch_builtin(t_exec_cmd *exec_cmd, t_token *redirect_token, t_data *data)
 			data, is_builtin(arg_builtin));
 	if (restore_std(data->save_std) == FAILURE)
 	{
+		ft_fprintf(2, "minishell: builtin: can not restore std\n");
 		return (FAILURE);
 	}
 	return (exit_status);
