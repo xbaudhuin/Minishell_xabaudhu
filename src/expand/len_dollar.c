@@ -6,7 +6,7 @@
 /*   By: xabaudhu <xabaudhu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:14:26 by xabaudhu          #+#    #+#             */
-/*   Updated: 2024/03/11 17:02:00 by xabaudhu         ###   ########.fr       */
+/*   Updated: 2024/03/12 11:44:35 by xabaudhu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static unsigned int	get_len_word_without_dollar(
 		{
 			i += len_skip_quotes(&word[i], flag_quotes);
 		}
-		else if (word[i] == '$')
+		else if (word[i] == '$' && *flag_quotes != '\'')
 			break ;
 		else
 			i++;
