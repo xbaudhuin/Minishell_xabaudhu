@@ -12,113 +12,40 @@
 
 #include "minishell.h"
 
-static char	*add_slash(char *path)
+static char	*get_verified_path(const char *arg_path, int *exit_status)
 {
-	char	*path_with_slash;
-
-	path_with_slash = ft_strjoin(path, "/");
-	if (path_with_slash == NULL)
-	{
-		ft_fprintf(2, "minishell: a malloc failed constructing cmd path\n");
-	}
-	free(path);
-	return (path_with_slash);
-}
-
-char	**split_and_add_slash(char *env_paths_line)
-{
-	char	**env_paths;
-	int		path_num;
-	char	*path_with_slash;
-
-	env_paths = ft_split(env_paths_line, ':');
-	if (env_paths == NULL)
-	{
-		ft_fprintf(2, "minishell: a malloc failed constructing cmd path\n");
-		return (env_paths);
-	}
-	path_num = 0;
-	while (env_paths[path_num] != NULL)
-	{
-		path_with_slash = add_slash(env_paths[path_num]);
-		if (path_with_slash == NULL)
-		{
-			free_split(env_paths);
-			return (NULL);
-		}
-		env_paths[path_num] = path_with_slash;
-		++path_num;
-	}
-	return (env_paths);
-}
-
-char	**get_env_paths(const t_env env)
-{
-	char	**env_paths;
-	char	*env_paths_line;
-
-	env_paths_line = ft_getenv("PATH", env);
-	if (env_paths_line == NULL)
-	{
-		return (NULL);
-	}
-	env_paths = split_and_add_slash(env_paths_line);
-	return (env_paths);
-}
-
-char	*construct_path(const char *cmd_first_arg,
-			const t_env env, int *exit_status)
-{
-	char	**env_paths;
 	char	*cmd_path;
-	int		path_num;
 
-	env_paths = get_env_paths(env);
-	if (env_paths == NULL)
-		return (NULL);
-	path_num = 0;
-	while (env_paths[path_num] != NULL)
+	if (access(arg_path, F_OK) == -1)
 	{
-		cmd_path = ft_strjoin(env_paths[path_num], cmd_first_arg);
-		if (cmd_path == NULL)
-		{
-			ft_fprintf(2, "minishell: a malloc failed constructing cmd path\n");
-			return (free_split(env_paths), NULL);
-		}
-		if (access(cmd_path, F_OK) == SUCCESS)
-			return (free_split(env_paths), cmd_path);
-		free(cmd_path);
-		++path_num;
+		ft_fprintf(2, "minishell: %s: %s\n", arg_path, strerror(errno));
+		*exit_status = 127;
+		return (NULL);
 	}
-	ft_fprintf(2, "minishell: %s: command not found\n", cmd_first_arg);
-	*exit_status = 127;
-	return (free_split(env_paths), NULL);
+	cmd_path = ft_strdup(arg_path);
+	if (cmd_path == NULL)
+	{
+		ft_fprintf(2, "minishell: a malloc failed constructing cmd path\n");
+		*exit_status = FAILURE;
+	}
+	return (cmd_path);
 }
 
 char	*get_cmd_path(const char *cmd_first_arg,
 			const t_env env, int *exit_status)
 {
-	char	*cmd_path;
-
 	*exit_status = SUCCESS;
 	if (ft_strchr(cmd_first_arg, '/') != NULL)
 	{
-		cmd_path = ft_strdup(cmd_first_arg);
-		if (cmd_path == NULL)
-		{
-			ft_fprintf(2, "minishell: a malloc failed constructing cmd path\n");
-			*exit_status = FAILURE;
-		}
-		return (cmd_path);
+		return (get_verified_path(cmd_first_arg, exit_status));
 	}
 	if (ft_getenv("PATH", env) == NULL || ft_strlen(cmd_first_arg) == 0)
 	{
-		ft_fprintf(2, "minishell: %s: command not found\n", cmd_first_arg);
+		ft_fprintf(2, "minishell: %s: no such file or directory\n",
+			cmd_first_arg);
 		*exit_status = 127;
 		return (NULL);
 	}
 	else
-	{
 		return (construct_path(cmd_first_arg, env, exit_status));
-	}
 }

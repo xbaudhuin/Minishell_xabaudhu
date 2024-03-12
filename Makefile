@@ -142,6 +142,7 @@ SRCS_EXEC		=	exec/launch_tree.c \
 					exec/exec_cmd_struct/get_cmd_argv.c \
 					exec/exec_cmd_struct/initialize_exec_cmd.c \
 					exec/exec_cmd_struct/get_cmd_path.c \
+					exec/exec_cmd_struct/construct_path.c \
 
 SRCS_SIGNALS	=	signals/quit_signal.c \
 					signals/int_signal.c \
