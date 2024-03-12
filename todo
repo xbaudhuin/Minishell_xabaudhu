@@ -1,4 +1,0 @@
-Handle '< stdout' and '> stdin' redirections
-Verify protection in builtins
-Verify protection in environment creation and modification
-Too many open fd at the end of exit builtin (but not with ctrl + D)
