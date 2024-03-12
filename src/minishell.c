@@ -39,7 +39,6 @@ static void	interpret_cmd_line(t_env *my_env, char *buf)
 	t_token	*head;
 	t_node	*root;
 
-
 	head = NULL;
 	root = NULL;
 	update_exit_status(my_env, buf);
@@ -56,13 +55,10 @@ static void	interpret_cmd_line(t_env *my_env, char *buf)
 			root = NULL;
 		}
 		handle_sigint(IGNORE);
-		my_env->last_exit_mode = 0;
 		my_env->exit_status = launch_tree(root, my_env);
 		new_line_on_child_sigint();
 		if (my_env->exit_status != 130)
-		{
 			g_global = 0;
-		}
 	}
 	free_tree(go_to_root(root));
 }

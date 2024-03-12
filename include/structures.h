@@ -22,7 +22,6 @@ typedef struct s_env
 	int					pwd_unset_time;
 	int					was_oldpwd_unset;
 	unsigned char		exit_status;
-	int					last_exit_mode;
 }			t_env;
 
 typedef struct s_token

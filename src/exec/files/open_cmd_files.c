@@ -38,21 +38,21 @@ static int	open_cmd_infile(t_token *redir_token)
 static int	open_cmd_here_doc(t_token *redir_token)
 {
 	int		pipe_fd[2];
-	char	*here_doc_content;
+	char	*content;
 
-	here_doc_content = redir_token->word;
+	content = redir_token->word;
 	if (pipe(pipe_fd) == INVALID_FD)
 	{
 		ft_fprintf(2, "minishell: here doc :%s\n", strerror(errno));
 		return (INVALID_FD);
 	}
-	if (ft_strlen(here_doc_content) > 64000)
+	if (ft_strlen(content) > 64000)
 	{
-		write(pipe_fd[WRITE_SIDE], here_doc_content, 64000);
+		write(pipe_fd[WRITE_SIDE], content, 64000);
 		ft_fprintf(2, "minishell: warning: here_doc size limited to 64000\n");
 	}
 	else
-		write(pipe_fd[WRITE_SIDE], here_doc_content, ft_strlen(here_doc_content));
+		write(pipe_fd[WRITE_SIDE], content, ft_strlen(content));
 	close(pipe_fd[WRITE_SIDE]);
 	return (pipe_fd[READ_SIDE]);
 }

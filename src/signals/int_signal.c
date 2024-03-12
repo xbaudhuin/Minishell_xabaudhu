@@ -23,7 +23,6 @@ void	rl_new_prompt(int signal)
 			write(1, "\n", 1);
 			g_global = SIGINT;
 		}
-		// write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
@@ -68,7 +67,6 @@ int	handle_sigint(int option)
 	else
 	{
 		action.sa_handler = &update_while_child;
-		// action.sa_handler = SIG_IGN;
 	}
 	sigaction(SIGINT, &action, NULL);
 	return (SUCCESS);
