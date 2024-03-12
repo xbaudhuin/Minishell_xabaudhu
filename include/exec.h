@@ -53,5 +53,7 @@ void		execute_a_cmd(t_exec_cmd *exec_cmd, t_token *redirect_token,
 				t_data data);
 int			is_stdin(const char *path);
 int			is_stdout(const char *path);
+char		*construct_path(const char *cmd_first_arg,
+				const t_env env, int *exit_status);
 
 #endif
