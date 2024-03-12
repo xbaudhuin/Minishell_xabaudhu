@@ -75,7 +75,6 @@ SRCS_PARSING	=	parsing/check_special_char2.c \
 					parsing/create_tree.c \
 					parsing/tree_utils.c \
 					parsing/free_function.c \
-					debug.c \
 
 SRCS_WILDCARD	=	wildcard/opendir.c \
 					wildcard/wildcard.c \
@@ -173,8 +172,8 @@ ${NAME}:		${LIBFT} ${OBJS} ${TXT} ${HEADER_FILES}
 		@${CC} ${CFLAGS} -o ${NAME} ${OBJS} ${HEADER} ${LIBFT} -lreadline
 		@echo "${COLOUR_GREEN}${NAME} Compiled${COLOUR_END}"
 
-${BONUS}:	${LIBFT} ${OBJS_BONUS} ${TXT}
-		@${CC} ${CFLAGS} -o ${BONUS} ${OBJS_BONUS} ${HEADER} ${LIBFT}
+${BONUS}:	${LIBFT} ${OBJS} ${TXT} ${HEADER_FILES}
+		@${CC} ${CFLAGS} -o ${BONUS} ${OBJS} ${HEADER} ${LIBFT} -lreadline
 		@echo "${COLOUR_GREEN}${BONUS} Compiled${COLOUR_END}"
 
 ${OBJ_PATH}%.o:	${SRC_PATH}%.c
@@ -196,7 +195,7 @@ clean:
 
 fclean:		clean
 		make -C ${LIBFT_PATH} fclean --no-print-directory
-		${RM} ${NAME} ${NAME_TEST} ${BONUS} ${LIBFT} ${SRC_PATH}/${TXT} ${SRC_PATH}bonus/${TXT} ${TXT}
+		${RM} ${NAME} ${NAME_TEST} ${BONUS} ${LIBFT} ${SRC_PATH}${TXT} ${SRC_PATH}bonus/${TXT} ${TXT}
 
 re:			fclean all
 
